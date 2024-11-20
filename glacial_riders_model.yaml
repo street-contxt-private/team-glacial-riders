@@ -784,6 +784,9 @@ tables:
       database: HACKATHON_GLACIAL_RIDERS
       schema: PG_PUBLIC
       table: ACCOUNT
+    primary_key:
+      columns:
+        - id
     # filters:
     # - name: '  ' # <FILL-OUT>
     # synonyms:
@@ -1111,6 +1114,9 @@ tables:
       database: HACKATHON_GLACIAL_RIDERS
       schema: PG_PUBLIC
       table: ARTICLE
+    primary_key:
+      columns:
+        - id
     # filters:
     # - name: '  ' # <FILL-OUT>
     # synonyms:
@@ -2992,12 +2998,12 @@ tables:
           - None
           - "5"
           - "6"
-# relationships:
-# - name: '  ' # <FILL-OUT>
-# left_table: '  ' # <FILL-OUT>
-# right_table: '  ' # <FILL-OUT>
-# join_type: inner # <FILL-OUT>  supported: inner, left_outer
-# relationship_type: many_to_one # <FILL-OUT> supported: many_to_one, one_to_one
-# relationship_columns:
-# - left_column: '  ' # <FILL-OUT>
-# right_column: '  ' # <FILL-OUT>
+relationships:
+  - name: "article_account_id" # <FILL-OUT>
+    left_table: "ARTICLE" # <FILL-OUT>
+    right_table: "ACCOUNT_GR" # <FILL-OUT>
+    join_type: left_outer # <FILL-OUT>  supported: inner, left_outer
+    relationship_type: one_to_one # <FILL-OUT> supported: many_to_one, one_to_one
+    relationship_columns:
+      - left_column: "OUTBOUND_AUTHOR_ID" # <FILL-OUT>
+        right_column: "id" # <FILL-OUT>

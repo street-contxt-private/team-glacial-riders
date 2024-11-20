@@ -1,0 +1,894 @@
+name: glacial_riders2
+tables:
+  - name: ACCOUNT_GR
+    description:
+      Account information for users, including contact details, roles,
+      and system settings.__
+    base_table:
+      database: HACKATHON_GLACIAL_RIDERS
+      schema: PG_PUBLIC
+      table: ACCOUNT
+    primary_key:
+      columns:
+        - ID
+    dimensions:
+      - name: ID
+        synonyms:
+          - "  "
+        description: Account ID__
+        expr: ID
+        data_type: NUMBER
+        sample_values:
+          - "32786"
+          - "16923"
+          - "33229"
+      - name: CREATED_BY
+        synonyms:
+          - "  "
+        description: The user who created the account.__
+        expr: CREATED_BY
+        data_type: TEXT
+        sample_values:
+          - None
+      - name: UPDATED_BY
+        synonyms:
+          - "  "
+        description: Updated By__
+        expr: UPDATED_BY
+        data_type: TEXT
+        sample_values:
+          - None
+      - name: ACTIVE
+        synonyms:
+          - "  "
+        description: Account Activity Status__
+        expr: ACTIVE
+        data_type: BOOLEAN
+        sample_values:
+          - "True"
+          - None
+      - name: EMAIL
+        synonyms:
+          - "  "
+        description: Email Address__
+        expr: EMAIL
+        data_type: TEXT
+        sample_values:
+          - None
+      - name: FIRST_NAME
+        synonyms:
+          - "  "
+        description: First Name of Account Holders__
+        expr: FIRST_NAME
+        data_type: TEXT
+        sample_values:
+          - Kaley
+          - Efren
+          - Rodger
+      - name: LAST_NAME
+        synonyms:
+          - "  "
+        description: Last Name of Account Holders__
+        expr: LAST_NAME
+        data_type: TEXT
+        sample_values:
+          - Myers
+          - Dodson
+          - Montgomery
+      - name: PASSWORD
+        synonyms:
+          - "  "
+        description: Password storage for user authentication.__
+        expr: PASSWORD
+        data_type: TEXT
+        sample_values:
+          - None
+      - name: SALT
+        synonyms:
+          - "  "
+        description: Account Name__
+        expr: SALT
+        data_type: TEXT
+        sample_values:
+          - None
+      - name: ENABLE_UNSUBSCRIBE_LINK
+        synonyms:
+          - "  "
+        description: Indicates whether an unsubscribe link is enabled for the account.__
+        expr: ENABLE_UNSUBSCRIBE_LINK
+        data_type: BOOLEAN
+        sample_values:
+          - None
+          - "False"
+          - "True"
+      - name: TITLE
+        synonyms:
+          - "  "
+        description: Equity Sales and Derivative Sales for Global Equities.__
+        expr: TITLE
+        data_type: TEXT
+        sample_values:
+          - None
+          - Equity Sales
+          - VP, Global Equities Derivative Sales
+      - name: EXTERNAL_ID
+        synonyms:
+          - "  "
+        description: External identifier for the account.__
+        expr: EXTERNAL_ID
+        data_type: TEXT
+        sample_values:
+          - None
+      - name: ENABLE_UNTRACKED_FIRST_EMAIL
+        synonyms:
+          - "  "
+        description:
+          Indicates whether the first email sent to a user should be tracked
+          or not.__
+        expr: ENABLE_UNTRACKED_FIRST_EMAIL
+        data_type: BOOLEAN
+        sample_values:
+          - None
+      - name: IS_GROUP_EMAIL
+        synonyms:
+          - "  "
+        description: Indicates whether the account is a group email account.__
+        expr: IS_GROUP_EMAIL
+        data_type: BOOLEAN
+        sample_values:
+          - "False"
+          - "True"
+      - name: ACCESS_LEVEL
+        synonyms:
+          - "  "
+        description: Access Level for the Company Wide Default__
+        expr: ACCESS_LEVEL
+        data_type: TEXT
+        sample_values:
+          - DEFAULT
+          - COMPANY_WIDE
+      - name: SCX_SALESFORCE_ID
+        synonyms:
+          - "  "
+        description: Unique Salesforce IDs for Accounts.__
+        expr: SCX_SALESFORCE_ID
+        data_type: TEXT
+        sample_values:
+          - 003OO00000QLe5IYAT
+          - 0030P00002I92npQAB
+          - 0030P00002FJmdbQAD
+      - name: SCX_SALESFORCE_SYNCABLE
+        synonyms:
+          - "  "
+        description: Indicates whether the account is syncable with Salesforce.__
+        expr: SCX_SALESFORCE_SYNCABLE
+        data_type: BOOLEAN
+        sample_values:
+          - "True"
+          - "False"
+      - name: ASSET_CLASS
+        synonyms:
+          - "  "
+        description: Asset Class__
+        expr: ASSET_CLASS
+        data_type: TEXT
+        sample_values:
+          - None
+          - EQUITIES
+          - INVESTMENT_BANKING
+      - name: OTHER_ASSET_CLASS
+        synonyms:
+          - "  "
+        description: Other Asset Class__
+        expr: OTHER_ASSET_CLASS
+        data_type: TEXT
+        sample_values:
+          - None
+          - Structured Products
+          - Derivatives
+      - name: BUSINESS_DEPARTMENT
+        synonyms:
+          - "  "
+        description: Business Department__
+        expr: BUSINESS_DEPARTMENT
+        data_type: TEXT
+        sample_values:
+          - None
+          - SALES
+          - OTHER
+      - name: OTHER_BUSINESS_DEPARTMENT
+        synonyms:
+          - "  "
+        description: Other Business Department__
+        expr: OTHER_BUSINESS_DEPARTMENT
+        data_type: TEXT
+        sample_values:
+          - None
+          - Sales
+          - Business Ops
+      - name: COUNTRY_CODE
+        synonyms:
+          - "  "
+        description: Country Code__
+        expr: COUNTRY_CODE
+        data_type: TEXT
+        sample_values:
+          - None
+          - JP
+          - CA
+      - name: ONBOARDING_STEP
+        synonyms:
+          - "  "
+        description: Onboarding Step__
+        expr: ONBOARDING_STEP
+        data_type: TEXT
+        sample_values:
+          - WELCOME
+          - COMPLETE
+          - EMAIL_WORKFLOW
+      - name: TIMEZONE
+        synonyms:
+          - "  "
+        description: Time zone settings for accounts.__
+        expr: TIMEZONE
+        data_type: TEXT
+        sample_values:
+          - America/New_York
+          - America/Edmonton
+          - Australia/Sydney
+      - name: OUTBOUND_SENDER_OVERRIDE_EMAIL
+        synonyms:
+          - "  "
+        description: Override email for outbound sender.__
+        expr: OUTBOUND_SENDER_OVERRIDE_EMAIL
+        data_type: TEXT
+        sample_values:
+          - None
+    time_dimensions:
+      - name: CREATE_DATE
+        synonyms:
+          - "  "
+        description: Date and time of account creation.__
+        expr: CREATE_DATE
+        data_type: TIMESTAMP_NTZ
+        sample_values:
+          - "2024-10-23 15:50:01.705362"
+          - "2018-10-26 13:23:30.188000"
+          - "2024-11-01 17:22:34.163562"
+      - name: UPDATE_DATE
+        synonyms:
+          - "  "
+        description: Last update date of account information.__
+        expr: UPDATE_DATE
+        data_type: TIMESTAMP_NTZ
+        sample_values:
+          - "2024-10-23 17:27:04.552621"
+          - "2023-06-20 13:41:46.242470"
+          - "2024-11-01 18:11:14.315052"
+      - name: END_DATE
+        synonyms:
+          - "  "
+        description: End Date of Account__
+        expr: END_DATE
+        data_type: TIMESTAMP_NTZ
+        sample_values:
+          - None
+          - "2023-06-20 13:41:46.242483"
+          - "2024-10-24 16:41:59.842466"
+      - name: LOCKED_UNTIL_DATE
+        synonyms:
+          - "  "
+        description: Date and time when an account is locked.__
+        expr: LOCKED_UNTIL_DATE
+        data_type: TIMESTAMP_NTZ
+        sample_values:
+          - None
+          - "2024-02-20 17:37:30.970629"
+          - "2024-11-05 12:32:55.681946"
+      - name: TRIAL_END_DATE
+        synonyms:
+          - "  "
+        description: Date and time when the trial period for an account ends.__
+        expr: TRIAL_END_DATE
+        data_type: TIMESTAMP_NTZ
+        sample_values:
+          - None
+    measures:
+      - name: COMPANY_ID
+        synonyms:
+          - "  "
+        description: Unique identifier for each company.__
+        expr: COMPANY_ID
+        data_type: NUMBER
+        sample_values:
+          - "59"
+          - "21"
+          - "10"
+      - name: PRIMARY_ROLE_ID
+        synonyms:
+          - "  "
+        description: Primary Role ID for an Account__
+        expr: PRIMARY_ROLE_ID
+        data_type: NUMBER
+        sample_values:
+          - "1"
+          - "171"
+          - "95"
+      - name: DIVISION_ID
+        synonyms:
+          - "  "
+        description: Division Identifier__
+        expr: DIVISION_ID
+        data_type: NUMBER
+        sample_values:
+          - None
+          - "5"
+          - "6"
+  - name: CONTACT
+    description: Contact information and details for individuals or companies.__
+    base_table:
+      database: HACKATHON_GLACIAL_RIDERS
+      schema: PG_PUBLIC
+      table: CONTACT
+    primary_key:
+      columns:
+        - ID
+    dimensions:
+      - name: ID
+        synonyms:
+          - "  "
+        description: Unique Customer IDs__
+        expr: ID
+        data_type: NUMBER
+        sample_values:
+          - "13971417"
+          - "10605755"
+          - "14037956"
+      - name: CREATED_BY
+        synonyms:
+          - "  "
+        description:
+          The column "CREATED_BY" stores the name of the user who created
+          the contact record.__
+        expr: CREATED_BY
+        data_type: TEXT
+        sample_values:
+          - None
+      - name: UPDATED_BY
+        synonyms:
+          - "  "
+        description:
+          The column "UPDATED_BY" stores the name of the user who last
+          updated the contact record.__
+        expr: UPDATED_BY
+        data_type: TEXT
+        sample_values:
+          - None
+      - name: EMAIL
+        synonyms:
+          - "  "
+        description: List of email addresses.__
+        expr: EMAIL
+        data_type: TEXT
+        sample_values:
+          - 8e6368038a17469b2ee27ebb6eda4cf2@example.com
+          - b04c331f591413d1dcfc4b97fa2d8776@example.com
+          - 2780476d006742629affe61fb94903aa@example.com
+      - name: FIRST_NAME
+        synonyms:
+          - "  "
+        description: First Name of a Contact__
+        expr: FIRST_NAME
+        data_type: TEXT
+        sample_values:
+          - Mike
+          - Francesco
+          - Gabriele
+      - name: LAST_NAME
+        synonyms:
+          - "  "
+        description: Last Name of Contacts__
+        expr: LAST_NAME
+        data_type: TEXT
+        sample_values:
+          - Estes
+          - Summers
+          - Christensen
+      - name: TITLE
+        synonyms:
+          - "  "
+        description: Title of the Managing Director and other executives.__
+        expr: TITLE
+        data_type: TEXT
+        sample_values:
+          - None
+          - Managing Director
+          - LA, wanted on Energy mailing - going to Whistler, Shannon Moore ast
+      - name: ACTIVE
+        synonyms:
+          - "  "
+        description: Indicates whether a contact is currently active or not.__
+        expr: ACTIVE
+        data_type: BOOLEAN
+        sample_values:
+          - None
+          - "True"
+      - name: WORK_PHONE
+        synonyms:
+          - "  "
+        description: Work Phone Number__
+        expr: WORK_PHONE
+        data_type: TEXT
+        sample_values:
+          - None
+      - name: WORK_PHONE_COUNTRY_CODE
+        synonyms:
+          - "  "
+        description: Country code for work phone numbers.__
+        expr: WORK_PHONE_COUNTRY_CODE
+        data_type: TEXT
+        sample_values:
+          - None
+      - name: MOBILE_PHONE
+        synonyms:
+          - "  "
+        description: Mobile phone number.__
+        expr: MOBILE_PHONE
+        data_type: TEXT
+        sample_values:
+          - None
+      - name: MOBILE_PHONE_COUNTRY_CODE
+        synonyms:
+          - "  "
+        description: Mobile phone country code.__
+        expr: MOBILE_PHONE_COUNTRY_CODE
+        data_type: TEXT
+        sample_values:
+          - None
+      - name: EMAIL2
+        synonyms:
+          - "  "
+        description: Alternate email address.__
+        expr: EMAIL2
+        data_type: TEXT
+        sample_values:
+          - None
+      - name: ADDRESS_LINE1
+        synonyms:
+          - "  "
+        description: First line of a contact's mailing address.__
+        expr: ADDRESS_LINE1
+        data_type: TEXT
+        sample_values:
+          - None
+      - name: ADDRESS_LINE2
+        synonyms:
+          - "  "
+        description: Secondary address line.__
+        expr: ADDRESS_LINE2
+        data_type: TEXT
+        sample_values:
+          - None
+      - name: CITY
+        synonyms:
+          - "  "
+        description: List of cities.__
+        expr: CITY
+        data_type: TEXT
+        sample_values:
+          - Basel
+          - Valetta
+          - Walnut Creek
+      - name: STATE
+        synonyms:
+          - "  "
+        description: State__
+        expr: STATE
+        data_type: TEXT
+        sample_values:
+          - ON
+          - Scott
+          - KS
+      - name: POSTAL_CODE
+        synonyms:
+          - "  "
+        description: Postal Code for Contact Information__
+        expr: POSTAL_CODE
+        data_type: TEXT
+        sample_values:
+          - None
+          - "5"
+          - "94129"
+      - name: COUNTRY
+        synonyms:
+          - "  "
+        description: Country of origin or residence.__
+        expr: COUNTRY
+        data_type: TEXT
+        sample_values:
+          - Canada
+          - Serbia
+          - United Kingdom
+      - name: WORK_PHONE_EXTENSION
+        synonyms:
+          - "  "
+        description: Work Phone Extension__
+        expr: WORK_PHONE_EXTENSION
+        data_type: TEXT
+        sample_values:
+          - None
+      - name: REQUIRE_UNIQUE_EMAIL
+        synonyms:
+          - "  "
+        description:
+          Indicates whether the email address is required to be unique
+          for a contact.__
+        expr: REQUIRE_UNIQUE_EMAIL
+        data_type: BOOLEAN
+        sample_values:
+          - "False"
+          - "True"
+      - name: EXTERNAL_ID
+        synonyms:
+          - "  "
+        description: Unique identifier assigned to external contacts.__
+        expr: EXTERNAL_ID
+        data_type: TEXT
+        sample_values:
+          - None
+      - name: NICKNAME
+        synonyms:
+          - "  "
+        description: A nickname or alias for a contact.__
+        expr: NICKNAME
+        data_type: TEXT
+        sample_values:
+          - None
+      - name: SEARCH_TEXT
+        synonyms:
+          - "  "
+        description: Free-text search field for searching contacts.__
+        expr: SEARCH_TEXT
+        data_type: TEXT
+        sample_values:
+          - None
+      - name: DO_NOT_EMAIL
+        synonyms:
+          - "  "
+        description: Indicates whether the contact should be excluded from email communications.__
+        expr: DO_NOT_EMAIL
+        data_type: BOOLEAN
+        sample_values:
+          - "False"
+          - "True"
+      - name: UNTRACKED_FIRST_EMAIL_SENT
+        synonyms:
+          - "  "
+        description:
+          Indicates whether the first email sent to a contact has been
+          tracked or not.__
+        expr: UNTRACKED_FIRST_EMAIL_SENT
+        data_type: BOOLEAN
+        sample_values:
+          - "False"
+      - name: SCRUBBED
+        synonyms:
+          - "  "
+        description: '"Indicates whether the contact has been scrubbed from the database."__'
+        expr: SCRUBBED
+        data_type: BOOLEAN
+        sample_values:
+          - "False"
+      - name: DISABLE_COVERAGE_SEND_RESTRICTIONS
+        synonyms:
+          - "  "
+        description: Disable coverage send restrictions.__
+        expr: DISABLE_COVERAGE_SEND_RESTRICTIONS
+        data_type: BOOLEAN
+        sample_values:
+          - "False"
+      - name: NEW_EMAIL_ADDRESS
+        synonyms:
+          - "  "
+        description: New Email Address__
+        expr: NEW_EMAIL_ADDRESS
+        data_type: TEXT
+        sample_values:
+          - None
+      - name: SCX_SUGGESTED
+        synonyms:
+          - "  "
+        description: Suggested Contact__
+        expr: SCX_SUGGESTED
+        data_type: BOOLEAN
+        sample_values:
+          - "False"
+          - "True"
+    time_dimensions:
+      - name: CREATE_DATE
+        synonyms:
+          - "  "
+        description: Date and time of contact creation.__
+        expr: CREATE_DATE
+        data_type: TIMESTAMP_NTZ
+        sample_values:
+          - "2024-08-01 09:23:40.231920"
+          - "2024-08-05 19:12:48.639049"
+          - "2024-08-02 14:48:30.555950"
+      - name: UPDATE_DATE
+        synonyms:
+          - "  "
+        description: Last updated date and time of contact information.__
+        expr: UPDATE_DATE
+        data_type: TIMESTAMP_NTZ
+        sample_values:
+          - "2021-07-07 15:26:29.270356"
+          - "2021-07-07 15:26:29.336744"
+          - "2021-07-07 15:26:29.357511"
+      - name: END_DATE
+        synonyms:
+          - "  "
+        description: Date of the end of a contact.__
+        expr: END_DATE
+        data_type: TIMESTAMP_NTZ
+        sample_values:
+          - None
+          - "2022-06-23 13:09:29.497389"
+          - "2017-12-18 15:35:20.824588"
+    measures:
+      - name: COMPANY_ID
+        synonyms:
+          - "  "
+        description: Company ID__
+        expr: COMPANY_ID
+        data_type: NUMBER
+        sample_values:
+          - "21"
+          - "10"
+          - "59"
+      - name: FIRM_ID
+        synonyms:
+          - "  "
+        description: Unique identifier for each firm.__
+        expr: FIRM_ID
+        data_type: NUMBER
+        sample_values:
+          - "65726"
+          - "662566"
+          - "667477"
+      - name: DIVISION_ID
+        synonyms:
+          - "  "
+        description: Division Identifier__
+        expr: DIVISION_ID
+        data_type: NUMBER
+        sample_values:
+          - None
+          - "5"
+          - "6"
+      - name: NEW_CONTACT_ID
+        synonyms:
+          - "  "
+        description: Unique identifier for each new contact.__
+        expr: NEW_CONTACT_ID
+        data_type: NUMBER
+        sample_values:
+          - None
+  - name: MESSAGE_RECIPIENT_STATS
+    description:
+      This table, MESSAGE_RECIPIENT_STATS, stores aggregated statistics
+      about the interactions between messages and their recipients. It provides insights
+      into the delivery, open, click, and forward rates of messages, as well as the
+      unique interactions with each recipient.__
+    base_table:
+      database: HACKATHON_GLACIAL_RIDERS
+      schema: EVENT_STREAM_ACCUMULATOR
+      table: MESSAGE_RECIPIENT_STATS
+    primary_key:
+      columns:
+        - CONTACT_ID
+        - MESSAGE_HASH_CODE
+    dimensions:
+      - name: CONTACT_ID
+        synonyms:
+          - "  "
+        description: Unique identifier for each contact or recipient.__
+        expr: CONTACT_ID
+        data_type: NUMBER
+        sample_values:
+          - "9882363"
+          - "9213937"
+          - "10385887"
+      - name: MESSAGE_HASH_CODE
+        synonyms:
+          - "  "
+        description: Unique identifier for each message.__
+        expr: MESSAGE_HASH_CODE
+        data_type: TEXT
+        sample_values:
+          - 3QzhAwgLUQgIJOURw4qiqp
+          - YhSzfAAmEniz8JlguFZUV
+          - 2NqvcvD4lHA9sRvRQg96S
+      - name: SUBJECT
+        synonyms:
+          - "  "
+        description: Subject of messages sent to recipients.__
+        expr: SUBJECT
+        data_type: TEXT
+        sample_values:
+          - None
+          - "***JEFFERIES EVENTS @ LONDON HEALTHCARE CONFERENCE 2024 / Mon-Thurs,
+            Nov 18th-21st / ARCT BMRN WAT BMY BAX GILD INSP KYMR GPCR VRNA ZBH AMGN
+            ARGX BGNE IDYA NARI LEGN MRK & DC POLICY KOL"
+          - Focus Stock - 🔴 ASML - Sales Thoughts + Trading Thoughts...
+    time_dimensions:
+      - name: MESSAGE_SENT_DATE
+        synonyms:
+          - "  "
+        description: Date and time when the message was sent.__
+        expr: MESSAGE_SENT_DATE
+        data_type: TIMESTAMP_NTZ
+        sample_values:
+          - "2024-10-01 15:59:35.007000"
+          - "2024-10-01 16:27:54.158000"
+          - "2024-10-01 06:25:37.508000"
+      - name: FIRST_INTERACTION_TIME
+        synonyms:
+          - "  "
+        description:
+          The timestamp of the first interaction between a recipient and
+          a message.__
+        expr: FIRST_INTERACTION_TIME
+        data_type: TIMESTAMP_NTZ
+        sample_values:
+          - "2024-10-29 12:25:48.894000"
+          - "2024-10-21 15:42:43.365000"
+          - "2024-10-23 06:09:28.648000"
+      - name: LAST_INTERACTION_TIME
+        synonyms:
+          - "  "
+        description:
+          The timestamp of the most recent interaction between a recipient
+          and a message.__
+        expr: LAST_INTERACTION_TIME
+        data_type: TIMESTAMP_NTZ
+        sample_values:
+          - None
+          - "2024-10-08 19:39:16.972000"
+          - "2024-10-25 14:09:04.193000"
+    measures:
+      - name: INBOUND_AUTHOR_ID
+        synonyms:
+          - "  "
+        description: Unique identifier of the author of an inbound message.__
+        expr: INBOUND_AUTHOR_ID
+        data_type: NUMBER
+        sample_values:
+          - None
+          - "14282"
+          - "32123"
+      - name: OUTBOUND_AUTHOR_ID
+        synonyms:
+          - "  "
+        description: Unique identifier of the author of the outbound message.__
+        expr: OUTBOUND_AUTHOR_ID
+        data_type: NUMBER
+        sample_values:
+          - "24251"
+          - "22311"
+          - "18660"
+      - name: COMPANY_ID
+        synonyms:
+          - "  "
+        description: Unique identifier for the company that sent or received the message.__
+        expr: COMPANY_ID
+        data_type: NUMBER
+        sample_values:
+          - "10"
+          - "21"
+          - "59"
+      - name: FIRM_ID
+        synonyms:
+          - "  "
+        description: "Firm ID: Unique identifier for the firm that received the message.__"
+        expr: FIRM_ID
+        data_type: NUMBER
+        sample_values:
+          - "27954"
+          - "13191"
+          - "883"
+      - name: EMAIL_CLICK_COUNT
+        synonyms:
+          - "  "
+        description: Number of email clicks.__
+        expr: EMAIL_CLICK_COUNT
+        data_type: NUMBER
+        sample_values:
+          - "4"
+          - "11"
+          - "9"
+      - name: EMAIL_FORWARDED_OPEN_COUNT
+        synonyms:
+          - "  "
+        description: Number of email messages forwarded and opened.__
+        expr: EMAIL_FORWARDED_OPEN_COUNT
+        data_type: NUMBER
+        sample_values:
+          - "2"
+          - "0"
+          - "9"
+      - name: EMAIL_FORWARDED_CLICK_COUNT
+        synonyms:
+          - "  "
+        description: Number of clicks on forwarded email links.__
+        expr: EMAIL_FORWARDED_CLICK_COUNT
+        data_type: NUMBER
+        sample_values:
+          - "2"
+          - "1"
+          - "3"
+      - name: EMAIL_MAX_READ_TIME
+        synonyms:
+          - "  "
+        description: Maximum time in seconds it takes for a recipient to read an email.__
+        expr: EMAIL_MAX_READ_TIME
+        data_type: NUMBER
+        sample_values:
+          - None
+          - "25392"
+          - "1500"
+      - name: UNTRACKED_DELIVERY
+        synonyms:
+          - "  "
+        description: Number of untracked delivery attempts.__
+        expr: UNTRACKED_DELIVERY
+        data_type: NUMBER
+        sample_values:
+          - "0"
+          - "1"
+      - name: EMAIL_OPEN_COUNT
+        synonyms:
+          - "  "
+        description: Number of times a recipient has opened an email.__
+        expr: EMAIL_OPEN_COUNT
+        data_type: NUMBER
+        sample_values:
+          - "9"
+          - "12"
+          - "15"
+      - name: EMAIL_UNIQUELY_OPENED
+        synonyms:
+          - "  "
+        description: Number of unique email recipients who have opened the message.__
+        expr: EMAIL_UNIQUELY_OPENED
+        data_type: NUMBER
+        sample_values:
+          - "0"
+          - "1"
+      - name: EMAIL_UNIQUELY_CLICKED
+        synonyms:
+          - "  "
+        description: Number of unique email recipients who clicked on the message.__
+        expr: EMAIL_UNIQUELY_CLICKED
+        data_type: NUMBER
+        sample_values:
+          - "0"
+          - "1"
+      - name: EMAIL_UNIQUELY_FORWARDED
+        synonyms:
+          - "  "
+        description: Number of unique email addresses that have forwarded the message.__
+        expr: EMAIL_UNIQUELY_FORWARDED
+        data_type: NUMBER
+        sample_values:
+          - "0"
+          - "1"
+relationships:
+  - name: message_recipient_stats__contact
+    left_table: MESSAGE_RECIPIENT_STATS
+    right_table: CONTACT
+    join_type: left_outer
+    relationship_type: one_to_one
+    relationship_columns:
+      - left_column: CONTACT_ID
+        right_column: ID
