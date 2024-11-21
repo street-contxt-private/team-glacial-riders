@@ -876,6 +876,17 @@ tables:
           - None
           - "2024-10-08 19:39:16.972000"
           - "2024-10-25 14:09:04.193000"
+    measures:
+      - name: ADDITIONAL_OPENS
+        synonyms:
+          - "Additional Opens"
+        description: "Additional opens. How many additional times and email was opened by a contact. Sum of only opens, excluding forwards and the first open for an email"
+        expr: EMAIL_OPEN_COUNT - EMAIL_FORWARDED_OPEN_COUNT - 1
+        data_type: NUMBER
+        sample_values:
+          - "20"
+          - "50"
+          - "0"
 relationships:
   - name: message_recipient_stats__contact
     left_table: MESSAGE_RECIPIENT_STATS
