@@ -1,8 +1,7 @@
-name: glacial_riders2
+name: glacial_riders_bronze
 tables:
   - name: ACCOUNT_GR
-    description:
-      Account information for users, including contact details, roles,
+    description: Account information for users, including email details, roles,
       and system settings.
     base_table:
       database: HACKATHON_GLACIAL_RIDERS
@@ -55,7 +54,7 @@ tables:
       - name: CREATED_BY
         synonyms:
           - "  "
-        description: The user who created the account
+        description: The user who created the account.__
         expr: CREATED_BY
         data_type: TEXT
         sample_values:
@@ -63,7 +62,7 @@ tables:
       - name: UPDATED_BY
         synonyms:
           - "  "
-        description: Updated By
+        description: Updated By__
         expr: UPDATED_BY
         data_type: TEXT
         sample_values:
@@ -108,7 +107,7 @@ tables:
       - name: PASSWORD
         synonyms:
           - "  "
-        description: Password storage for user authentication
+        description: Password storage for user authentication.
         expr: PASSWORD
         data_type: TEXT
         sample_values:
@@ -124,7 +123,7 @@ tables:
       - name: ENABLE_UNSUBSCRIBE_LINK
         synonyms:
           - "  "
-        description: Indicates whether an unsubscribe link will be included in emails sent by the account
+        description: Indicates whether an unsubscribe link will be included in emails sent by the account.
         expr: ENABLE_UNSUBSCRIBE_LINK
         data_type: BOOLEAN
         sample_values:
@@ -144,7 +143,7 @@ tables:
       - name: EXTERNAL_ID
         synonyms:
           - "  "
-        description: External identifier for the account
+        description: External identifier for the account.
         expr: EXTERNAL_ID
         data_type: TEXT
         sample_values:
@@ -160,7 +159,7 @@ tables:
       - name: IS_GROUP_EMAIL
         synonyms:
           - "  "
-        description: Indicates whether the account is a group email account
+        description: Indicates whether the account is a group email account.
         expr: IS_GROUP_EMAIL
         data_type: BOOLEAN
         sample_values:
@@ -178,7 +177,7 @@ tables:
       - name: SCX_SALESFORCE_ID
         synonyms:
           - "  "
-        description: Salesforce IDs for Accounts
+        description: Salesforce IDs for Accounts.
         expr: SCX_SALESFORCE_ID
         data_type: TEXT
         sample_values:
@@ -188,7 +187,7 @@ tables:
       - name: SCX_SALESFORCE_SYNCABLE
         synonyms:
           - "  "
-        description: Indicates whether the account is syncable with Salesforce
+        description: Indicates whether the account is syncable with Salesforce.
         expr: SCX_SALESFORCE_SYNCABLE
         data_type: BOOLEAN
         sample_values:
@@ -237,7 +236,7 @@ tables:
       - name: COUNTRY_CODE
         synonyms:
           - "  "
-        description: Country Code
+        description: Country Code__
         expr: COUNTRY_CODE
         data_type: TEXT
         sample_values:
@@ -257,7 +256,7 @@ tables:
       - name: TIMEZONE
         synonyms:
           - "  "
-        description: Time zone user is located in
+        description: Time zone user is located in.
         expr: TIMEZONE
         data_type: TEXT
         sample_values:
@@ -267,7 +266,7 @@ tables:
       - name: OUTBOUND_SENDER_OVERRIDE_EMAIL
         synonyms:
           - "  "
-        description: Override email for outbound sender
+        description: Override email for outbound sender.__
         expr: OUTBOUND_SENDER_OVERRIDE_EMAIL
         data_type: TEXT
         sample_values:
@@ -276,7 +275,7 @@ tables:
       - name: CREATE_DATE
         synonyms:
           - "  "
-        description: Date and time of account creation
+        description: Date and time of account creation.__
         expr: CREATE_DATE
         data_type: TIMESTAMP_NTZ
         sample_values:
@@ -286,7 +285,7 @@ tables:
       - name: UPDATE_DATE
         synonyms:
           - "  "
-        description: Last update date of account information
+        description: Last update date of account information.__
         expr: UPDATE_DATE
         data_type: TIMESTAMP_NTZ
         sample_values:
@@ -296,7 +295,7 @@ tables:
       - name: END_DATE
         synonyms:
           - "  "
-        description: End Date of Account
+        description: End Date of Account__
         expr: END_DATE
         data_type: TIMESTAMP_NTZ
         sample_values:
@@ -306,7 +305,7 @@ tables:
       - name: LOCKED_UNTIL_DATE
         synonyms:
           - "  "
-        description: Date and time until when an account is locked
+        description: Date and time until when an account is locked.
         expr: LOCKED_UNTIL_DATE
         data_type: TIMESTAMP_NTZ
         sample_values:
@@ -316,7 +315,7 @@ tables:
       - name: TRIAL_END_DATE
         synonyms:
           - "  "
-        description: Date and time when the trial period for an account ends
+        description: Date and time when the trial period for an account ends.__
         expr: TRIAL_END_DATE
         data_type: TIMESTAMP_NTZ
         sample_values:
@@ -344,7 +343,7 @@ tables:
       - name: COMPANY_ID
         synonyms:
           - "  "
-        description: Company ID
+        description: ID of the Company who owns the contact
         expr: COMPANY_ID
         data_type: NUMBER
         sample_values:
@@ -353,8 +352,8 @@ tables:
           - "59"
       - name: FIRM_ID
         synonyms:
-          - "  "
-        description: Unique identifier for each firm
+          - "company"
+        description: ID of the firm that the contact works for.
         expr: FIRM_ID
         data_type: NUMBER
         sample_values:
@@ -364,7 +363,7 @@ tables:
       - name: DIVISION_ID
         synonyms:
           - "  "
-        description: Division Identifier
+        description: ID of the division the contact belongs to
         expr: DIVISION_ID
         data_type: NUMBER
         sample_values:
@@ -374,7 +373,7 @@ tables:
       - name: NEW_CONTACT_ID
         synonyms:
           - "  "
-        description: Unique identifier for each new contact
+        description: Unique identifier for each new contact.__
         expr: NEW_CONTACT_ID
         data_type: NUMBER
         sample_values:
@@ -382,7 +381,9 @@ tables:
       - name: CREATED_BY
         synonyms:
           - "  "
-        description: Stores information about the user who createdthe contact record
+        description:
+          The column "CREATED_BY" stores information about the user who created
+          the contact record.
         expr: CREATED_BY
         data_type: TEXT
         sample_values:
@@ -390,7 +391,9 @@ tables:
       - name: UPDATED_BY
         synonyms:
           - "  "
-        description: Stores the information of the user who last updated the contact record
+        description:
+          The column "UPDATED_BY" stores the information of the user who last
+          updated the contact record.
         expr: UPDATED_BY
         data_type: TEXT
         sample_values:
@@ -408,7 +411,7 @@ tables:
       - name: FIRST_NAME
         synonyms:
           - "  "
-        description: First name of the contact
+        description: First Name of a Contact
         expr: FIRST_NAME
         data_type: TEXT
         sample_values:
@@ -418,7 +421,7 @@ tables:
       - name: LAST_NAME
         synonyms:
           - "  "
-        description: Last name of the contact
+        description: Last Name of Contact
         expr: LAST_NAME
         data_type: TEXT
         sample_values:
@@ -428,7 +431,7 @@ tables:
       - name: TITLE
         synonyms:
           - "  "
-        description: Title for the firm of the contact
+        description: Contact's title at the firm they work for
         expr: TITLE
         data_type: TEXT
         sample_values:
@@ -455,7 +458,7 @@ tables:
       - name: WORK_PHONE_COUNTRY_CODE
         synonyms:
           - "  "
-        description: Country code for work phone numbers
+        description: Country code for work phone numbers.
         expr: WORK_PHONE_COUNTRY_CODE
         data_type: TEXT
         sample_values:
@@ -463,7 +466,7 @@ tables:
       - name: MOBILE_PHONE
         synonyms:
           - "  "
-        description: Mobile phone number
+        description: Mobile phone number.
         expr: MOBILE_PHONE
         data_type: TEXT
         sample_values:
@@ -471,7 +474,7 @@ tables:
       - name: MOBILE_PHONE_COUNTRY_CODE
         synonyms:
           - "  "
-        description: Mobile phone country code
+        description: Mobile phone country code.__
         expr: MOBILE_PHONE_COUNTRY_CODE
         data_type: TEXT
         sample_values:
@@ -479,7 +482,7 @@ tables:
       - name: EMAIL2
         synonyms:
           - "  "
-        description: Alternate email address
+        description: Alternate email address.__
         expr: EMAIL2
         data_type: TEXT
         sample_values:
@@ -487,7 +490,7 @@ tables:
       - name: ADDRESS_LINE1
         synonyms:
           - "  "
-        description: First line of the contact's address
+        description: First line of a contact's mailing address.__
         expr: ADDRESS_LINE1
         data_type: TEXT
         sample_values:
@@ -495,7 +498,7 @@ tables:
       - name: ADDRESS_LINE2
         synonyms:
           - "  "
-        description: Secondary line of the contact's address
+        description: Secondary address line.__
         expr: ADDRESS_LINE2
         data_type: TEXT
         sample_values:
@@ -513,7 +516,7 @@ tables:
       - name: STATE
         synonyms:
           - "  "
-        description: State of the contact
+        description: State__
         expr: STATE
         data_type: TEXT
         sample_values:
@@ -523,7 +526,7 @@ tables:
       - name: POSTAL_CODE
         synonyms:
           - "  "
-        description: Postal Code for Contact Information
+        description: Postal Code for Contact Information__
         expr: POSTAL_CODE
         data_type: TEXT
         sample_values:
@@ -533,7 +536,7 @@ tables:
       - name: COUNTRY
         synonyms:
           - "  "
-        description: Country of origin or residence
+        description: Country of origin or residence.__
         expr: COUNTRY
         data_type: TEXT
         sample_values:
@@ -543,7 +546,7 @@ tables:
       - name: WORK_PHONE_EXTENSION
         synonyms:
           - "  "
-        description: Work Phone Extension
+        description: Work Phone Extension__
         expr: WORK_PHONE_EXTENSION
         data_type: TEXT
         sample_values:
@@ -553,7 +556,7 @@ tables:
           - "  "
         description:
           Indicates whether the email address is required to be unique
-          for a contact
+          for a contact across the company that owns the contact
         expr: REQUIRE_UNIQUE_EMAIL
         data_type: BOOLEAN
         sample_values:
@@ -562,7 +565,7 @@ tables:
       - name: EXTERNAL_ID
         synonyms:
           - "  "
-        description: Unique identifier assigned to external contacts
+        description: Unique external identifier assigned to contacts.
         expr: EXTERNAL_ID
         data_type: TEXT
         sample_values:
@@ -570,7 +573,7 @@ tables:
       - name: NICKNAME
         synonyms:
           - "  "
-        description: A nickname or alias for a contact
+        description: A nickname or alias for a contact.
         expr: NICKNAME
         data_type: TEXT
         sample_values:
@@ -578,7 +581,7 @@ tables:
       - name: SEARCH_TEXT
         synonyms:
           - "  "
-        description: Free-text search field for searching contacts
+        description: Free-text search field for searching contacts.__
         expr: SEARCH_TEXT
         data_type: TEXT
         sample_values:
@@ -586,7 +589,7 @@ tables:
       - name: DO_NOT_EMAIL
         synonyms:
           - "  "
-        description: Indicates whether the contact should be excluded from email communications
+        description: Indicates whether the contact should be excluded from email communications.__
         expr: DO_NOT_EMAIL
         data_type: BOOLEAN
         sample_values:
@@ -603,7 +606,7 @@ tables:
       - name: SCRUBBED
         synonyms:
           - "  "
-        description: Indicates whether the contact has been scrubbed from the database
+        description: '"Indicates whether the contact has been scrubbed from the database."__'
         expr: SCRUBBED
         data_type: BOOLEAN
         sample_values:
@@ -611,7 +614,7 @@ tables:
       - name: DISABLE_COVERAGE_SEND_RESTRICTIONS
         synonyms:
           - "  "
-        description: Disable coverage send restrictions
+        description: Disable coverage send restrictions.__
         expr: DISABLE_COVERAGE_SEND_RESTRICTIONS
         data_type: BOOLEAN
         sample_values:
@@ -619,7 +622,7 @@ tables:
       - name: NEW_EMAIL_ADDRESS
         synonyms:
           - "  "
-        description: New Email Address
+        description: New Email Address__
         expr: NEW_EMAIL_ADDRESS
         data_type: TEXT
         sample_values:
@@ -627,7 +630,7 @@ tables:
       - name: SCX_SUGGESTED
         synonyms:
           - "  "
-        description: Suggested Contact
+        description: Suggested Contact__
         expr: SCX_SUGGESTED
         data_type: BOOLEAN
         sample_values:
@@ -637,7 +640,7 @@ tables:
       - name: CREATE_DATE
         synonyms:
           - "  "
-        description: Date and time of contact creation
+        description: Date and time of contact creation.__
         expr: CREATE_DATE
         data_type: TIMESTAMP_NTZ
         sample_values:
@@ -647,7 +650,7 @@ tables:
       - name: UPDATE_DATE
         synonyms:
           - "  "
-        description: Last updated date and time of contact information
+        description: Last updated date and time of contact information.__
         expr: UPDATE_DATE
         data_type: TIMESTAMP_NTZ
         sample_values:
@@ -669,7 +672,7 @@ tables:
       This table, MESSAGE_RECIPIENT_STATS, stores aggregated statistics
       about the interactions between messages and their recipients. It provides insights
       into the delivery, open, click, and forward rates of messages, as well as the
-      unique interactions with each recipient.
+      unique interactions with each recipient.__
     base_table:
       database: HACKATHON_GLACIAL_RIDERS
       schema: EVENT_STREAM_ACCUMULATOR
@@ -681,8 +684,8 @@ tables:
     dimensions:
       - name: CONTACT_ID
         synonyms:
-          - "  "
-        description: Unique identifier for each contact or recipient
+          - "Recipient"
+        description: Identifier for the contact or recipient of the email
         expr: CONTACT_ID
         data_type: NUMBER
         sample_values:
@@ -692,7 +695,7 @@ tables:
       - name: MESSAGE_HASH_CODE
         synonyms:
           - "  "
-        description: Unique identifier for each message
+        description: Identifier for each email
         expr: MESSAGE_HASH_CODE
         data_type: TEXT
         sample_values:
@@ -701,8 +704,8 @@ tables:
           - 2NqvcvD4lHA9sRvRQg96S
       - name: INBOUND_AUTHOR_ID
         synonyms:
-          - "  "
-        description: Unique identifier of the author of an inbound email
+          - "Sender ID"
+        description: Identifier of the email sender or account who actually sent the email.
         expr: INBOUND_AUTHOR_ID
         data_type: NUMBER
         sample_values:
@@ -712,7 +715,7 @@ tables:
       - name: OUTBOUND_AUTHOR_ID
         synonyms:
           - "  "
-        description: Unique identifier of the author of the outbound email
+        description: Unique identifier of who the email appears to be sent by. Can match the inbound author.
         expr: OUTBOUND_AUTHOR_ID
         data_type: NUMBER
         sample_values:
@@ -722,7 +725,7 @@ tables:
       - name: COMPANY_ID
         synonyms:
           - "  "
-        description: Unique identifier for the company that sent or received the message
+        description: Unique identifier for the company that sent the message.
         expr: COMPANY_ID
         data_type: NUMBER
         sample_values:
@@ -731,8 +734,9 @@ tables:
           - "59"
       - name: FIRM_ID
         synonyms:
-          - "  "
-        description: Unique identifier for the firm of the contact that received the email
+          - "company"
+          - "account"
+        description: "Firm ID: Unique identifier for the firm of the contact that received the email"
         expr: FIRM_ID
         data_type: NUMBER
         sample_values:
@@ -742,7 +746,7 @@ tables:
       - name: EMAIL_CLICK_COUNT
         synonyms:
           - "  "
-        description: Number of email clicks
+        description: Total number of times the email was clicked by the recipient.
         expr: EMAIL_CLICK_COUNT
         data_type: NUMBER
         sample_values:
@@ -752,7 +756,7 @@ tables:
       - name: EMAIL_FORWARDED_OPEN_COUNT
         synonyms:
           - "  "
-        description: Number of email messages forwarded and opened
+        description: Total number of times an email message that was forwarded by the contact was opened.
         expr: EMAIL_FORWARDED_OPEN_COUNT
         data_type: NUMBER
         sample_values:
@@ -762,7 +766,7 @@ tables:
       - name: EMAIL_FORWARDED_CLICK_COUNT
         synonyms:
           - "  "
-        description: Number of clicks on forwarded email links
+        description: Total number of times an email message that was forwarded by the contact was clicked.
         expr: EMAIL_FORWARDED_CLICK_COUNT
         data_type: NUMBER
         sample_values:
@@ -771,8 +775,8 @@ tables:
           - "3"
       - name: EMAIL_MAX_READ_TIME
         synonyms:
-          - "  "
-        description: Maximum time in milliseconds it takes for a recipient to read an email
+          - "read time"
+        description: The longest time the recipient had the email open for. Read time of the email.
         expr: EMAIL_MAX_READ_TIME
         data_type: NUMBER
         sample_values:
@@ -782,7 +786,7 @@ tables:
       - name: UNTRACKED_DELIVERY
         synonyms:
           - "  "
-        description: Number of untracked delivery attempts
+        description: Whether or not the email to this contact was untracked
         expr: UNTRACKED_DELIVERY
         data_type: NUMBER
         sample_values:
@@ -791,7 +795,7 @@ tables:
       - name: EMAIL_OPEN_COUNT
         synonyms:
           - "  "
-        description: Number of times a recipient has opened an email
+        description: Number of times the recipient has opened an email.
         expr: EMAIL_OPEN_COUNT
         data_type: NUMBER
         sample_values:
@@ -801,7 +805,7 @@ tables:
       - name: EMAIL_UNIQUELY_OPENED
         synonyms:
           - "  "
-        description: Number of unique email recipients who have opened the message
+        description: Whether or not the contact opened the email.
         expr: EMAIL_UNIQUELY_OPENED
         data_type: NUMBER
         sample_values:
@@ -810,7 +814,7 @@ tables:
       - name: EMAIL_UNIQUELY_CLICKED
         synonyms:
           - "  "
-        description: Number of unique email recipients who clicked on the message
+        description: Whether or not the contact clicked the email.
         expr: EMAIL_UNIQUELY_CLICKED
         data_type: NUMBER
         sample_values:
@@ -819,7 +823,7 @@ tables:
       - name: EMAIL_UNIQUELY_FORWARDED
         synonyms:
           - "  "
-        description: Number of unique email addresses that have forwarded the message
+        description: Whether or not the contact forwarded the email.
         expr: EMAIL_UNIQUELY_FORWARDED
         data_type: NUMBER
         sample_values:
@@ -828,7 +832,7 @@ tables:
       - name: SUBJECT
         synonyms:
           - "  "
-        description: Subject of messages sent to recipients
+        description: Subject of messages sent to recipients.
         expr: SUBJECT
         data_type: TEXT
         sample_values:
@@ -840,8 +844,8 @@ tables:
     time_dimensions:
       - name: MESSAGE_SENT_DATE
         synonyms:
-          - "  "
-        description: Date and time when the message was sent
+          - "Email send time"
+        description: Date and time when the email was sent.
         expr: MESSAGE_SENT_DATE
         data_type: TIMESTAMP_NTZ
         sample_values:
@@ -853,7 +857,7 @@ tables:
           - "  "
         description:
           The timestamp of the first interaction between a recipient and
-          a message
+          a message.
         expr: FIRST_INTERACTION_TIME
         data_type: TIMESTAMP_NTZ
         sample_values:
@@ -865,7 +869,7 @@ tables:
           - "  "
         description:
           The timestamp of the most recent interaction between a recipient
-          and a message
+          and a message.
         expr: LAST_INTERACTION_TIME
         data_type: TIMESTAMP_NTZ
         sample_values:
