@@ -3,7 +3,7 @@
 
 [Confluence page](https://quantify.atlassian.net/wiki/spaces/RnD/pages/3888676867/C+ddex+-+Glacial+Riders)
 
-[Mac's representation](https://docs.google.com/presentation/d/1jLUZkYhyUv3DJlUkE9WYFYozzeEIwhJwTZUfebGkNDc/edit?pli=1#slide=id.g302824e9662_0_2580)
+[Mac's presentation](https://docs.google.com/presentation/d/1jLUZkYhyUv3DJlUkE9WYFYozzeEIwhJwTZUfebGkNDc/edit?pli=1#slide=id.g302824e9662_0_2580)
 
 ## Bronze Use-Cases
 Query data accessible in the UI today, requiring minimal or no aggregation, and references concepts well understood in our database.
