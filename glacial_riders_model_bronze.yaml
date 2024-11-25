@@ -974,6 +974,6 @@ verified_queries:
         m.contact_id = c.id
       WHERE 
           inbound_author_id = 123
-          AND message_sent_date >= CURRENT_DATE - INTERVAL '7 days'
+          AND message_sent_date >= DATE_TRUNC('week', CURRENT_DATE) - INTERVAL '1 week'
           AND email_uniquely_forwarded > 0;
       "
