@@ -957,3 +957,23 @@ verified_queries:
       ON 
         ranked_opens.contact_id = c.id;
       "
+  - name: Forwarded emails
+    question: Who forwarded my emails last week?
+    use_as_onboarding_question: true
+    sql: "
+      SELECT 
+        m.subject,
+        c.first_name,
+        c.last_name,
+        c.email
+      FROM 
+        message_recipient_stats m
+      LEFT JOIN 
+        contact c
+      ON 
+        m.contact_id = c.id
+      WHERE 
+          inbound_author_id = 123
+          AND message_sent_date >= CURRENT_DATE - INTERVAL '7 days'
+          AND email_uniquely_forwarded > 0;
+      "
