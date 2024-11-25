@@ -892,7 +892,7 @@ relationships:
     left_table: MESSAGE_RECIPIENT_STATS
     right_table: CONTACT
     join_type: left_outer
-    relationship_type: one_to_one
+    relationship_type: many_to_one
     relationship_columns:
       - left_column: CONTACT_ID
         right_column: ID
@@ -900,7 +900,7 @@ relationships:
     left_table: MESSAGE_RECIPIENT_STATS
     right_table: ACCOUNT_GR
     join_type: left_outer
-    relationship_type: one_to_one
+    relationship_type: many_to_one
     relationship_columns:
       - left_column: INBOUND_AUTHOR_ID
         right_column: ID
@@ -908,7 +908,7 @@ relationships:
     left_table: MESSAGE_RECIPIENT_STATS
     right_table: ACCOUNT_GR
     join_type: left_outer
-    relationship_type: one_to_one
+    relationship_type: many_to_one
     relationship_columns:
       - left_column: OUTBOUND_AUTHOR_ID
         right_column: ID
