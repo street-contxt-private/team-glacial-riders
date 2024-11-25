@@ -912,3 +912,48 @@ relationships:
     relationship_columns:
       - left_column: OUTBOUND_AUTHOR_ID
         right_column: ID
+verified_queries:
+  - name: Additional opens with subject
+    question: Who had the most additional opens on the email I sent yesterday, and what was the email's subject?
+    use_as_onboarding_question: true
+    sql: "
+      WITH sent_emails AS (
+        SELECT
+          message_hash_code,
+          subject,
+          contact_id,
+          email_open_count - 1 AS additional_opens
+        FROM 
+          message_recipient_stats
+        WHERE 
+          inbound_author_id = 123
+          AND message_sent_date >= CURRENT_DATE - INTERVAL '1 day'
+          AND email_open_count > 0
+      ),
+      ranked_opens AS (
+        SELECT
+          message_hash_code,
+          subject,
+          contact_id,
+          SUM(additional_opens) AS total_additional_opens
+        FROM 
+          sent_emails
+        GROUP BY 
+          message_hash_code, subject, contact_id
+        ORDER BY 
+          total_additional_opens DESC
+        LIMIT 1
+      )
+      SELECT 
+        ranked_opens.subject,
+        c.first_name,
+        c.last_name,
+        c.email,
+        ranked_opens.total_additional_opens
+      FROM 
+        ranked_opens
+      LEFT JOIN 
+        contact c
+      ON 
+        ranked_opens.contact_id = c.id;
+      "
