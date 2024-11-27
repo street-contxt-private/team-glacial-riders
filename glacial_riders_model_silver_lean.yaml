@@ -1918,8 +1918,9 @@ verified_queries:
     sql: "
       WITH firm_lookup AS (
         SELECT id AS firm_id
-        FROM firm
-        WHERE name ILIKE '%ABC%'
+        FROM firm_company_view
+        WHERE display_name ILIKE '%ABC%'
+          OR name ILIKE '%ABC%'
       ),
       contact_opens AS (
         SELECT 
@@ -1944,7 +1945,7 @@ verified_queries:
       FROM 
         contact_opens co
       JOIN 
-        hackathon_glacial_riders.pg_public.contact c
+        contact c
       ON 
         co.contact_id = c.id
       ORDER BY 
