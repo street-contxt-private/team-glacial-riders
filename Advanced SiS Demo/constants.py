@@ -22,7 +22,7 @@ DEV_SNOWPARK_CONNECTION_NAME = os.getenv(
 
 # Followup questions in chat after each analyst reponse containing SQL
 ENABLE_SMART_FOLLOWUP_QUESTIONS_SUGGESTIONS = True
-SMART_FOLLOWUP_QUESTIONS_SUGGESTIONS_MODEL = "llama3.2-3b"
+SMART_FOLLOWUP_QUESTIONS_SUGGESTIONS_MODEL = "llama3.1-70b"
 
 # Data summary after executing the query in chat
 ENABLE_SMART_DATA_SUMMARY = True
