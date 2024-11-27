@@ -489,22 +489,22 @@ tables:
       #   data_type: TEXT
       #   sample_values:
       #     - None
-      - name: ADDRESS_LINE1
-        synonyms:
-          - "  "
-        description: First line of a contact's mailing address.__
-        expr: ADDRESS_LINE1
-        data_type: TEXT
-        sample_values:
-          - None
-      - name: ADDRESS_LINE2
-        synonyms:
-          - "  "
-        description: Secondary address line.__
-        expr: ADDRESS_LINE2
-        data_type: TEXT
-        sample_values:
-          - None
+      # - name: ADDRESS_LINE1
+      #   synonyms:
+      #     - "  "
+      #   description: First line of a contact's mailing address.__
+      #   expr: ADDRESS_LINE1
+      #   data_type: TEXT
+      #   sample_values:
+      #     - None
+      # - name: ADDRESS_LINE2
+      #   synonyms:
+      #     - "  "
+      #   description: Secondary address line.__
+      #   expr: ADDRESS_LINE2
+      #   data_type: TEXT
+      #   sample_values:
+      #     - None
       - name: CITY
         synonyms:
           - "  "
@@ -545,14 +545,14 @@ tables:
           - Canada
           - Serbia
           - United Kingdom
-      - name: WORK_PHONE_EXTENSION
-        synonyms:
-          - "  "
-        description: Work Phone Extension__
-        expr: WORK_PHONE_EXTENSION
-        data_type: TEXT
-        sample_values:
-          - None
+      # - name: WORK_PHONE_EXTENSION
+      #   synonyms:
+      #     - "  "
+      #   description: Work Phone Extension__
+      #   expr: WORK_PHONE_EXTENSION
+      #   data_type: TEXT
+      #   sample_values:
+      #     - None
       # - name: REQUIRE_UNIQUE_EMAIL
       #   synonyms:
       #     - "  "
@@ -580,14 +580,14 @@ tables:
         data_type: TEXT
         sample_values:
           - None
-      - name: SEARCH_TEXT
-        synonyms:
-          - "  "
-        description: Free-text search field for searching contacts.__
-        expr: SEARCH_TEXT
-        data_type: TEXT
-        sample_values:
-          - None
+      # - name: SEARCH_TEXT
+      #   synonyms:
+      #     - "  "
+      #   description: Free-text search field for searching contacts.__
+      #   expr: SEARCH_TEXT
+      #   data_type: TEXT
+      #   sample_values:
+      #     - None
       # - name: DO_NOT_EMAIL
       #   synonyms:
       #     - "  "
@@ -1569,14 +1569,14 @@ tables:
       #   data_type: TEXT
       #   sample_values:
       #     - None
-      - name: FROM_HEADER
-        synonyms:
-          - "  " # <FILL-OUT>
-        description: From Header of the email.
-        expr: FROM_HEADER
-        data_type: TEXT
-        sample_values:
-          - None
+      # - name: FROM_HEADER
+      #   synonyms:
+      #     - "  " # <FILL-OUT>
+      #   description: From Header of the email.
+      #   expr: FROM_HEADER
+      #   data_type: TEXT
+      #   sample_values:
+      #     - None
       # - name: PROVIDER_ID
       #   synonyms:
       #     - "  " # <FILL-OUT>
