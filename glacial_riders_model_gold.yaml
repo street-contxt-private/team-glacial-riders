@@ -527,7 +527,7 @@ tables:
           - Serbia
           - United Kingdom
       - name: FULL_NAME
-        description: Contact' full name. Use this name to refer to contacts and to identify them.
+        description: Contact's full name. This full name is used to refer to contacts and to identify them to users.
         expr: FIRST_NAME || ' ' || LAST_NAME
         data_type: TEXT
       # - name: WORK_PHONE_EXTENSION
