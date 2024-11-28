@@ -1904,3 +1904,106 @@ relationships:
     relationship_columns:
       - left_column: MESSAGE_HASH_CODE
         right_column: MESSAGE_HASH_CODE
+verified_queries:
+  - name: Additional opens with subject
+    question: Who had the most additional opens on my last email?
+    use_as_onboarding_question: true
+    sql: "
+      WITH last_email AS (
+        SELECT 
+          message_hash_code
+        FROM 
+          message_recipient_stats
+        WHERE 
+          inbound_author_id = 123
+        ORDER BY 
+          message_sent_date DESC
+        LIMIT 1
+      )
+      SELECT 
+        first_name,
+        last_name,
+        email,
+        additional_opens,
+        subject
+      FROM 
+        message_recipient_stats__contact mc
+      WHERE mc.message_hash_code = (SELECT message_hash_code FROM last_email)
+      ORDER BY 
+        mc.additional_opens DESC
+      LIMIT 1;
+      "
+  - name: Forwarded emails
+    question: Who forwarded my emails last week?
+    use_as_onboarding_question: true
+    sql: "
+      SELECT 
+        subject,
+        first_name,
+        last_name,
+        email
+      FROM message_recipient_stats__contact mc
+      WHERE 
+        inbound_author_id = 123
+        AND message_sent_date >= DATE_TRUNC('week', CURRENT_DATE) - INTERVAL '1 week'
+        AND email_uniquely_forwarded > 0;
+      "
+  - name: List click performance
+    question: Which of my lists generate the most clicks?
+    use_as_onboarding_question: true
+    sql: "
+      SELECT
+        dl.title,
+        SUM(m.email_click_count) AS total_clicks
+      FROM
+        distribution_list dl
+      JOIN
+        message_recipient_stats m
+      ON
+        ARRAY_CONTAINS(dl.id, m.distribution_list_ids)
+      WHERE
+        dl.owner_id = 123
+      GROUP BY
+        dl.title
+      ORDER BY
+        total_clicks DESC;
+      "
+  - name: Most opens at firm
+    question: Who do I have the most opens with at account/firm ABC?
+    use_as_onboarding_question: true
+    sql: "
+      WITH firm_lookup AS (
+        SELECT id AS firm_id
+        FROM firm_company_view
+        WHERE display_name ILIKE '%ABC%'
+          OR name ILIKE '%ABC%'
+      ),
+      contact_opens AS (
+        SELECT 
+          m.contact_id,
+          SUM(m.email_open_count) AS total_opens
+        FROM 
+          message_recipient_stats m
+        JOIN 
+          firm_lookup fl
+        ON 
+          m.firm_id = fl.firm_id
+        WHERE 
+          m.inbound_author_id = 123
+        GROUP BY 
+          m.contact_id
+      )
+      SELECT 
+        c.first_name,
+        c.last_name,
+        c.email,
+        co.total_opens
+      FROM 
+        contact_opens co
+      JOIN 
+        contact c
+      ON 
+        co.contact_id = c.id
+      ORDER BY 
+        co.total_opens DESC;
+      "
