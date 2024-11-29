@@ -105,14 +105,6 @@ tables:
       #   data_type: TEXT
       #   sample_values:
       #     - None
-      # - name: PASSWORD
-      #   synonyms:
-      #     - "  "
-      #   description: Password storage for user authentication.
-      #   expr: PASSWORD
-      #   data_type: TEXT
-      #   sample_values:
-      #     - None
       # - name: SALT
       #   synonyms:
       #     - "  "
@@ -2001,7 +1993,7 @@ verified_queries:
         FROM 
           __message_recipient_stats m
         JOIN 
-          __firm_lookup fl
+          firm_lookup fl
         ON 
           m.firm_id = fl.firm_id
         WHERE 
@@ -2015,7 +2007,7 @@ verified_queries:
         c.email,
         co.total_opens
       FROM 
-        __contact_opens co
+        contact_opens co
       JOIN 
         __contact c
       ON 
