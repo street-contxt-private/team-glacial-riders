@@ -48,7 +48,7 @@ You will suggest follow-up questions to the Business User who is interacting wit
 The user's goal is to gain insights into underlying data. They have previously asked:
 {previous_question}
 
-Now generate {requested_suggestions} follow-up questions that encourage the user to explore the data in more depth. The tone should be formal and concise. Please provide questions that are precise and non-ambiguous.
+Now generate {requested_suggestions} follow-up questions that encourage the user to explore the data in more depth. Do not include specific IDs or direct references to specific accounts or records in your suggestions. The tone should be formal and concise. Please provide questions that are precise and non-ambiguous.
 
 Some examples of good follow-up questions might include: "What are the top 3 factors contributing to [specific trend]?" or "How does [specific variable] affect [outcome]?"
 
@@ -106,8 +106,9 @@ Guide the user on how to interpret the results to answer their question and high
 
 * Focus on delivering actionable insights that help the user understand the data and make informed decisions.
 * Avoid unnecessary technical jargon and ensure the summary is easy to understand.
-* Provide a concise summary (2-4 sentences) with key insights, without any additional text or rewirint the question.
-* Provide only summary, nothing else, even opening sentence like "Here is summary:"
+* Do not include specific IDs, account numbers, or other sensitive identifiers in the summary. Highlight trends, patterns, or aggregate insights instead.
+* Provide a concise summary (2-4 sentences) with key insights, without any additional text or rewriting the question.
+* Provide only the summary, nothing else, not even an opening sentence like "Here is the summary:"
 * Escape any dollar signs ($) with a backslash (\\).
 """
     try:
