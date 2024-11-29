@@ -13,14 +13,18 @@ tables:
       - name: ID
         synonyms:
           - "  "
-        description: Account ID. This is an internal ID and shouldn't be shown to users.
+        description:
+          Account ID. This is an internal ID and should never be shown to users.
+          When displaying query results, use the email or first name and last name instead.
         expr: ID
         unique: true
         data_type: NUMBER
       - name: COMPANY_ID
         synonyms:
           - "  "
-        description: Identifier for the company the account is in.
+        description:
+          Identifier for the company the account is in. This is an internal ID and should never be shown to users.
+          When displaying query results use the company name instead.
         expr: COMPANY_ID
         data_type: NUMBER
       # - name: PRIMARY_ROLE_ID
@@ -315,7 +319,7 @@ tables:
       #   sample_values:
       #     - None
   - name: CONTACT
-    description: Information and details about user's contacts. These are email recipients.
+    description: Information about user's contacts. Users send emails to contacts, so contacts are email recipients.
     base_table:
       database: HACKATHON_GLACIAL_RIDERS
       schema: PG_PUBLIC
@@ -327,20 +331,26 @@ tables:
       - name: ID
         synonyms:
           - "  "
-        description: Unique contact ID. This is an internal identifier. Do not show it to users.
+        description:
+          Unique contact ID. This is an internal ID and should never be shown to users.
+          When displaying query results, use the contact's email or first name and last name instead.
         expr: ID
         data_type: NUMBER
         unique: true
       - name: COMPANY_ID
         synonyms:
           - "  "
-        description: ID of the Company who owns the contact
+        description:
+          ID of the Company who owns the contact. This is an internal ID and should never be shown to users.
+          When displaying query results, use the company name instead.
         expr: COMPANY_ID
         data_type: NUMBER
       - name: FIRM_ID
         synonyms:
           - "company"
-        description: ID of the firm that the contact works for.
+        description:
+          ID of the firm that the contact works for. This is an internal ID and should never be shown to users.
+          When displaying query results, use the firm name instead.
         expr: FIRM_ID
         data_type: NUMBER
       # - name: DIVISION_ID
@@ -404,7 +414,7 @@ tables:
       - name: LAST_NAME
         synonyms:
           - "  "
-        description: Last Name of Contact
+        description: Last Name of Contact. May be used to refer to contacts by.
         expr: LAST_NAME
         data_type: TEXT
         sample_values:
@@ -677,7 +687,9 @@ tables:
       - name: CONTACT_ID
         synonyms:
           - "Recipient"
-        description: Identifier for the contact or recipient of the email
+        description:
+          Identifier for the contact (recipient of the email). This is an internal identifier and should never be shown to users.
+          When displaying query results, use the contact's email or first name and last name instead.
         expr: CONTACT_ID
         data_type: NUMBER
         sample_values:
@@ -687,7 +699,7 @@ tables:
       - name: MESSAGE_HASH_CODE
         synonyms:
           - "  "
-        description: Identifier for each email. This is an internal identifier. Do not show to users.
+        description: Identifier for each email. This is an internal identifier and should never be shown to users.
         expr: MESSAGE_HASH_CODE
         data_type: TEXT
         sample_values:
@@ -697,7 +709,9 @@ tables:
       - name: INBOUND_AUTHOR_ID
         synonyms:
           - "Sender ID"
-        description: Identifier of the email sender or account who actually sent the email.
+        description:
+          Identifier of the email sender or account who actually sent the email. This is an internal identifier and should never be shown to users.
+          When displaying query results, use the user's email or first name and last name instead.
         expr: INBOUND_AUTHOR_ID
         data_type: NUMBER
         sample_values:
@@ -707,7 +721,10 @@ tables:
       - name: OUTBOUND_AUTHOR_ID
         synonyms:
           - "  "
-        description: Unique identifier of who the email appears to be sent by. Can match the inbound author.
+        description:
+          Unique identifier of who the email appears to be sent by.
+          If this is different from the inbound author, it means the email was sent on behalf of someone else (a user impersonating another user).
+          When displaying query results, use the user's email or first name and last name instead.
         expr: OUTBOUND_AUTHOR_ID
         data_type: NUMBER
         sample_values:
@@ -717,7 +734,9 @@ tables:
       - name: COMPANY_ID
         synonyms:
           - "  "
-        description: Unique identifier for the company of the user who sent the message.
+        description:
+          Unique identifier for the company of the user who sent the message. This is an internal identifier and should never be shown to users.
+          When displaying query results, use the company name instead.
         expr: COMPANY_ID
         data_type: NUMBER
         sample_values:
@@ -728,7 +747,9 @@ tables:
         synonyms:
           - "company"
           - "account"
-        description: "Firm ID: Unique identifier for the firm that the contact works for that received the email"
+        description:
+          Unique identifier for the firm that the contact works for that received the email. This is an internal identifier and should never be shown to users.
+          When displaying query results, use the firm name instead.
         expr: FIRM_ID
         data_type: NUMBER
         sample_values:
@@ -826,7 +847,7 @@ tables:
       - name: SUBJECT
         synonyms:
           - "  "
-        description: Subject of messages sent to recipients.
+        description: Subject of the email sent to recipients.
         expr: SUBJECT
         data_type: TEXT
         sample_values:
@@ -1090,7 +1111,9 @@ tables:
       - name: ID
         synonyms:
           - "  " # <FILL-OUT>
-        description: Unique identifier for each distribution list. This is an internal identifier and should not be shown to the business user.
+        description:
+          Unique identifier for each distribution list. This is an internal identifier and should not be shown to the business user.
+          For displaying query results, use the distribution list title instead.
         expr: ID
         data_type: NUMBER
         sample_values:
@@ -1100,7 +1123,9 @@ tables:
       - name: COMPANY_ID
         synonyms:
           - "  " # <FILL-OUT>
-        description: Id of the company that owns and has access to the distribution list.
+        description:
+          Id of the company that owns and has access to the distribution list. This is an internal identifier and should not be shown to the business user.
+          For displaying query results, use the company name instead.
         expr: COMPANY_ID
         data_type: NUMBER
         sample_values:
@@ -1110,7 +1135,10 @@ tables:
       - name: OWNER_ID
         synonyms:
           - "  " # <FILL-OUT>
-        description: Unique identifier for the user that owns the distribution list. This account has full control over the distribution list.
+        description:
+          Unique identifier for the user that owns the distribution list. This account has full control over the distribution list.
+          This is an internal identifier and should not be shown to the business user.
+          For displaying query results, use the user's email or first name and last name instead.
         expr: OWNER_ID
         data_type: NUMBER
         sample_values:
@@ -1335,18 +1363,32 @@ tables:
       #   data_type: BOOLEAN
       #   sample_values:
       #     - None
+      - name: ID
+        synonyms:
+          - "  " # <FILL-OUT>
+        description:
+          Unique identifier for the firm company relationship. This is an internal identifier and should not be shown to the user.
+          For displaying query results, use the firm name instead.
+        expr: ID
+        data_type: NUMBER
+        sample_values:
+          - "689678"
+          - "16531"
+          - "16536"
       - name: COMPANY_ID
         synonyms:
           - "  " # <FILL-OUT>
-        description: Unique identifier for the company that owns the firm.
+        description:
+          Unique identifier for the company that owns the firm. This is an internal identifier and should not be shown to the user.
+          For displaying query results, use the company name instead.
         expr: COMPANY_ID
         data_type: NUMBER
       - name: PARENT_FIRM_ID
         synonyms:
           - "  " # <FILL-OUT>
         description:
-          "Parent Firm ID: Unique identifier of the parent firm for each
-          firm."
+          Unique identifier of the parent firm for each firm. This is an internal identifier and should not be shown to the user.
+          For displaying query results, use the parent firm name instead.
         expr: PARENT_FIRM_ID
         data_type: NUMBER
       # - name: IP_PARENT_FIRM_ID
@@ -1372,7 +1414,9 @@ tables:
       - name: VIEWER_COMPANY_ID
         synonyms:
           - "  " # <FILL-OUT>
-        description: Unique identifier of the company id who has a firm override with this name.
+        description:
+          Unique identifier of the company id who has a firm override with this name. This is an internal identifier and should not be shown to the user.
+          For displaying query results, use the company name instead.
         expr: VIEWER_COMPANY_ID
         data_type: NUMBER
       # - name: DIVISION_ID
@@ -1445,13 +1489,13 @@ tables:
       - name: DISTRIBUTION_LIST_ID
         synonyms:
           - "  " # <FILL-OUT>
-        description: ID of the distribution list that this email was sent to.
+        description: ID of the distribution list that this email was sent to. This is an internal identifier and should not be shown to user accounts.
         expr: DISTRIBUTION_LIST_ID
         data_type: NUMBER
       - name: OWNER_ID
         synonyms:
           - "  " # <FILL-OUT>
-        description: Unique identifier for the user that owns the article
+        description: Unique identifier for the user that owns the article. This is an internal identifier and should not be shown to user accounts.
         expr: OWNER_ID
         data_type: NUMBER
       # - name: ENGAGEMENT_SCORE
@@ -1476,7 +1520,9 @@ tables:
       - name: INBOUND_AUTHOR_ID
         synonyms:
           - "Sender" # <FILL-OUT>
-        description: Unique identifier for the author of an inbound article. This is the user that actually sent the email.
+        description:
+          Unique identifier for the author of an inbound article. This is the user that actually sent the email.
+          This is an internal identifier and should not be shown to user accounts.
         expr: INBOUND_AUTHOR_ID
         data_type: NUMBER
       - name: OUTBOUND_AUTHOR_ID
@@ -1485,6 +1531,7 @@ tables:
         description:
           Unique identifier for the user that that contact sees in the from field for the email.
           This can be different from the inbound author if a user impersonates another user.
+          This is an internal identifier and should not be shown to user accounts.
         expr: OUTBOUND_AUTHOR_ID
         data_type: NUMBER
       # - name: MIME_SIZE_BYTES
@@ -1510,7 +1557,7 @@ tables:
       - name: COMPANY_ID
         synonyms:
           - "  " # <FILL-OUT>
-        description: Identifier of the company that the account who sent the email works for
+        description: Identifier of the company that the account who sent the email works for. This is an internal identifier and should not be shown to user accounts.
         expr: COMPANY_ID
         data_type: NUMBER
       # - name: CREATED_BY
@@ -1857,60 +1904,69 @@ relationships:
       - left_column: MESSAGE_HASH_CODE
         right_column: MESSAGE_HASH_CODE
 verified_queries:
-  - name: Additional opens with subject
-    question: Who had the most additional opens on my last email?
+  - name: Additional opens
+    question: I am account ID 123. Who had the most additional opens on my last email?
     use_as_onboarding_question: true
     sql: "
       WITH last_email AS (
-      SELECT
-      message_hash_code
-      FROM
-      message_recipient_stats
-      WHERE
-      inbound_author_id = 123
-      ORDER BY
-      message_sent_date DESC
-      LIMIT 1
+        SELECT 
+          message_hash_code
+        FROM 
+          __message_recipient_stats
+        WHERE 
+          inbound_author_id = 123
+        ORDER BY 
+          message_sent_date DESC
+        LIMIT 1
       )
-      SELECT
-      first_name,
-      last_name,
-      email,
-      additional_opens,
-      subject
-      FROM
-      message_recipient_stats__contact mc
-      WHERE mc.message_hash_code = (SELECT message_hash_code FROM last_email)
-      ORDER BY
-      mc.additional_opens DESC
+      SELECT 
+        c.first_name,
+        c.last_name,
+        c.email,
+        m.additional_opens,
+        m.subject
+      FROM 
+        __message_recipient_stats m
+      LEFT JOIN
+        __contact c
+      ON
+        m.contact_id = c.id
+      WHERE m.message_hash_code = (SELECT le.message_hash_code FROM last_email le)
+      ORDER BY 
+        m.additional_opens DESC
       LIMIT 1;
       "
   - name: Forwarded emails
-    question: Who forwarded my emails last week?
+    question: I am account ID 123. Who forwarded my emails last week?
     use_as_onboarding_question: true
     sql: "
-      SELECT
-      subject,
-      first_name,
-      last_name,
-      email
-      FROM message_recipient_stats__contact mc
-      WHERE
-      inbound_author_id = 123
-      AND message_sent_date >= DATE_TRUNC('week', CURRENT_DATE) - INTERVAL '1 week'
-      AND email_uniquely_forwarded > 0;
+      SELECT 
+        m.subject,
+        c.first_name,
+        c.last_name,
+        c.email
+      FROM 
+        __message_recipient_stats m
+      LEFT JOIN 
+        __contact c
+      ON 
+        m.contact_id = c.id
+      WHERE 
+        inbound_author_id = 123
+        AND message_sent_date >= DATE_TRUNC('week', CURRENT_DATE) - INTERVAL '1 week'
+        AND email_uniquely_forwarded > 0;
       "
   - name: List click performance
-    question: Which of my lists generate the most clicks?
+    question: I am account ID 123. Which of my lists generate the most clicks?
     use_as_onboarding_question: true
     sql: "
       SELECT
       dl.title,
       SUM(m.email_click_count) AS total_clicks
       FROM
-      distribution_list dl
+        __distribution_list dl
       JOIN
-      message_recipient_stats m
+        __message_recipient_stats m
       ON
       ARRAY_CONTAINS(dl.id, m.distribution_list_ids)
       WHERE
@@ -1921,41 +1977,41 @@ verified_queries:
       total_clicks DESC;
       "
   - name: Most opens at firm
-    question: Who do I have the most opens with at account/firm ABC?
+    question: I am account ID 123. Who do I have the most opens with at account/firm ABC?
     use_as_onboarding_question: true
     sql: "
       WITH firm_lookup AS (
-      SELECT id AS firm_id
-      FROM firm_company_view
-      WHERE display_name ILIKE '%ABC%'
-      OR name ILIKE '%ABC%'
+        SELECT id AS firm_id
+        FROM __firm_company_view
+        WHERE display_name ILIKE '%ABC%'
+          OR name ILIKE '%ABC%'
       ),
       contact_opens AS (
-      SELECT
-      m.contact_id,
-      SUM(m.email_open_count) AS total_opens
-      FROM
-      message_recipient_stats m
-      JOIN
-      firm_lookup fl
-      ON
-      m.firm_id = fl.firm_id
-      WHERE
-      m.inbound_author_id = 123
-      GROUP BY
-      m.contact_id
+        SELECT 
+          m.contact_id,
+          SUM(m.email_open_count) AS total_opens
+        FROM 
+          __message_recipient_stats m
+        JOIN 
+          firm_lookup fl
+        ON 
+          m.firm_id = fl.firm_id
+        WHERE 
+          m.inbound_author_id = 123
+        GROUP BY 
+          m.contact_id
       )
-      SELECT
-      c.first_name,
-      c.last_name,
-      c.email,
-      co.total_opens
-      FROM
-      contact_opens co
-      JOIN
-      contact c
-      ON
-      co.contact_id = c.id
-      ORDER BY
-      co.total_opens DESC;
+      SELECT 
+        c.first_name,
+        c.last_name,
+        c.email,
+        co.total_opens
+      FROM 
+        contact_opens co
+      JOIN 
+        __contact c
+      ON 
+        co.contact_id = c.id
+      ORDER BY 
+        co.total_opens DESC;
       "
