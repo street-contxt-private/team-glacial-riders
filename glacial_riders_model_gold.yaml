@@ -1,8 +1,7 @@
 name: glacial_riders_gold
 tables:
   - name: ACCOUNT_GR
-    description: Account information for users, including email details, roles,
-      and system settings.
+    description: Account information about users, including name and email details.
     base_table:
       database: HACKATHON_GLACIAL_RIDERS
       schema: PG_PUBLIC
@@ -18,20 +17,12 @@ tables:
         expr: ID
         unique: true
         data_type: NUMBER
-        sample_values:
-          - "32786"
-          - "16923"
-          - "33229"
       - name: COMPANY_ID
         synonyms:
           - "  "
         description: Identifier for the company the account is in.
         expr: COMPANY_ID
         data_type: NUMBER
-        sample_values:
-          - "59"
-          - "21"
-          - "10"
       # - name: PRIMARY_ROLE_ID
       #   synonyms:
       #     - "  "
@@ -74,17 +65,14 @@ tables:
         description: Database record status
         expr: ACTIVE
         data_type: BOOLEAN
-        sample_values:
-          - "True"
-          - None
-      - name: EMAIL
-        synonyms:
-          - "  "
-        description: Account Email Address
-        expr: EMAIL
-        data_type: TEXT
-        sample_values:
-          - None
+      # - name: EMAIL
+      #   synonyms:
+      #     - "  "
+      #   description: Account Email Address
+      #   expr: EMAIL
+      #   data_type: TEXT
+      #   sample_values:
+      #     - None
       - name: FIRST_NAME
         synonyms:
           - "  "
@@ -105,14 +93,14 @@ tables:
           - Myers
           - Dodson
           - Montgomery
-      - name: PASSWORD
-        synonyms:
-          - "  "
-        description: Password storage for user authentication.
-        expr: PASSWORD
-        data_type: TEXT
-        sample_values:
-          - None
+      # - name: PASSWORD
+      #   synonyms:
+      #     - "  "
+      #   description: Password storage for user authentication.
+      #   expr: PASSWORD
+      #   data_type: TEXT
+      #   sample_values:
+      #     - None
       # - name: SALT
       #   synonyms:
       #     - "  "
@@ -272,6 +260,11 @@ tables:
       #   data_type: TEXT
       #   sample_values:
       #     - None
+    filters:
+      - name: ACTIVE_FILTER
+        # synonyms:
+        description: Only show account records that have not been deactivated.
+        expr: ACTIVE IS TRUE
     time_dimensions:
       - name: CREATE_DATE
         synonyms:
@@ -338,40 +331,28 @@ tables:
         expr: ID
         data_type: NUMBER
         unique: true
-        sample_values:
-          - "13971417"
-          - "10605755"
-          - "14037956"
       - name: COMPANY_ID
         synonyms:
           - "  "
         description: ID of the Company who owns the contact
         expr: COMPANY_ID
         data_type: NUMBER
-        sample_values:
-          - "21"
-          - "10"
-          - "59"
       - name: FIRM_ID
         synonyms:
           - "company"
         description: ID of the firm that the contact works for.
         expr: FIRM_ID
         data_type: NUMBER
-        sample_values:
-          - "65726"
-          - "662566"
-          - "667477"
-      - name: DIVISION_ID
-        synonyms:
-          - "  "
-        description: ID of the division the contact belongs to
-        expr: DIVISION_ID
-        data_type: NUMBER
-        sample_values:
-          - None
-          - "5"
-          - "6"
+      # - name: DIVISION_ID
+      #   synonyms:
+      #     - "  "
+      #   description: ID of the division the contact belongs to
+      #   expr: DIVISION_ID
+      #   data_type: NUMBER
+      #   sample_values:
+      #     - None
+      #     - "5"
+      #     - "6"
       # - name: NEW_CONTACT_ID
       #   synonyms:
       #     - "  "
@@ -413,7 +394,7 @@ tables:
       - name: FIRST_NAME
         synonyms:
           - "  "
-        description: First Name of a Contact. Use this name to refer to contacts by.
+        description: First Name of a Contact.
         expr: FIRST_NAME
         data_type: TEXT
         sample_values:
@@ -545,6 +526,10 @@ tables:
           - Canada
           - Serbia
           - United Kingdom
+      - name: FULL_NAME
+        description: Contact's full name. This full name is used to refer to contacts and to identify them to users.
+        expr: FIRST_NAME || ' ' || LAST_NAME
+        data_type: TEXT
       # - name: WORK_PHONE_EXTENSION
       #   synonyms:
       #     - "  "
@@ -572,14 +557,14 @@ tables:
       #   data_type: TEXT
       #   sample_values:
       #     - None
-      - name: NICKNAME
-        synonyms:
-          - "  "
-        description: A nickname or alias for a contact.
-        expr: NICKNAME
-        data_type: TEXT
-        sample_values:
-          - None
+      # - name: NICKNAME
+      #   synonyms:
+      #     - "  "
+      #   description: A nickname or alias for a contact.
+      #   expr: NICKNAME
+      #   data_type: TEXT
+      #   sample_values:
+      #     - None
       # - name: SEARCH_TEXT
       #   synonyms:
       #     - "  "
@@ -669,12 +654,17 @@ tables:
           - None
           - "2022-06-23 13:09:29.497389"
           - "2017-12-18 15:35:20.824588"
+    filters:
+      - name: ACTIVE_FILTER
+        # synonyms:
+        description: When showing results about contacts, only show contacts records that have not been deactivated unless explicitly asked for.
+        expr: ACTIVE IS TRUE
   - name: MESSAGE_RECIPIENT_STATS
     description:
       This table, MESSAGE_RECIPIENT_STATS, stores aggregated statistics
       about the interactions between messages and their recipients. It provides insights
       into the delivery, open, click, and forward rates of messages, as well as the
-      unique interactions with each recipient.__
+      unique interactions with each recipient.
     base_table:
       database: HACKATHON_GLACIAL_RIDERS
       schema: EVENT_STREAM_ACCUMULATOR
@@ -748,7 +738,9 @@ tables:
       - name: EMAIL_CLICK_COUNT
         synonyms:
           - "  "
-        description: Total number of times the email was clicked by the recipient.
+        description:
+          Total number of times one of the links included in the email was clicked by the recipient. If a recipient has clicked on a link an email many times,
+          it is indicative of a contact's interest.
         expr: EMAIL_CLICK_COUNT
         data_type: NUMBER
         sample_values:
@@ -1156,6 +1148,11 @@ tables:
           - "2023-06-12 07:50:08.520281"
           - "2022-05-16 23:02:51.218072"
           - "2022-05-17 01:05:54.791580"
+    filters:
+      - name: ACTIVE_FILTER
+        # synonyms:
+        description: Only show distribution_list records that have not been deactivated unless explicitly asked for. Treat records where ACTIVE IS NULL as if they have been deleted.
+        expr: ACTIVE IS TRUE
   - name: FIRM_COMPANY_VIEW
     description:
       "FIRM_COMPANY_VIEW: A view that combines information from the FIRM and firm override table. This firm override table has the company specific overrides
@@ -1169,8 +1166,10 @@ tables:
         - ID
     # filters:
     # - name: '  ' # <FILL-OUT>
-    # synonyms:
-    # - '  ' # <FILL-OUT>
+    synonyms:
+      - "company"
+      - "account"
+      # <FILL-OUT>
     # description: '  ' # <FILL-OUT>
     # expr: '  ' # <FILL-OUT>
     dimensions:
@@ -1313,14 +1312,21 @@ tables:
       #     - None
       - name: DISPLAY_NAME
         synonyms:
-          - "  " # <FILL-OUT>
+          - "firm name"
+          - "account name"
         description: How the firm name should be displayed to the user
         expr: DISPLAY_NAME
+        # cortex_search_service:
+        #   service: FIRM_DISPLAY_NAME_SEARCH
+        #   schema: PG_PUBLIC
+        #   database: HACKATHON_GLACIAL_RIDERS
         data_type: TEXT
-        sample_values:
-          - limllp.com
-          - ascendas-fms.com
-          - peninsulapointltd.com
+      - name: ID
+        synonyms:
+          - "  " # <FILL-OUT>
+        description: Unique identifier for the firm company relationship. This is an internal identifier and should not be shown to the user.
+        expr: ID
+        data_type: NUMBER
       # - name: INTERNAL
       #   synonyms:
       #     - "  " # <FILL-OUT>
@@ -1329,26 +1335,12 @@ tables:
       #   data_type: BOOLEAN
       #   sample_values:
       #     - None
-      - name: ID
-        synonyms:
-          - "  " # <FILL-OUT>
-        description: Unique identifier for the firm company relationship. This is an internal identifier and should not be shown to the user.
-        expr: ID
-        data_type: NUMBER
-        sample_values:
-          - "689678"
-          - "16531"
-          - "16536"
       - name: COMPANY_ID
         synonyms:
           - "  " # <FILL-OUT>
         description: Unique identifier for the company that owns the firm.
         expr: COMPANY_ID
         data_type: NUMBER
-        sample_values:
-          - None
-          - "10"
-          - "59"
       - name: PARENT_FIRM_ID
         synonyms:
           - "  " # <FILL-OUT>
@@ -1357,10 +1349,6 @@ tables:
           firm."
         expr: PARENT_FIRM_ID
         data_type: NUMBER
-        sample_values:
-          - None
-          - "3567"
-          - "19412"
       # - name: IP_PARENT_FIRM_ID
       #   synonyms:
       #     - "  " # <FILL-OUT>
@@ -1387,10 +1375,6 @@ tables:
         description: Unique identifier of the company id who has a firm override with this name.
         expr: VIEWER_COMPANY_ID
         data_type: NUMBER
-        sample_values:
-          - "21"
-          - "10"
-          - "59"
       # - name: DIVISION_ID
       #   synonyms:
       #     - "  " # <FILL-OUT>
@@ -1458,30 +1442,18 @@ tables:
         expr: ID
         data_type: NUMBER
         unique: true
-        sample_values:
-          - "9415924"
-          - "9415935"
-          - "9416003"
       - name: DISTRIBUTION_LIST_ID
         synonyms:
           - "  " # <FILL-OUT>
         description: ID of the distribution list that this email was sent to.
         expr: DISTRIBUTION_LIST_ID
         data_type: NUMBER
-        sample_values:
-          - "155423"
-          - "497470"
-          - "718613"
       - name: OWNER_ID
         synonyms:
           - "  " # <FILL-OUT>
         description: Unique identifier for the user that owns the article
         expr: OWNER_ID
         data_type: NUMBER
-        sample_values:
-          - "19410"
-          - "16524"
-          - "30342"
       # - name: ENGAGEMENT_SCORE
       #   synonyms:
       #     - "  " # <FILL-OUT>
@@ -1507,10 +1479,6 @@ tables:
         description: Unique identifier for the author of an inbound article. This is the user that actually sent the email.
         expr: INBOUND_AUTHOR_ID
         data_type: NUMBER
-        sample_values:
-          - "21535"
-          - "16524"
-          - "17798"
       - name: OUTBOUND_AUTHOR_ID
         synonyms:
           - "  " # <FILL-OUT>
@@ -1519,10 +1487,6 @@ tables:
           This can be different from the inbound author if a user impersonates another user.
         expr: OUTBOUND_AUTHOR_ID
         data_type: NUMBER
-        sample_values:
-          - "21535"
-          - "16524"
-          - "17798"
       # - name: MIME_SIZE_BYTES
       #   synonyms:
       #     - "  " # <FILL-OUT>
@@ -1549,10 +1513,6 @@ tables:
         description: Identifier of the company that the account who sent the email works for
         expr: COMPANY_ID
         data_type: NUMBER
-        sample_values:
-          - "10"
-          - "21"
-          - "59"
       # - name: CREATED_BY
       #   synonyms:
       #     - "  " # <FILL-OUT>
@@ -1806,7 +1766,7 @@ tables:
       table: ARTICLE_CLASS
     primary_key:
       columns:
-        - ID
+        - MESSAGE_HASH_CODE
     # filters:
     # - name: '  ' # <FILL-OUT>
     # synonyms:
@@ -1817,19 +1777,9 @@ tables:
       - name: MESSAGE_HASH_CODE
         synonyms:
           - "  " # <FILL-OUT>
-        description: Unique hash codes for each article message
+        description: Unique hash codes for each email
         expr: MESSAGE_HASH_CODE
         data_type: TEXT
-        sample_values:
-          - 15IFLFidq6AsPMK4qeQxbb
-          - 1WlnBR42gmgbaHg93sCS0S
-          - 19LaBoQ8aAar6Gjf9YJEvO
-      - name: ID
-        synonyms:
-          - "  " # <FILL-OUT>
-        description: unique identifier of the article. This is an internal ID and shouldn't be shown to users.
-        expr: ID
-        data_type: NUMBER
       - name: CLASSIFICATION
         description:
           The category of email that this email subject falls into. Recurring notes are emails that are sent regularly - typically every day in the morning and reviews the financial news or events. They are also known as morning notes or daily notes.
@@ -1854,6 +1804,8 @@ relationships:
     relationship_columns:
       - left_column: CONTACT_ID
         right_column: ID
+      - left_column: COMPANY_ID
+        right_column: COMPANY_ID
   - name: message_recipient_stats__inbound_account
     left_table: MESSAGE_RECIPIENT_STATS
     right_table: ACCOUNT_GR
@@ -1910,100 +1862,100 @@ verified_queries:
     use_as_onboarding_question: true
     sql: "
       WITH last_email AS (
-        SELECT 
-          message_hash_code
-        FROM 
-          message_recipient_stats
-        WHERE 
-          inbound_author_id = 123
-        ORDER BY 
-          message_sent_date DESC
-        LIMIT 1
+      SELECT
+      message_hash_code
+      FROM
+      message_recipient_stats
+      WHERE
+      inbound_author_id = 123
+      ORDER BY
+      message_sent_date DESC
+      LIMIT 1
       )
-      SELECT 
-        first_name,
-        last_name,
-        email,
-        additional_opens,
-        subject
-      FROM 
-        message_recipient_stats__contact mc
+      SELECT
+      first_name,
+      last_name,
+      email,
+      additional_opens,
+      subject
+      FROM
+      message_recipient_stats__contact mc
       WHERE mc.message_hash_code = (SELECT message_hash_code FROM last_email)
-      ORDER BY 
-        mc.additional_opens DESC
+      ORDER BY
+      mc.additional_opens DESC
       LIMIT 1;
       "
   - name: Forwarded emails
     question: Who forwarded my emails last week?
     use_as_onboarding_question: true
     sql: "
-      SELECT 
-        subject,
-        first_name,
-        last_name,
-        email
+      SELECT
+      subject,
+      first_name,
+      last_name,
+      email
       FROM message_recipient_stats__contact mc
-      WHERE 
-        inbound_author_id = 123
-        AND message_sent_date >= DATE_TRUNC('week', CURRENT_DATE) - INTERVAL '1 week'
-        AND email_uniquely_forwarded > 0;
+      WHERE
+      inbound_author_id = 123
+      AND message_sent_date >= DATE_TRUNC('week', CURRENT_DATE) - INTERVAL '1 week'
+      AND email_uniquely_forwarded > 0;
       "
   - name: List click performance
     question: Which of my lists generate the most clicks?
     use_as_onboarding_question: true
     sql: "
       SELECT
-        dl.title,
-        SUM(m.email_click_count) AS total_clicks
+      dl.title,
+      SUM(m.email_click_count) AS total_clicks
       FROM
-        distribution_list dl
+      distribution_list dl
       JOIN
-        message_recipient_stats m
+      message_recipient_stats m
       ON
-        ARRAY_CONTAINS(dl.id, m.distribution_list_ids)
+      ARRAY_CONTAINS(dl.id, m.distribution_list_ids)
       WHERE
-        dl.owner_id = 123
+      dl.owner_id = 123
       GROUP BY
-        dl.title
+      dl.title
       ORDER BY
-        total_clicks DESC;
+      total_clicks DESC;
       "
   - name: Most opens at firm
     question: Who do I have the most opens with at account/firm ABC?
     use_as_onboarding_question: true
     sql: "
       WITH firm_lookup AS (
-        SELECT id AS firm_id
-        FROM firm_company_view
-        WHERE display_name ILIKE '%ABC%'
-          OR name ILIKE '%ABC%'
+      SELECT id AS firm_id
+      FROM firm_company_view
+      WHERE display_name ILIKE '%ABC%'
+      OR name ILIKE '%ABC%'
       ),
       contact_opens AS (
-        SELECT 
-          m.contact_id,
-          SUM(m.email_open_count) AS total_opens
-        FROM 
-          message_recipient_stats m
-        JOIN 
-          firm_lookup fl
-        ON 
-          m.firm_id = fl.firm_id
-        WHERE 
-          m.inbound_author_id = 123
-        GROUP BY 
-          m.contact_id
+      SELECT
+      m.contact_id,
+      SUM(m.email_open_count) AS total_opens
+      FROM
+      message_recipient_stats m
+      JOIN
+      firm_lookup fl
+      ON
+      m.firm_id = fl.firm_id
+      WHERE
+      m.inbound_author_id = 123
+      GROUP BY
+      m.contact_id
       )
-      SELECT 
-        c.first_name,
-        c.last_name,
-        c.email,
-        co.total_opens
-      FROM 
-        contact_opens co
-      JOIN 
-        contact c
-      ON 
-        co.contact_id = c.id
-      ORDER BY 
-        co.total_opens DESC;
+      SELECT
+      c.first_name,
+      c.last_name,
+      c.email,
+      co.total_opens
+      FROM
+      contact_opens co
+      JOIN
+      contact c
+      ON
+      co.contact_id = c.id
+      ORDER BY
+      co.total_opens DESC;
       "
