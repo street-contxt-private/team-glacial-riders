@@ -268,7 +268,7 @@ tables:
       - name: ACTIVE_FILTER
         # synonyms:
         description: Only show account records that have not been deactivated.
-        expr: ACTIVE IS TRUE
+        expr: ACTIVE = TRUE
     time_dimensions:
       - name: CREATE_DATE
         synonyms:
@@ -668,7 +668,7 @@ tables:
       - name: ACTIVE_FILTER
         # synonyms:
         description: When showing results about contacts, only show contacts records that have not been deactivated unless explicitly asked for.
-        expr: ACTIVE IS TRUE
+        expr: ACTIVE = TRUE
   - name: MESSAGE_RECIPIENT_STATS
     description:
       This table, MESSAGE_RECIPIENT_STATS, stores aggregated statistics
@@ -721,8 +721,7 @@ tables:
       - name: OUTBOUND_AUTHOR_ID
         synonyms:
           - "  "
-        description:
-          Unique identifier of who the email appears to be sent by.
+        description: Unique identifier of who the email appears to be sent by.
           If this is different from the inbound author, it means the email was sent on behalf of someone else (a user impersonating another user).
           When displaying query results, use the user's email or first name and last name instead.
         expr: OUTBOUND_AUTHOR_ID
@@ -910,10 +909,14 @@ tables:
         description: "Indicates if an email was previewed by a contact meaning the max time a contact had an email open was less than 16 seconds but more than 0"
         expr: EMAIL_MAX_READ_TIME < 16000 AND EMAIL_MAX_READ_TIME > 0
         data_type: BOOLEAN
-      # - name: OPEN_RATE
-      #   description:
-      #   expr: coalesce(1.0*${unique_opens}/nullif(${deliveries},0), 0)
-      #   data_type: NUMBER
+      - name: OPEN_RATE
+        description: The rate at which a contact opens emails that have been sent to them. If this number is closer to 1, then the contact regularly opens emails.
+        expr: coalesce(1.0*EMAIL_UNIQUELY_OPENED/nullif(COUNT(MESSAGE_HASH_CODE),0), 0)
+        data_type: FLOAT
+      - name: CLICK_RATE
+        description: The rate a which a contact clicks on links in emails that they have opened. If this number is closer to 1, then the contact regularly clicks links in emails.
+        expr: coalesce(1.0*EMAIL_UNIQUELY_CLICKED/nullif(SUM(EMAIL_UNIQUELY_OPENED),0), 0)
+        data_type: FLOAT
   - name: DISTRIBUTION_LIST
     description: Distribution lists (also known as distributions or DLs or lists) contain subscriptions. Users can send emails to these distribution lists and every contact on the list will receive the email.
     base_table:
@@ -1180,7 +1183,7 @@ tables:
       - name: ACTIVE_FILTER
         # synonyms:
         description: Only show distribution_list records that have not been deactivated unless explicitly asked for. Treat records where ACTIVE IS NULL as if they have been deleted.
-        expr: ACTIVE IS TRUE
+        expr: ACTIVE = TRUE
   - name: FIRM_COMPANY_VIEW
     description:
       "FIRM_COMPANY_VIEW: A view that combines information from the FIRM and firm override table. This firm override table has the company specific overrides
@@ -1217,16 +1220,16 @@ tables:
       #   data_type: TEXT
       #   sample_values:
       #     - None
-      - name: NAME
-        synonyms:
-          - "  " # <FILL-OUT>
-        description: Name of firm. Used to refer to the firm by
-        expr: NAME
-        data_type: TEXT
-        sample_values:
-          - limllp.com
-          - ascendas-fms.com
-          - peninsulapointltd.com
+      # - name: NAME
+      #   synonyms:
+      #     - "  " # <FILL-OUT>
+      #   description: Name of firm. Used to refer to the firm by
+      #   expr: NAME
+      #   data_type: TEXT
+      #   sample_values:
+      #     - limllp.com
+      #     - ascendas-fms.com
+      #     - peninsulapointltd.com
       - name: TYPE
         synonyms:
           - "  " # <FILL-OUT>
@@ -1342,12 +1345,11 @@ tables:
         synonyms:
           - "firm name"
           - "account name"
-        description: How the firm name should be displayed to the user
+        description: How the firm name should be displayed to the user.
         expr: DISPLAY_NAME
-        # cortex_search_service:
-        #   service: FIRM_DISPLAY_NAME_SEARCH
-        #   schema: PG_PUBLIC
-        #   database: HACKATHON_GLACIAL_RIDERS
+        cortex_search_service_name: firm_display_name_search
+        # schema: PG_PUBLIC
+        # database: HACKATHON_GLACIAL_RIDERS
         data_type: TEXT
       - name: ID
         synonyms:
@@ -1805,8 +1807,8 @@ tables:
           - "2024-10-16 02:25:03.967692"
   - name: ARTICLE_CLASS
     description:
-      The ARTICLE_CLASS table stores information about the classification
-      of article messages, including a unique identifier message hash code and the type of email that was delivered. These are emails sent by investment banks on the sell side.
+      The ARTICLE_CLASS table stores information about the classification and topics
+      of emails, including a unique identifier message hash code and the type of email that was delivered. It also includes the topics discused in the email. These are emails sent by investment banks on the sell side.
     base_table:
       database: HACKATHON_GLACIAL_RIDERS
       schema: PG_PUBLIC
@@ -1842,6 +1844,157 @@ tables:
           - "recurring note"
           - "event invite"
           - "research"
+      - name: TOPICS
+        description: A comma delimited list of topics and company stock tickers that were discussed in the email. These are the main topics.
+        synonyms:
+          - "content"
+          - "topics"
+        expr: TOPICS
+        data_type: TEXT
+        sample_values:
+          - '["JPM", "Strike", "HCare"]'
+          - '["JEF", "India Research", "Daily Market Update"]'
+          - '["JEFAxChina", "new neutral rate", "Tech", "Nvidia", "TSMC", "JP", "Muji", "Uniqlo", "Sanrio", "Shiseido"]'
+  - name: ARTICLE_EVENT_TREND
+    description:
+      This table stores trends and metrics for article events, including
+      open and click rates, timestamps, and author information. Each row represents an open or click event on an email. The trend is recorded for the first time contact clicks or opens an email.
+      The trend is calculated based on the history of unique events between the sender and the recipient, and will indicate if the recipient's behavior is expected or not. Any rare events with a recent timestamp indicate that
+      user should reach out to the contact.
+    base_table:
+      database: HACKATHON_GLACIAL_RIDERS
+      schema: EVENT_TREND_STREAMING
+      table: ARTICLE_EVENT_TREND
+    primary_key:
+      columns:
+        - MESSAGE_HASH_CODE
+        - CONTACT_ID
+    # filters:
+    # - name: '  ' # <FILL-OUT>
+    # synonyms:
+    # - '  ' # <FILL-OUT>
+    # description: '  ' # <FILL-OUT>
+    # expr: '  ' # <FILL-OUT>
+    dimensions:
+      - name: MESSAGE_HASH_CODE
+        synonyms:
+          - "  " # <FILL-OUT>
+        description: Unique identifier for the email the event occurred on
+        expr: MESSAGE_HASH_CODE
+        data_type: TEXT
+        sample_values:
+          - 15IFLFidq6AsPMK4qeQxbb
+          - 1WlnBR42gmgbaHg93sCS0S
+          - 19LaBoQ8aAar6Gjf9YJEvO
+      - name: OPEN_RATE_TREND
+        synonyms:
+          - "  " # <FILL-OUT>
+        description:
+          Frequency that a contact opens emails from the corresponding sender. Usual opens mean that the contact typically opens content from this author.
+          A RARE open means that this contact does not normally open this author's emails, and is a high indication that the user should reach out to the contact.
+          Sometimes is in-between usual and rare.
+        expr: OPEN_RATE_TREND
+        data_type: TEXT
+        sample_values:
+          - USUAL
+          - SOMETIMES
+          - RARE
+          - NO_TREND_DATA
+      - name: CLICK_RATE_TREND
+        synonyms:
+          - "  " # <FILL-OUT>
+        description:
+          "Click Rate Trend: Indicates the trend of click rates for a contact and sender pair on a email click event, categorized as USUAL, RARE, or NO TREND DATA.
+          A RARE click on an email is a very notable event, and is indicative that a sender should reach out to the contact who clicked the email. NO_TREND_DATA means that there is not enough of a email history between
+          the sender and the contact to determine a trend."
+        expr: CLICK_RATE_TREND
+        data_type: TEXT
+        sample_values:
+          - USUAL
+          - RARE
+          - NO_TREND_DATA
+      - name: INBOUND_AUTHOR_ID
+        synonyms:
+          - "  " # <FILL-OUT>
+        description: Unique identifier for the inbound author of an email. Inbound author is the user who actually sent the email.
+        expr: INBOUND_AUTHOR_ID
+        data_type: NUMBER
+        sample_values:
+          - "20631"
+          - "20925"
+          - "19220"
+      - name: OUTBOUND_AUTHOR_ID
+        synonyms:
+          - "  " # <FILL-OUT>
+        description: Unique identifier for the outbound author of the email
+        expr: OUTBOUND_AUTHOR_ID
+        data_type: NUMBER
+        sample_values:
+          - "20062"
+          - "27664"
+          - "11345"
+      - name: CONTACT_ID
+        synonyms:
+          - "  " # <FILL-OUT>
+        description: Unique identifier for each contact. This is a confidential internal identifier and should not be shown to the user.
+        expr: CONTACT_ID
+        data_type: NUMBER
+        sample_values:
+          - "6922317"
+          - "4392668"
+          - "9403002"
+      - name: FIRM_ID
+        synonyms:
+          - "  " # <FILL-OUT>
+        description: Unique identifier for the firm of the contact who interacted with the email.
+        expr: FIRM_ID
+        data_type: NUMBER
+        sample_values:
+          - "6067"
+          - "13551"
+          - "1031244"
+    time_dimensions:
+      - name: OPEN_TIMESTAMP
+        synonyms:
+          - "  " # <FILL-OUT>
+        description: Timestamp of when the email was opened.
+        expr: OPEN_TIMESTAMP
+        data_type: TIMESTAMP_NTZ
+        sample_values:
+          - "2024-10-14 01:20:53.116000"
+          - "2024-10-14 01:21:33.752000"
+          - "2024-10-14 01:25:44.381000"
+      - name: CLICK_TIMESTAMP
+        synonyms:
+          - "  " # <FILL-OUT>
+        description: Timestamp of when the email was clicked.
+        expr: CLICK_TIMESTAMP
+        data_type: TIMESTAMP_NTZ
+        sample_values:
+          - "2024-10-01 00:52:49.665000"
+          - "2024-10-01 00:52:52.982000"
+          - "2024-10-01 00:53:48.883000"
+    measures:
+      - name: OPEN_RATE
+        synonyms:
+          - "  " # <FILL-OUT>
+        description: Open rate of the previous 30 emails between the author and contact. Open rate is calculated based on number of unique opens over total emails sent.
+        expr: OPEN_RATE
+        data_type: NUMBER
+        sample_values:
+          - "0.9667"
+          - "1.0000"
+          - "0.5294"
+      - name: CLICK_RATE
+        synonyms:
+          - "  " # <FILL-OUT>
+        description: Click rate of the previous 30 emails between the author and contact. Click rate is calculated based on number of unique clicks over number of unique opens.
+        expr: CLICK_RATE
+        data_type: NUMBER
+        sample_values:
+          - None
+          - "0.1538"
+          - "0.9545"
 relationships:
   - name: message_recipient_stats__contact
     left_table: MESSAGE_RECIPIENT_STATS
@@ -1909,52 +2062,52 @@ verified_queries:
     use_as_onboarding_question: true
     sql: "
       WITH last_email AS (
-        SELECT 
-          message_hash_code
-        FROM 
-          __message_recipient_stats
-        WHERE 
-          inbound_author_id = 123
-        ORDER BY 
-          message_sent_date DESC
-        LIMIT 1
+      SELECT
+      message_hash_code
+      FROM
+      __message_recipient_stats
+      WHERE
+      inbound_author_id = 123
+      ORDER BY
+      message_sent_date DESC
+      LIMIT 1
       )
-      SELECT 
-        c.first_name,
-        c.last_name,
-        c.email,
-        m.additional_opens,
-        m.subject
-      FROM 
-        __message_recipient_stats m
+      SELECT
+      c.first_name,
+      c.last_name,
+      c.email,
+      m.additional_opens,
+      m.subject
+      FROM
+      __message_recipient_stats m
       LEFT JOIN
-        __contact c
+      __contact c
       ON
-        m.contact_id = c.id
+      m.contact_id = c.id
       WHERE m.message_hash_code = (SELECT le.message_hash_code FROM last_email le)
-      ORDER BY 
-        m.additional_opens DESC
+      ORDER BY
+      m.additional_opens DESC
       LIMIT 1;
       "
   - name: Forwarded emails
     question: I am account ID 123. Who forwarded my emails last week?
     use_as_onboarding_question: true
     sql: "
-      SELECT 
-        m.subject,
-        c.first_name,
-        c.last_name,
-        c.email
-      FROM 
-        __message_recipient_stats m
-      LEFT JOIN 
-        __contact c
-      ON 
-        m.contact_id = c.id
-      WHERE 
-        inbound_author_id = 123
-        AND message_sent_date >= DATE_TRUNC('week', CURRENT_DATE) - INTERVAL '1 week'
-        AND email_uniquely_forwarded > 0;
+      SELECT
+      m.subject,
+      c.first_name,
+      c.last_name,
+      c.email
+      FROM
+      __message_recipient_stats m
+      LEFT JOIN
+      __contact c
+      ON
+      m.contact_id = c.id
+      WHERE
+      inbound_author_id = 123
+      AND message_sent_date >= DATE_TRUNC('week', CURRENT_DATE) - INTERVAL '1 week'
+      AND email_uniquely_forwarded > 0;
       "
   - name: List click performance
     question: I am account ID 123. Which of my lists generate the most clicks?
@@ -1964,9 +2117,9 @@ verified_queries:
       dl.title,
       SUM(m.email_click_count) AS total_clicks
       FROM
-        __distribution_list dl
+      __distribution_list dl
       JOIN
-        __message_recipient_stats m
+      __message_recipient_stats m
       ON
       ARRAY_CONTAINS(dl.id, m.distribution_list_ids)
       WHERE
@@ -1981,37 +2134,37 @@ verified_queries:
     use_as_onboarding_question: true
     sql: "
       WITH firm_lookup AS (
-        SELECT id AS firm_id
-        FROM __firm_company_view
-        WHERE display_name ILIKE '%ABC%'
-          OR name ILIKE '%ABC%'
+      SELECT id AS firm_id
+      FROM __firm_company_view
+      WHERE display_name ILIKE '%ABC%'
+      OR name ILIKE '%ABC%'
       ),
       contact_opens AS (
-        SELECT 
-          m.contact_id,
-          SUM(m.email_open_count) AS total_opens
-        FROM 
-          __message_recipient_stats m
-        JOIN 
-          firm_lookup fl
-        ON 
-          m.firm_id = fl.firm_id
-        WHERE 
-          m.inbound_author_id = 123
-        GROUP BY 
-          m.contact_id
+      SELECT
+      m.contact_id,
+      SUM(m.email_open_count) AS total_opens
+      FROM
+      __message_recipient_stats m
+      JOIN
+      firm_lookup fl
+      ON
+      m.firm_id = fl.firm_id
+      WHERE
+      m.inbound_author_id = 123
+      GROUP BY
+      m.contact_id
       )
-      SELECT 
-        c.first_name,
-        c.last_name,
-        c.email,
-        co.total_opens
-      FROM 
-        contact_opens co
-      JOIN 
-        __contact c
-      ON 
-        co.contact_id = c.id
-      ORDER BY 
-        co.total_opens DESC;
+      SELECT
+      c.first_name,
+      c.last_name,
+      c.email,
+      co.total_opens
+      FROM
+      contact_opens co
+      JOIN
+      __contact c
+      ON
+      co.contact_id = c.id
+      ORDER BY
+      co.total_opens DESC;
       "
