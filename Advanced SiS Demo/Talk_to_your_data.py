@@ -40,6 +40,7 @@ from utils.storage.saved_answers import save_analyst_answer
 # List of available semantic model paths in the format: <DATABASE>.<SCHEMA>.<STAGE>/<FILE-NAME>
 # Each path points to a YAML file defining a semantic model
 AVAILABLE_SEMANTIC_MODELS_PATHS = [
+    "HACKATHON_GLACIAL_RIDERS.PUBLIC.GLACIAL/glacial_riders_model_gold.yaml",
     "HACKATHON_GLACIAL_RIDERS.PUBLIC.GLACIAL/glacial_riders_model.yaml",
     "HACKATHON_GLACIAL_RIDERS.PUBLIC.GLACIAL/glacial_riders_model_bronze.yaml"
 ]
@@ -47,7 +48,9 @@ AVAILABLE_SEMANTIC_MODELS_PATHS = [
 
 def reset_session_state():
     """Reset important session state elements for this page."""
+    st.session_state.account_id = None 
     st.session_state.messages = []  # List to store conversation messages
+    st.session_state.messages_with_context = []
     st.session_state.active_suggestion = None  # Currently selected suggestion
     st.session_state.suggested_charts_memory = (
         {}
