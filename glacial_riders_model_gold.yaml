@@ -2145,7 +2145,6 @@ verified_queries:
       SELECT id AS firm_id
       FROM __firm_company_view
       WHERE display_name ILIKE '%ABC%'
-      OR name ILIKE '%ABC%'
       ),
       contact_opens AS (
       SELECT
