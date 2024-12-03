@@ -1708,13 +1708,13 @@ tables:
           - "recurring note"
           - "event invite"
           - "research"
-  - name: MESSAGE_TOPIC
+  - name: MESSAGE_TOPIC_VIEW
     description:
-      The MESSAGE_TOPIC table stores information about the topics and content of email, including a unique identifier message hash code and the topics discused in the email. These topics are typically broad financial concepts, companies or stock tickers. 
+      The MESSAGE_TOPIC_VIEW stores information about the topics and content of email, including a unique identifier message hash code and the topics discused in the email. These topics are typically broad financial concepts, companies or stock tickers. 
     base_table:
       database: HACKATHON_GLACIAL_RIDERS
       schema: PG_PUBLIC
-      table: MESSAGE_TOPIC
+      table: MESSAGE_TOPIC_VIEW
     primary_key:
       columns:
         - MESSAGE_HASH_CODE
