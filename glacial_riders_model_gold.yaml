@@ -11,8 +11,6 @@ tables:
         - ID
     dimensions:
       - name: ID
-        synonyms:
-          - "  "
         description:
           Account ID. This is an internal ID and should never be shown to users.
           When displaying query results, use the email or first name and last name instead.
@@ -20,8 +18,6 @@ tables:
         unique: true
         data_type: NUMBER
       - name: COMPANY_ID
-        synonyms:
-          - "  "
         description:
           Identifier for the company the account is in. This is an internal ID and should never be shown to users.
           When displaying query results use the company name instead.
@@ -64,8 +60,6 @@ tables:
       #   sample_values:
       #     - None
       - name: ACTIVE
-        synonyms:
-          - "  "
         description: Database record status
         expr: ACTIVE
         data_type: BOOLEAN
@@ -78,8 +72,6 @@ tables:
       #   sample_values:
       #     - None
       - name: FIRST_NAME
-        synonyms:
-          - "  "
         description: First Name of the User. This is the name to refer to users by.
         expr: FIRST_NAME
         data_type: TEXT
@@ -88,8 +80,6 @@ tables:
           - Efren
           - Rodger
       - name: LAST_NAME
-        synonyms:
-          - "  "
         description: Last Name of the User
         expr: LAST_NAME
         data_type: TEXT
@@ -124,8 +114,6 @@ tables:
       #     - "False"
       #     - "True"
       - name: TITLE
-        synonyms:
-          - "  "
         description: User's title at their company
         expr: TITLE
         data_type: TEXT
@@ -158,15 +146,15 @@ tables:
       #   sample_values:
       #     - "False"
       #     - "True"
-      - name: ACCESS_LEVEL
-        synonyms:
-          - "  "
-        description: Access Level for company information
-        expr: ACCESS_LEVEL
-        data_type: TEXT
-        sample_values:
-          - DEFAULT
-          - COMPANY_WIDE
+      # - name: ACCESS_LEVEL
+      #   synonyms:
+      #     - "  "
+      #   description: Access Level for company information
+      #   expr: ACCESS_LEVEL
+      #   data_type: TEXT
+      #   sample_values:
+      #     - DEFAULT
+      #     - COMPANY_WIDE
       # - name: SCX_SALESFORCE_ID
       #   synonyms:
       #     - "  "
@@ -186,56 +174,56 @@ tables:
       #   sample_values:
       #     - "True"
       #     - "False"
-      - name: ASSET_CLASS
-        synonyms:
-          - "  "
-        description: Asset Class
-        expr: ASSET_CLASS
-        data_type: TEXT
-        sample_values:
-          - None
-          - EQUITIES
-          - INVESTMENT_BANKING
-      - name: OTHER_ASSET_CLASS
-        synonyms:
-          - "  "
-        description: Other Asset Class
-        expr: OTHER_ASSET_CLASS
-        data_type: TEXT
-        sample_values:
-          - None
-          - Structured Products
-          - Derivatives
-      - name: BUSINESS_DEPARTMENT
-        synonyms:
-          - "  "
-        description: Business Department
-        expr: BUSINESS_DEPARTMENT
-        data_type: TEXT
-        sample_values:
-          - None
-          - SALES
-          - OTHER
-      - name: OTHER_BUSINESS_DEPARTMENT
-        synonyms:
-          - "  "
-        description: Other Business Department
-        expr: OTHER_BUSINESS_DEPARTMENT
-        data_type: TEXT
-        sample_values:
-          - None
-          - Sales
-          - Business Ops
-      - name: COUNTRY_CODE
-        synonyms:
-          - "  "
-        description: Country Code__
-        expr: COUNTRY_CODE
-        data_type: TEXT
-        sample_values:
-          - None
-          - JP
-          - CA
+      # - name: ASSET_CLASS
+      #   synonyms:
+      #     - "  "
+      #   description: Asset Class
+      #   expr: ASSET_CLASS
+      #   data_type: TEXT
+      #   sample_values:
+      #     - None
+      #     - EQUITIES
+      #     - INVESTMENT_BANKING
+      # - name: OTHER_ASSET_CLASS
+      #   synonyms:
+      #     - "  "
+      #   description: Other Asset Class
+      #   expr: OTHER_ASSET_CLASS
+      #   data_type: TEXT
+      #   sample_values:
+      #     - None
+      #     - Structured Products
+      #     - Derivatives
+      # - name: BUSINESS_DEPARTMENT
+      #   synonyms:
+      #     - "  "
+      #   description: Business Department
+      #   expr: BUSINESS_DEPARTMENT
+      #   data_type: TEXT
+      #   sample_values:
+      #     - None
+      #     - SALES
+      #     - OTHER
+      # - name: OTHER_BUSINESS_DEPARTMENT
+      #   synonyms:
+      #     - "  "
+      #   description: Other Business Department
+      #   expr: OTHER_BUSINESS_DEPARTMENT
+      #   data_type: TEXT
+      #   sample_values:
+      #     - None
+      #     - Sales
+      #     - Business Ops
+      # - name: COUNTRY_CODE
+      #   synonyms:
+      #     - "  "
+      #   description: Country Code__
+      #   expr: COUNTRY_CODE
+      #   data_type: TEXT
+      #   sample_values:
+      #     - None
+      #     - JP
+      #     - CA
       # - name: ONBOARDING_STEP
       #   synonyms:
       #     - "  "
@@ -246,16 +234,16 @@ tables:
       #     - WELCOME
       #     - COMPLETE
       #     - EMAIL_WORKFLOW
-      - name: TIMEZONE
-        synonyms:
-          - "  "
-        description: Time zone user is located in.
-        expr: TIMEZONE
-        data_type: TEXT
-        sample_values:
-          - America/New_York
-          - America/Edmonton
-          - Australia/Sydney
+      # - name: TIMEZONE
+      #   synonyms:
+      #     - "  "
+      #   description: Time zone user is located in.
+      #   expr: TIMEZONE
+      #   data_type: TEXT
+      #   sample_values:
+      #     - America/New_York
+      #     - America/Edmonton
+      #     - Australia/Sydney
       # - name: OUTBOUND_SENDER_OVERRIDE_EMAIL
       #   synonyms:
       #     - "  "
@@ -271,8 +259,6 @@ tables:
         expr: ACTIVE = TRUE
     time_dimensions:
       - name: CREATE_DATE
-        synonyms:
-          - "  "
         description: Date and time of account creation.__
         expr: CREATE_DATE
         data_type: TIMESTAMP_NTZ
@@ -281,8 +267,6 @@ tables:
           - "2018-10-26 13:23:30.188000"
           - "2024-11-01 17:22:34.163562"
       - name: UPDATE_DATE
-        synonyms:
-          - "  "
         description: Last update date of account information.__
         expr: UPDATE_DATE
         data_type: TIMESTAMP_NTZ
@@ -291,8 +275,6 @@ tables:
           - "2023-06-20 13:41:46.242470"
           - "2024-11-01 18:11:14.315052"
       - name: END_DATE
-        synonyms:
-          - "  "
         description: End Date of Account__
         expr: END_DATE
         data_type: TIMESTAMP_NTZ
@@ -301,8 +283,6 @@ tables:
           - "2023-06-20 13:41:46.242483"
           - "2024-10-24 16:41:59.842466"
       - name: LOCKED_UNTIL_DATE
-        synonyms:
-          - "  "
         description: Date and time until when an account is locked.
         expr: LOCKED_UNTIL_DATE
         data_type: TIMESTAMP_NTZ
@@ -329,8 +309,6 @@ tables:
         - ID
     dimensions:
       - name: ID
-        synonyms:
-          - "  "
         description:
           Unique contact ID. This is an internal ID and should never be shown to users.
           When displaying query results, use the contact's email or first name and last name instead.
@@ -338,8 +316,6 @@ tables:
         data_type: NUMBER
         unique: true
       - name: COMPANY_ID
-        synonyms:
-          - "  "
         description:
           ID of the Company who owns the contact. This is an internal ID and should never be shown to users.
           When displaying query results, use the company name instead.
@@ -392,8 +368,6 @@ tables:
       #   sample_values:
       #     - None
       - name: EMAIL
-        synonyms:
-          - "  "
         description: Email address of the contact. Also used to identify the contact.
         expr: EMAIL
         data_type: TEXT
@@ -402,8 +376,6 @@ tables:
           - b04c331f591413d1dcfc4b97fa2d8776@example.com
           - 2780476d006742629affe61fb94903aa@example.com
       - name: FIRST_NAME
-        synonyms:
-          - "  "
         description: First Name of a Contact.
         expr: FIRST_NAME
         data_type: TEXT
@@ -412,8 +384,6 @@ tables:
           - Francesco
           - Gabriele
       - name: LAST_NAME
-        synonyms:
-          - "  "
         description: Last Name of Contact. May be used to refer to contacts by.
         expr: LAST_NAME
         data_type: TEXT
@@ -422,8 +392,6 @@ tables:
           - Summers
           - Christensen
       - name: TITLE
-        synonyms:
-          - "  "
         description: Contact's title at the firm they work for
         expr: TITLE
         data_type: TEXT
@@ -432,8 +400,6 @@ tables:
           - Managing Director
           - LA, wanted on Energy mailing - going to Whistler, Shannon Moore ast
       - name: ACTIVE
-        synonyms:
-          - "  "
         description: Indicates whether a contact record is active
         expr: ACTIVE
         data_type: BOOLEAN
@@ -497,8 +463,6 @@ tables:
       #   sample_values:
       #     - None
       - name: CITY
-        synonyms:
-          - "  "
         description: City of the contact
         expr: CITY
         data_type: TEXT
@@ -507,8 +471,6 @@ tables:
           - Valetta
           - Walnut Creek
       - name: STATE
-        synonyms:
-          - "  "
         description: State that the contact works in
         expr: STATE
         data_type: TEXT
@@ -516,19 +478,17 @@ tables:
           - ON
           - Scott
           - KS
-      - name: POSTAL_CODE
-        synonyms:
-          - "  "
-        description: Postal Code for Contact Information__
-        expr: POSTAL_CODE
-        data_type: TEXT
-        sample_values:
-          - None
-          - "5"
-          - "94129"
+      # - name: POSTAL_CODE
+      #   synonyms:
+      #     - "  "
+      #   description: Postal Code for Contact Information__
+      #   expr: POSTAL_CODE
+      #   data_type: TEXT
+      #   sample_values:
+      #     - None
+      #     - "5"
+      #     - "94129"
       - name: COUNTRY
-        synonyms:
-          - "  "
         description: Country of origin or residence.__
         expr: COUNTRY
         data_type: TEXT
@@ -635,8 +595,6 @@ tables:
       #     - "True"
     time_dimensions:
       - name: CREATE_DATE
-        synonyms:
-          - "  "
         description: Date and time of contact creation.__
         expr: CREATE_DATE
         data_type: TIMESTAMP_NTZ
@@ -645,8 +603,6 @@ tables:
           - "2024-08-05 19:12:48.639049"
           - "2024-08-02 14:48:30.555950"
       - name: UPDATE_DATE
-        synonyms:
-          - "  "
         description: Last updated date and time of contact information.__
         expr: UPDATE_DATE
         data_type: TIMESTAMP_NTZ
@@ -655,8 +611,6 @@ tables:
           - "2021-07-07 15:26:29.336744"
           - "2021-07-07 15:26:29.357511"
       - name: END_DATE
-        synonyms:
-          - "  "
         description: Date of the end of a contact.__
         expr: END_DATE
         data_type: TIMESTAMP_NTZ
@@ -697,8 +651,6 @@ tables:
           - "9213937"
           - "10385887"
       - name: MESSAGE_HASH_CODE
-        synonyms:
-          - "  "
         description: Identifier for each email. This is an internal identifier and should never be shown to users.
         expr: MESSAGE_HASH_CODE
         data_type: TEXT
@@ -719,8 +671,6 @@ tables:
           - "14282"
           - "32123"
       - name: OUTBOUND_AUTHOR_ID
-        synonyms:
-          - "  "
         description: Unique identifier of who the email appears to be sent by.
           If this is different from the inbound author, it means the email was sent on behalf of someone else (a user impersonating another user).
           When displaying query results, use the user's email or first name and last name instead.
@@ -731,8 +681,6 @@ tables:
           - "22311"
           - "18660"
       - name: COMPANY_ID
-        synonyms:
-          - "  "
         description:
           Unique identifier for the company of the user who sent the message. This is an internal identifier and should never be shown to users.
           When displaying query results, use the company name instead.
@@ -756,8 +704,6 @@ tables:
           - "13191"
           - "883"
       - name: EMAIL_CLICK_COUNT
-        synonyms:
-          - "  "
         description:
           Total number of times one of the links included in the email was clicked by the recipient. If a recipient has clicked on a link an email many times,
           it is indicative of a contact's interest.
@@ -768,8 +714,6 @@ tables:
           - "11"
           - "9"
       - name: EMAIL_FORWARDED_OPEN_COUNT
-        synonyms:
-          - "  "
         description: Total number of times an email message that was forwarded by the contact was opened.
         expr: EMAIL_FORWARDED_OPEN_COUNT
         data_type: NUMBER
@@ -778,8 +722,6 @@ tables:
           - "0"
           - "9"
       - name: EMAIL_FORWARDED_CLICK_COUNT
-        synonyms:
-          - "  "
         description: Total number of times an email message that was forwarded by the contact was clicked.
         expr: EMAIL_FORWARDED_CLICK_COUNT
         data_type: NUMBER
@@ -807,8 +749,6 @@ tables:
       #     - "0"
       #     - "1"
       - name: EMAIL_OPEN_COUNT
-        synonyms:
-          - "  "
         description: Number of times the recipient has opened an email.
         expr: EMAIL_OPEN_COUNT
         data_type: NUMBER
@@ -817,8 +757,6 @@ tables:
           - "12"
           - "15"
       - name: EMAIL_UNIQUELY_OPENED
-        synonyms:
-          - "  "
         description: Whether or not the contact opened the email.
         expr: EMAIL_UNIQUELY_OPENED
         data_type: NUMBER
@@ -826,8 +764,6 @@ tables:
           - "0"
           - "1"
       - name: EMAIL_UNIQUELY_CLICKED
-        synonyms:
-          - "  "
         description: Whether or not the contact clicked the email.
         expr: EMAIL_UNIQUELY_CLICKED
         data_type: NUMBER
@@ -835,8 +771,6 @@ tables:
           - "0"
           - "1"
       - name: EMAIL_UNIQUELY_FORWARDED
-        synonyms:
-          - "  "
         description: Whether or not the contact forwarded the email.
         expr: EMAIL_UNIQUELY_FORWARDED
         data_type: NUMBER
@@ -844,8 +778,6 @@ tables:
           - "0"
           - "1"
       - name: SUBJECT
-        synonyms:
-          - "  "
         description: Subject of the email sent to recipients.
         expr: SUBJECT
         data_type: TEXT
@@ -867,8 +799,6 @@ tables:
           - "2024-10-01 16:27:54.158000"
           - "2024-10-01 06:25:37.508000"
       - name: FIRST_INTERACTION_TIME
-        synonyms:
-          - "  "
         description:
           The timestamp of the first interaction between a recipient and
           a message.
@@ -879,8 +809,6 @@ tables:
           - "2024-10-21 15:42:43.365000"
           - "2024-10-23 06:09:28.648000"
       - name: LAST_INTERACTION_TIME
-        synonyms:
-          - "  "
         description:
           The timestamp of the most recent interaction between a recipient
           and a message.
@@ -933,9 +861,7 @@ tables:
     # description: '  ' # <FILL-OUT>
     # expr: '  ' # <FILL-OUT>
     dimensions:
-      - name: ACTIVE
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: ACTIVE # <FILL-OUT>
         description: Active status of the distribution list record.
         expr: ACTIVE
         data_type: BOOLEAN
@@ -953,32 +879,30 @@ tables:
       #   sample_values:
       #     - "False"
       #     - "True"
-      - name: TYPE
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: TYPE # <FILL-OUT>
         description: Distribution list type. Standard distributions are lists that are typically sent to multiple types. Tracked emails are ad hoc lists where users typically select which contacts they want to send to each time.
         expr: TYPE
         data_type: TEXT
         sample_values:
           - TRACKED_EMAIL
           - STANDARD
-      - name: INVITE_CODE
-        synonyms:
-          - "  " # <FILL-OUT>
-        description: Unique invite code for distribution list invitations. Used to generate a link that can be sent so others can subscribe to the DL.
-        expr: INVITE_CODE
-        data_type: TEXT
-        sample_values:
-          - None
-      - name: SHAREABLE
-        synonyms:
-          - "  " # <FILL-OUT>
-        description: Indicates whether a distribution list is shareable or not.__ # <AUTO-GENERATED DESCRIPTION, PLEASE MODIFY AND REMOVE THE __ AT THE END>
-        expr: SHAREABLE
-        data_type: BOOLEAN
-        sample_values:
-          - "True"
-          - "False"
+      # - name: INVITE_CODE
+      #   synonyms:
+      #     - "  " # <FILL-OUT>
+      #   description: Unique invite code for distribution list invitations. Used to generate a link that can be sent so others can subscribe to the DL.
+      #   expr: INVITE_CODE
+      #   data_type: TEXT
+      #   sample_values:
+      #     - None
+      # - name: SHAREABLE
+      #   synonyms:
+      #     - "  " # <FILL-OUT>
+      #   description: Indicates whether a distribution list is shareable or not.__ # <AUTO-GENERATED DESCRIPTION, PLEASE MODIFY AND REMOVE THE __ AT THE END>
+      #   expr: SHAREABLE
+      #   data_type: BOOLEAN
+      #   sample_values:
+      #     - "True"
+      #     - "False"
       # - name: EXTERNAL_ID
       #   synonyms:
       #     - "  " # <FILL-OUT>
@@ -1019,9 +943,7 @@ tables:
       #   data_type: TEXT
       #   sample_values:
       #     - None
-      - name: SECONDARY_TYPE
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: SECONDARY_TYPE # <FILL-OUT>
         description: Secondary type of distribution list. VIP Contacts are a list of contacts that users pay special attention to. My contacts is a list containing all the contacts the user has.
         expr: SECONDARY_TYPE
         data_type: TEXT
@@ -1072,9 +994,7 @@ tables:
       #   data_type: TEXT
       #   sample_values:
       #     - None
-      - name: DESCRIPTION
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: DESCRIPTION # <FILL-OUT>
         description: Description of distribution list.
         expr: DESCRIPTION
         data_type: TEXT
@@ -1082,9 +1002,7 @@ tables:
           - None
           - Test distro
           - For sending Mark Orsley's piece
-      - name: TITLE
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: TITLE # <FILL-OUT>
         description: Name or title of distribution list. If it's a tracked email, the title is auto generated.
         expr: TITLE
         data_type: TEXT
@@ -1092,15 +1010,15 @@ tables:
           - Tracked-email-1686556208050
           - Tracked-email-1652742171101
           - Tracked-email-1652749554152
-      - name: VISIBILITY
-        synonyms:
-          - "  " # <FILL-OUT>
-        description: The visibility of a distribution list.__ # <AUTO-GENERATED DESCRIPTION, PLEASE MODIFY AND REMOVE THE __ AT THE END>
-        expr: VISIBILITY
-        data_type: TEXT
-        sample_values:
-          - PRIVATE
-          - PUBLIC
+      # - name: VISIBILITY
+      #   synonyms:
+      #     - "  " # <FILL-OUT>
+      #   description: The visibility of a distribution list.__ # <AUTO-GENERATED DESCRIPTION, PLEASE MODIFY AND REMOVE THE __ AT THE END>
+      #   expr: VISIBILITY
+      #   data_type: TEXT
+      #   sample_values:
+      #     - PRIVATE
+      #     - PUBLIC
       # - name: DIVISION_ID
       #   synonyms:
       #     - "  " # <FILL-OUT>
@@ -1111,9 +1029,7 @@ tables:
       #     - "5"
       #     - None
       #     - "6"
-      - name: ID
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: ID # <FILL-OUT>
         description:
           Unique identifier for each distribution list. This is an internal identifier and should not be shown to the business user.
           For displaying query results, use the distribution list title instead.
@@ -1123,9 +1039,7 @@ tables:
           - "549557"
           - "384453"
           - "384479"
-      - name: COMPANY_ID
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: COMPANY_ID # <FILL-OUT>
         description:
           Id of the company that owns and has access to the distribution list. This is an internal identifier and should not be shown to the business user.
           For displaying query results, use the company name instead.
@@ -1135,9 +1049,7 @@ tables:
           - "10"
           - "21"
           - "59"
-      - name: OWNER_ID
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: OWNER_ID # <FILL-OUT>
         description:
           Unique identifier for the user that owns the distribution list. This account has full control over the distribution list.
           This is an internal identifier and should not be shown to the business user.
@@ -1149,9 +1061,7 @@ tables:
           - "24426"
           - "17927"
     time_dimensions:
-      - name: END_DATE
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: END_DATE # <FILL-OUT>
         description: Date that Distribution list was deactivated
         expr: END_DATE
         data_type: TIMESTAMP_NTZ
@@ -1159,9 +1069,7 @@ tables:
           - None
           - "2019-05-16 19:01:27.752000"
           - "2022-05-17 05:05:29.546442"
-      - name: CREATE_DATE
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: CREATE_DATE # <FILL-OUT>
         description: Date and time of creation for distribution records.
         expr: CREATE_DATE
         data_type: TIMESTAMP_NTZ
@@ -1169,9 +1077,7 @@ tables:
           - "2023-06-12 07:50:08.520279"
           - "2022-05-16 23:02:51.218069"
           - "2019-04-05 12:21:04.163000"
-      - name: UPDATE_DATE
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: UPDATE_DATE # <FILL-OUT>
         description: Last update date of the distribution list.
         expr: UPDATE_DATE
         data_type: TIMESTAMP_NTZ
@@ -1230,19 +1136,17 @@ tables:
       #     - limllp.com
       #     - ascendas-fms.com
       #     - peninsulapointltd.com
-      - name: TYPE
-        synonyms:
-          - "  " # <FILL-OUT>
-        description: Type of firm (buyside, corporate, or other)
-        expr: TYPE
-        data_type: TEXT
-        sample_values:
-          - OTHER
-          - BUYSIDE
-          - CORPORATE
-      - name: EMAIL
-        synonyms:
-          - "  " # <FILL-OUT>
+      # - name: TYPE
+      #   synonyms:
+      #     - "  " # <FILL-OUT>
+      #   description: Type of firm (buyside, corporate, or other)
+      #   expr: TYPE
+      #   data_type: TEXT
+      #   sample_values:
+      #     - OTHER
+      #     - BUYSIDE
+      #     - CORPORATE
+      - name: EMAIL # <FILL-OUT>
         description: Email addresses of firms
         expr: EMAIL
         data_type: TEXT
@@ -1260,9 +1164,7 @@ tables:
       #     - http://www.pimco.com.sg/en/Pages/default.aspx
       #     - http://www.eagleasset.com
       #     - None
-      - name: ACTIVE
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: ACTIVE # <FILL-OUT>
         description: Indicates whether the firm record is currently active or not.
         expr: ACTIVE
         data_type: BOOLEAN
@@ -1351,9 +1253,7 @@ tables:
         # schema: PG_PUBLIC
         # database: HACKATHON_GLACIAL_RIDERS
         data_type: TEXT
-      - name: ID
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: ID # <FILL-OUT>
         description: Unique identifier for the firm company relationship. This is an internal identifier and should not be shown to the user.
         expr: ID
         data_type: NUMBER
@@ -1365,9 +1265,7 @@ tables:
       #   data_type: BOOLEAN
       #   sample_values:
       #     - None
-      - name: ID
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: ID # <FILL-OUT>
         description:
           Unique identifier for the firm company relationship. This is an internal identifier and should not be shown to the user.
           For displaying query results, use the firm name instead.
@@ -1377,22 +1275,20 @@ tables:
           - "689678"
           - "16531"
           - "16536"
-      - name: COMPANY_ID
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: COMPANY_ID # <FILL-OUT>
         description:
           Unique identifier for the company that owns the firm. This is an internal identifier and should not be shown to the user.
           For displaying query results, use the company name instead.
         expr: COMPANY_ID
         data_type: NUMBER
-      - name: PARENT_FIRM_ID
-        synonyms:
-          - "  " # <FILL-OUT>
-        description:
-          Unique identifier of the parent firm for each firm. This is an internal identifier and should not be shown to the user.
-          For displaying query results, use the parent firm name instead.
-        expr: PARENT_FIRM_ID
-        data_type: NUMBER
+      # - name: PARENT_FIRM_ID
+      #   synonyms:
+      #     - "  " # <FILL-OUT>
+      #   description:
+      #     Unique identifier of the parent firm for each firm. This is an internal identifier and should not be shown to the user.
+      #     For displaying query results, use the parent firm name instead.
+      #   expr: PARENT_FIRM_ID
+      #   data_type: NUMBER
       # - name: IP_PARENT_FIRM_ID
       #   synonyms:
       #     - "  " # <FILL-OUT>
@@ -1413,9 +1309,7 @@ tables:
       #     - None
       #     - "30005"
       #     - "5494"
-      - name: VIEWER_COMPANY_ID
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: VIEWER_COMPANY_ID # <FILL-OUT>
         description:
           Unique identifier of the company id who has a firm override with this name. This is an internal identifier and should not be shown to the user.
           For displaying query results, use the company name instead.
@@ -1432,9 +1326,7 @@ tables:
       #     - "5"
       #     - "6"
     time_dimensions:
-      - name: CREATE_DATE
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: CREATE_DATE # <FILL-OUT>
         description: Date of creation of the firm/company.__ # <AUTO-GENERATED DESCRIPTION, PLEASE MODIFY AND REMOVE THE __ AT THE END>
         expr: CREATE_DATE
         data_type: TIMESTAMP_NTZ
@@ -1442,9 +1334,7 @@ tables:
           - "2021-09-17 18:08:46.349000"
           - "2018-04-23 20:28:14.669000"
           - "2018-04-24 06:19:48.646000"
-      - name: UPDATE_DATE
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: UPDATE_DATE # <FILL-OUT>
         description: Last update date for the firm/company.__ # <AUTO-GENERATED DESCRIPTION, PLEASE MODIFY AND REMOVE THE __ AT THE END>
         expr: UPDATE_DATE
         data_type: TIMESTAMP_NTZ
@@ -1452,9 +1342,7 @@ tables:
           - "2021-09-17 18:08:46.349000"
           - "2018-04-23 20:28:14.669000"
           - "2018-04-24 06:19:48.646000"
-      - name: END_DATE
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: END_DATE # <FILL-OUT>
         description: End Date of Company__ # <AUTO-GENERATED DESCRIPTION, PLEASE MODIFY AND REMOVE THE __ AT THE END>
         expr: END_DATE
         data_type: TIMESTAMP_NTZ
@@ -1481,22 +1369,16 @@ tables:
     # description: '  ' # <FILL-OUT>
     # expr: '  ' # <FILL-OUT>
     dimensions:
-      - name: ID
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: ID # <FILL-OUT>
         description: Article ID. This is an internal identifier and should not be shown to user accounts.
         expr: ID
         data_type: NUMBER
         unique: true
-      - name: DISTRIBUTION_LIST_ID
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: DISTRIBUTION_LIST_ID # <FILL-OUT>
         description: ID of the distribution list that this email was sent to. This is an internal identifier and should not be shown to user accounts.
         expr: DISTRIBUTION_LIST_ID
         data_type: NUMBER
-      - name: OWNER_ID
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: OWNER_ID # <FILL-OUT>
         description: Unique identifier for the user that owns the article. This is an internal identifier and should not be shown to user accounts.
         expr: OWNER_ID
         data_type: NUMBER
@@ -1519,23 +1401,23 @@ tables:
       #   data_type: NUMBER
       #   sample_values:
       #     - None
-      - name: INBOUND_AUTHOR_ID
-        synonyms:
-          - "Sender" # <FILL-OUT>
-        description:
-          Unique identifier for the author of an inbound article. This is the user that actually sent the email.
-          This is an internal identifier and should not be shown to user accounts.
-        expr: INBOUND_AUTHOR_ID
-        data_type: NUMBER
-      - name: OUTBOUND_AUTHOR_ID
-        synonyms:
-          - "  " # <FILL-OUT>
-        description:
-          Unique identifier for the user that that contact sees in the from field for the email.
-          This can be different from the inbound author if a user impersonates another user.
-          This is an internal identifier and should not be shown to user accounts.
-        expr: OUTBOUND_AUTHOR_ID
-        data_type: NUMBER
+      # - name: INBOUND_AUTHOR_ID
+      #   synonyms:
+      #     - "Sender" # <FILL-OUT>
+      #   description:
+      #     Unique identifier for the author of an inbound article. This is the user that actually sent the email.
+      #     This is an internal identifier and should not be shown to user accounts.
+      #   expr: INBOUND_AUTHOR_ID
+      #   data_type: NUMBER
+      # - name: OUTBOUND_AUTHOR_ID
+      #   synonyms:
+      #     - "  " # <FILL-OUT>
+      #   description:
+      #     Unique identifier for the user that that contact sees in the from field for the email.
+      #     This can be different from the inbound author if a user impersonates another user.
+      #     This is an internal identifier and should not be shown to user accounts.
+      #   expr: OUTBOUND_AUTHOR_ID
+      #   data_type: NUMBER
       # - name: MIME_SIZE_BYTES
       #   synonyms:
       #     - "  " # <FILL-OUT>
@@ -1546,19 +1428,17 @@ tables:
       #     - "61463"
       #     - "636261"
       #     - "449260"
-      - name: RECIPIENT_COUNT
-        synonyms:
-          - "  " # <FILL-OUT>
-        description: Number of recipients for an article
-        expr: RECIPIENT_COUNT
-        data_type: NUMBER
-        sample_values:
-          - "21"
-          - "5"
-          - "813"
-      - name: COMPANY_ID
-        synonyms:
-          - "  " # <FILL-OUT>
+      # - name: RECIPIENT_COUNT
+      #   synonyms:
+      #     - "  " # <FILL-OUT>
+      #   description: Number of recipients for an article
+      #   expr: RECIPIENT_COUNT
+      #   data_type: NUMBER
+      #   sample_values:
+      #     - "21"
+      #     - "5"
+      #     - "813"
+      - name: COMPANY_ID # <FILL-OUT>
         description: Identifier of the company that the account who sent the email works for. This is an internal identifier and should not be shown to user accounts.
         expr: COMPANY_ID
         data_type: NUMBER
@@ -1610,13 +1490,10 @@ tables:
       #   data_type: TEXT
       #   sample_values:
       #     - None
-      - name: SUBJECT
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: SUBJECT # <FILL-OUT>
         description: "The subject of the email that was sent."
         expr: SUBJECT
         data_type: TEXT
-        cortex_search_service_name: CORTEX_SEARCH_TEST_SUBJECT_SERVICE
         sample_values:
           - update JP/AU open
           - JEFFERIES Japan Equity Daily - 10.01.24
@@ -1670,8 +1547,6 @@ tables:
       #   sample_values:
       #     - PASS
       - name: ACTIVE
-        synonyms:
-          - "  " # <FILL-OUT>
         description: Article database record status
         expr: ACTIVE
         data_type: BOOLEAN
@@ -1697,8 +1572,6 @@ tables:
       #   sample_values:
       #     - None
       - name: MESSAGE_HASH_CODE
-        synonyms:
-          - "  " # <FILL-OUT>
         description: Identifier of an email. Multiple articles can have the same message hash code if the content of the article is the same and was sent at the same time.
         expr: MESSAGE_HASH_CODE
         data_type: TEXT
@@ -1706,39 +1579,39 @@ tables:
           - 15IFLFidq6AsPMK4qeQxbb
           - 1WlnBR42gmgbaHg93sCS0S
           - 19LaBoQ8aAar6Gjf9YJEvO
-      - name: MAIL_MERGE_STATUS
-        synonyms:
-          - "  " # <FILL-OUT>
-        description: Whether or not mail merge tags were included in the email body.
-        expr: MAIL_MERGE_STATUS
-        data_type: TEXT
-        sample_values:
-          - NO_TAGS
-          - MERGED
-          - DISABLED
-      - name: MAIL_MERGE_TAGS
-        synonyms:
-          - "  " # <FILL-OUT>
-        description: List of mail merge tags included in the email body.
-        expr: MAIL_MERGE_TAGS
-        data_type: TEXT
-        sample_values:
-          - None
-          - "{greeting}"
-          - "{subject_greeting}"
-      - name: INBOUND_ERROR_MESSAGE
-        synonyms:
-          - "  " # <FILL-OUT>
-        description:
-          Error messages related to inbound email processing, including
-          cases where an email has no distribution recipients or a distribution list
-          is not found or unavailable.
-        expr: INBOUND_ERROR_MESSAGE
-        data_type: TEXT
-        sample_values:
-          - None
-          - Email has no distribution recipients
-          - Distribution list not found or unavailable
+      # - name: MAIL_MERGE_STATUS
+      #   synonyms:
+      #     - "  " # <FILL-OUT>
+      #   description: Whether or not mail merge tags were included in the email body.
+      #   expr: MAIL_MERGE_STATUS
+      #   data_type: TEXT
+      #   sample_values:
+      #     - NO_TAGS
+      #     - MERGED
+      #     - DISABLED
+      # - name: MAIL_MERGE_TAGS
+      #   synonyms:
+      #     - "  " # <FILL-OUT>
+      #   description: List of mail merge tags included in the email body.
+      #   expr: MAIL_MERGE_TAGS
+      #   data_type: TEXT
+      #   sample_values:
+      #     - None
+      #     - "{greeting}"
+      #     - "{subject_greeting}"
+      # - name: INBOUND_ERROR_MESSAGE
+      #   synonyms:
+      #     - "  " # <FILL-OUT>
+      #   description:
+      #     Error messages related to inbound email processing, including
+      #     cases where an email has no distribution recipients or a distribution list
+      #     is not found or unavailable.
+      #   expr: INBOUND_ERROR_MESSAGE
+      #   data_type: TEXT
+      #   sample_values:
+      #     - None
+      #     - Email has no distribution recipients
+      #     - Distribution list not found or unavailable
       # - name: INBOUND_SOURCE
       #   synonyms:
       #     - "  " # <FILL-OUT>
@@ -1768,8 +1641,6 @@ tables:
       #     - None
     time_dimensions:
       - name: CREATE_DATE
-        synonyms:
-          - "  " # <FILL-OUT>
         description: Date and time of article creation.__ # <AUTO-GENERATED DESCRIPTION, PLEASE MODIFY AND REMOVE THE __ AT THE END>
         expr: CREATE_DATE
         data_type: TIMESTAMP_NTZ
@@ -1778,8 +1649,6 @@ tables:
           - "2024-10-01 00:08:19.352118"
           - "2024-10-01 00:52:38.465888"
       - name: UPDATE_DATE
-        synonyms:
-          - "  " # <FILL-OUT>
         description: Last update date of the article.__ # <AUTO-GENERATED DESCRIPTION, PLEASE MODIFY AND REMOVE THE __ AT THE END>
         expr: UPDATE_DATE
         data_type: TIMESTAMP_NTZ
@@ -1787,17 +1656,13 @@ tables:
           - "2024-10-01 00:04:07.354637"
           - "2024-10-01 00:08:19.352118"
           - "2024-10-01 00:52:38.465889"
-      - name: PROVIDER_TIMESTAMP
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: PROVIDER_TIMESTAMP # <FILL-OUT>
         description: Timestamp of the provider.__ # <AUTO-GENERATED DESCRIPTION, PLEASE MODIFY AND REMOVE THE __ AT THE END>
         expr: PROVIDER_TIMESTAMP
         data_type: TIMESTAMP_NTZ
         sample_values:
           - None
-      - name: END_DATE
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: END_DATE # <FILL-OUT>
         description: End Date of Article. Only set if the article record was deactivated.
         expr: END_DATE
         data_type: TIMESTAMP_NTZ
@@ -1823,12 +1688,11 @@ tables:
     # description: '  ' # <FILL-OUT>
     # expr: '  ' # <FILL-OUT>
     dimensions:
-      - name: MESSAGE_HASH_CODE
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: MESSAGE_HASH_CODE # <FILL-OUT>
         description: Unique hash codes for each email
         expr: MESSAGE_HASH_CODE
         data_type: TEXT
+        unique: true
       - name: CLASSIFICATION
         description:
           The category of email that this email subject falls into. Recurring notes are emails that are sent regularly - typically every day in the morning and reviews the financial news or events. They are also known as morning notes or daily notes.
@@ -1844,17 +1708,42 @@ tables:
           - "recurring note"
           - "event invite"
           - "research"
-      - name: TOPICS
-        description: A comma delimited list of topics and company stock tickers that were discussed in the email. These are the main topics.
+  - name: MESSAGE_TOPIC_VIEW
+    description:
+      The MESSAGE_TOPIC_VIEW stores information about the topics and content of email, including a unique identifier message hash code and the topics discused in the email. These topics are typically broad financial concepts, companies or stock tickers. 
+    base_table:
+      database: HACKATHON_GLACIAL_RIDERS
+      schema: PG_PUBLIC
+      table: MESSAGE_TOPIC_VIEW
+    primary_key:
+      columns:
+        - MESSAGE_HASH_CODE
+        - TOPIC
+    # filters:
+    # - name: '  ' # <FILL-OUT>
+    synonyms:
+    - 'content'
+    - 'topics'
+    - 'email content'
+    # description: '  ' # <FILL-OUT>
+    # expr: '  ' # <FILL-OUT>
+    dimensions:
+      - name: MESSAGE_HASH_CODE # <FILL-OUT>
+        description: Unique hash codes for each email
+        expr: MESSAGE_HASH_CODE
+        data_type: TEXT
+      - name: TOPIC
+        description: The topic that was discussed in the email - this topic is a broad financial concept or a company stock ticker
         synonyms:
           - "content"
-          - "topics"
-        expr: TOPICS
+          - "topic"
+        expr: TOPIC
         data_type: TEXT
         sample_values:
-          - '["JPM", "Strike", "HCare"]'
-          - '["JEF", "India Research", "Daily Market Update"]'
-          - '["JEFAxChina", "new neutral rate", "Tech", "Nvidia", "TSMC", "JP", "Muji", "Uniqlo", "Sanrio", "Shiseido"]'
+          - 'JPM'
+          - 'Daily Market Update'
+          - 'Tech' 
+          - 'US Election'
   - name: ARTICLE_EVENT_TREND
     description:
       This table stores trends and metrics for article events, including
@@ -1877,8 +1766,6 @@ tables:
     # expr: '  ' # <FILL-OUT>
     dimensions:
       - name: MESSAGE_HASH_CODE
-        synonyms:
-          - "  " # <FILL-OUT>
         description: Unique identifier for the email the event occurred on
         expr: MESSAGE_HASH_CODE
         data_type: TEXT
@@ -1887,8 +1774,6 @@ tables:
           - 1WlnBR42gmgbaHg93sCS0S
           - 19LaBoQ8aAar6Gjf9YJEvO
       - name: OPEN_RATE_TREND
-        synonyms:
-          - "  " # <FILL-OUT>
         description:
           Frequency that a contact opens emails from the corresponding sender. Usual opens mean that the contact typically opens content from this author.
           A RARE open means that this contact does not normally open this author's emails, and is a high indication that the user should reach out to the contact.
@@ -1900,9 +1785,7 @@ tables:
           - SOMETIMES
           - RARE
           - NO_TREND_DATA
-      - name: CLICK_RATE_TREND
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: CLICK_RATE_TREND # <FILL-OUT>
         description:
           "Click Rate Trend: Indicates the trend of click rates for a contact and sender pair on a email click event, categorized as USUAL, RARE, or NO TREND DATA.
           A RARE click on an email is a very notable event, and is indicative that a sender should reach out to the contact who clicked the email. NO_TREND_DATA means that there is not enough of a email history between
@@ -1913,29 +1796,27 @@ tables:
           - USUAL
           - RARE
           - NO_TREND_DATA
-      - name: INBOUND_AUTHOR_ID
-        synonyms:
-          - "  " # <FILL-OUT>
-        description: Unique identifier for the inbound author of an email. Inbound author is the user who actually sent the email.
-        expr: INBOUND_AUTHOR_ID
-        data_type: NUMBER
-        sample_values:
-          - "20631"
-          - "20925"
-          - "19220"
-      - name: OUTBOUND_AUTHOR_ID
-        synonyms:
-          - "  " # <FILL-OUT>
-        description: Unique identifier for the outbound author of the email
-        expr: OUTBOUND_AUTHOR_ID
-        data_type: NUMBER
-        sample_values:
-          - "20062"
-          - "27664"
-          - "11345"
-      - name: CONTACT_ID
-        synonyms:
-          - "  " # <FILL-OUT>
+      # - name: INBOUND_AUTHOR_ID
+      #   synonyms:
+      #     - "  " # <FILL-OUT>
+      #   description: Unique identifier for the inbound author of an email. Inbound author is the user who actually sent the email.
+      #   expr: INBOUND_AUTHOR_ID
+      #   data_type: NUMBER
+      #   sample_values:
+      #     - "20631"
+      #     - "20925"
+      #     - "19220"
+      # - name: OUTBOUND_AUTHOR_ID
+      #   synonyms:
+      #     - "  " # <FILL-OUT>
+      #   description: Unique identifier for the outbound author of the email
+      #   expr: OUTBOUND_AUTHOR_ID
+      #   data_type: NUMBER
+      #   sample_values:
+      #     - "20062"
+      #     - "27664"
+      #     - "11345"
+      - name: CONTACT_ID # <FILL-OUT>
         description: Unique identifier for each contact. This is a confidential internal identifier and should not be shown to the user.
         expr: CONTACT_ID
         data_type: NUMBER
@@ -1943,9 +1824,7 @@ tables:
           - "6922317"
           - "4392668"
           - "9403002"
-      - name: FIRM_ID
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: FIRM_ID # <FILL-OUT>
         description: Unique identifier for the firm of the contact who interacted with the email.
         expr: FIRM_ID
         data_type: NUMBER
@@ -1954,9 +1833,7 @@ tables:
           - "13551"
           - "1031244"
     time_dimensions:
-      - name: OPEN_TIMESTAMP
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: OPEN_TIMESTAMP # <FILL-OUT>
         description: Timestamp of when the email was opened.
         expr: OPEN_TIMESTAMP
         data_type: TIMESTAMP_NTZ
@@ -1964,9 +1841,7 @@ tables:
           - "2024-10-14 01:20:53.116000"
           - "2024-10-14 01:21:33.752000"
           - "2024-10-14 01:25:44.381000"
-      - name: CLICK_TIMESTAMP
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: CLICK_TIMESTAMP # <FILL-OUT>
         description: Timestamp of when the email was clicked.
         expr: CLICK_TIMESTAMP
         data_type: TIMESTAMP_NTZ
@@ -1975,9 +1850,7 @@ tables:
           - "2024-10-01 00:52:52.982000"
           - "2024-10-01 00:53:48.883000"
     measures:
-      - name: OPEN_RATE
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: OPEN_RATE # <FILL-OUT>
         description: Open rate of the previous 30 emails between the author and contact. Open rate is calculated based on number of unique opens over total emails sent.
         expr: OPEN_RATE
         data_type: NUMBER
@@ -1985,9 +1858,7 @@ tables:
           - "0.9667"
           - "1.0000"
           - "0.5294"
-      - name: CLICK_RATE
-        synonyms:
-          - "  " # <FILL-OUT>
+      - name: CLICK_RATE # <FILL-OUT>
         description: Click rate of the previous 30 emails between the author and contact. Click rate is calculated based on number of unique clicks over number of unique opens.
         expr: CLICK_RATE
         data_type: NUMBER
@@ -2051,6 +1922,14 @@ relationships:
   - name: message_recipient_stats__article_class
     left_table: MESSAGE_RECIPIENT_STATS
     right_table: ARTICLE_CLASS
+    join_type: left_outer
+    relationship_type: many_to_one
+    relationship_columns:
+      - left_column: MESSAGE_HASH_CODE
+        right_column: MESSAGE_HASH_CODE
+  - name: message_recipient_stats__message_topic
+    left_table: MESSAGE_RECIPIENT_STATS
+    right_table: MESSAGE_TOPIC
     join_type: left_outer
     relationship_type: many_to_one
     relationship_columns:
@@ -2137,44 +2016,84 @@ verified_queries:
       ORDER BY
       total_clicks DESC;
       "
-  - name: Most opens at firm
-    question: I am account ID 123. Who do I have the most opens with at account/firm ABC?
+  # - name: Most opens at firm
+  #   question: I am account ID 123. Who do I have the most opens with at account/firm JPM?
+  #   use_as_onboarding_question: true
+  #   sql: "
+  #     WITH firm_lookup AS (
+  #     SELECT id AS firm_id
+  #     FROM __firm_company_view
+  #     WHERE display_name ILIKE '%ABC%'
+  #     OR name ILIKE '%ABC%'
+  #     ),
+  #     contact_opens AS (
+  #     SELECT
+  #     m.contact_id,
+  #     SUM(m.email_open_count) AS total_opens
+  #     FROM
+  #     __message_recipient_stats m
+  #     JOIN
+  #     firm_lookup fl
+  #     ON
+  #     m.firm_id = fl.firm_id
+  #     WHERE
+  #     m.inbound_author_id = 123
+  #     GROUP BY
+  #     m.contact_id
+  #     )
+  #     SELECT
+  #     c.first_name,
+  #     c.last_name,
+  #     c.email,
+  #     co.total_opens
+  #     FROM
+  #     contact_opens co
+  #     JOIN
+  #     __contact c
+  #     ON
+  #     co.contact_id = c.id
+  #     ORDER BY
+  #     co.total_opens DESC;
+  #     "
+  - name: Trending topics or content. Popularity of content based on number of opens  
+    question: I am account ID 123. What content is trending across the firm? 
     use_as_onboarding_question: true
     sql: "
-      WITH firm_lookup AS (
-      SELECT id AS firm_id
-      FROM __firm_company_view
-      WHERE display_name ILIKE '%ABC%'
-      ),
-      contact_opens AS (
-      SELECT
-      m.contact_id,
-      SUM(m.email_open_count) AS total_opens
-      FROM
-      __message_recipient_stats m
-      JOIN
-      firm_lookup fl
-      ON
-      m.firm_id = fl.firm_id
-      WHERE
-      m.inbound_author_id = 123
-      GROUP BY
-      m.contact_id
-      )
-      SELECT
-      c.first_name,
-      c.last_name,
-      c.email,
-      co.total_opens
-      FROM
-      contact_opens co
-      JOIN
-      __contact c
-      ON
-      co.contact_id = c.id
-      ORDER BY
-      co.total_opens DESC;
-      "
+    WITH SplitTopics AS (
+    SELECT 
+        message_hash_code,
+        topic
+    FROM 
+        __MESSAGE_TOPIC
+    ),
+    CompanyInfo AS (
+        SELECT 
+            company_id 
+        FROM __ACCOUNT_GR
+        WHERE id = 104
+    ),
+    TopicOpenCounts AS (
+        SELECT 
+            st.topic,
+            SUM(eo.email_open_count) AS total_open_count
+        FROM 
+            SplitTopics st
+        JOIN 
+            __MESSAGE_RECIPIENT_STATS eo
+        ON 
+            st.message_hash_code = eo.message_hash_code
+        JOIN CompanyInfo c ON c.company_id = eo.company_id
+        GROUP BY 
+            st.topic
+    )
+    SELECT 
+        topic,
+        total_open_count
+    FROM 
+        TopicOpenCounts
+    ORDER BY 
+        total_open_count DESC;
+    "
   - name: Who to reach out to
     question: I am account ID 123. Which contacts should I reach out to today?
     use_as_onboarding_question: true
