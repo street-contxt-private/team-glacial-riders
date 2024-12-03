@@ -1935,6 +1935,14 @@ relationships:
     relationship_columns:
       - left_column: MESSAGE_HASH_CODE
         right_column: MESSAGE_HASH_CODE
+  - name: article_event_trend__contact
+    left_table: ARTICLE_EVENT_TREND
+    right_table: CONTACT
+    join_type: left_outer
+    relationship_type: many_to_one
+    relationship_columns:
+      - left_column: CONTACT_ID
+        right_column: ID
 verified_queries:
   - name: Additional opens
     question: I am account ID 123. Who had the most additional opens on my last email?
@@ -2086,3 +2094,25 @@ verified_queries:
     ORDER BY 
         total_open_count DESC;
     "
+  - name: Who to reach out to
+    question: I am account ID 123. Which contacts should I reach out to today?
+    use_as_onboarding_question: true
+    sql: "
+      SELECT
+        c.first_name,
+        c.last_name,
+        c.email
+      FROM 
+        __article_event_trend a
+      JOIN 
+        __contact c
+      ON 
+        a.contact_id = c.id
+      WHERE
+        a.inbound_author_id = 123
+        AND (
+          (a.open_rate_trend = 'RARE' AND a.open_timestamp >= DATE_TRUNC('week', CURRENT_DATE) - INTERVAL '1 week')
+          OR
+          (a.click_rate_trend = 'RARE' AND a.click_timestamp >= DATE_TRUNC('week', CURRENT_DATE) - INTERVAL '1 week')
+        );
+      "
