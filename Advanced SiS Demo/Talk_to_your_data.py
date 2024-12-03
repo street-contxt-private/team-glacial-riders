@@ -72,6 +72,9 @@ def show_header_and_sidebar():
             key="selected_semantic_model_path",
             on_change=reset_session_state,
         )
+        st.sidebar.text_input("Enter an Account ID", key="current_user_account_id")
+        if st.sidebar.button("Set Account ID", type="primary", use_container_width=True):
+            reset_session_state()
         st.divider()
         if st.button("Clear Chat History", type="primary", use_container_width=True):
             reset_session_state()
@@ -99,10 +102,15 @@ def process_user_input(prompt: str):
         prompt (str): The user's input.
     """
 
-    current_account_id = 16923
+    current_account_id = st.session_state.current_user_account_id
+    
+    prepended_text = ""
+        
+    if current_account_id:
+        prepended_text = f"I am user with ACCOUNT ID {current_account_id}. "
 
     # prepend the additional text to the prompt before passing on for processing
-    prepended_prompt = f"I am user with ACCOUNT ID {current_account_id}. {prompt}"
+    prepended_prompt = f"{prepended_text}{prompt}"
     
     # Create a new message, append to history and display imidiately
     
