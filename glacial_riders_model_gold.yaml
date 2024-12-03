@@ -1927,9 +1927,9 @@ relationships:
     relationship_columns:
       - left_column: MESSAGE_HASH_CODE
         right_column: MESSAGE_HASH_CODE
-  - name: message_recipient_stats__message_topic
+  - name: message_recipient_stats__message_topic_view
     left_table: MESSAGE_RECIPIENT_STATS
-    right_table: MESSAGE_TOPIC
+    right_table: MESSAGE_TOPIC_VIEW
     join_type: left_outer
     relationship_type: many_to_one
     relationship_columns:
@@ -2064,7 +2064,7 @@ verified_queries:
         message_hash_code,
         topic
     FROM 
-        __MESSAGE_TOPIC
+        __MESSAGE_TOPIC_VIEW
     ),
     CompanyInfo AS (
         SELECT 
