@@ -304,6 +304,9 @@ tables:
       database: HACKATHON_GLACIAL_RIDERS
       schema: PG_PUBLIC
       table: CONTACT
+    synonyms:
+      - recipient
+      - people
     primary_key:
       columns:
         - ID
@@ -638,12 +641,12 @@ tables:
         - CONTACT_ID
         - MESSAGE_HASH_CODE
     dimensions:
-      - name: FIRM_NAME 
+      - name: FIRM_NAME
         synonyms:
           - "firm name"
           - "account name"
           - "company name"
-        description: The name of the firm that the recipient of the email works for.  
+        description: The name of the firm that the recipient of the email works for.
         expr: FIRM_NAME
         data_type: TEXT
       - name: OPEN_RATE_TREND
@@ -654,7 +657,6 @@ tables:
         expr: OPEN_RATE_TREND
         data_type: TEXT
         sample_values:
-          - USUAL
           - SOMETIMES
           - RARE
           - NO_TREND_DATA
@@ -872,12 +874,16 @@ tables:
         data_type: BOOLEAN
       - name: OPEN_RATE
         description: The rate at which a contact opens emails that have been sent to them. If this number is closer to 1, then the contact regularly opens emails.
-        expr: coalesce(1.0*EMAIL_UNIQUELY_OPENED/nullif(COUNT(MESSAGE_HASH_CODE),0), 0)
+        expr: coalesce(SUM(1.0*EMAIL_UNIQUELY_OPENED)/nullif(COUNT(MESSAGE_HASH_CODE),0), 0)
         data_type: FLOAT
       - name: CLICK_RATE
         description: The rate a which a contact clicks on links in emails that they have opened. If this number is closer to 1, then the contact regularly clicks links in emails.
-        expr: coalesce(1.0*EMAIL_UNIQUELY_CLICKED/nullif(SUM(EMAIL_UNIQUELY_OPENED),0), 0)
+        expr: coalesce(SUM(1.0*EMAIL_UNIQUELY_CLICKED)/nullif(SUM(EMAIL_UNIQUELY_OPENED),0), 0)
         data_type: FLOAT
+      - name: IS_REGULAR_READER
+        description: Whether or not the contact regularly opens content. This is based on their open rate.
+        expr: coalesce(SUM(1.0*EMAIL_UNIQUELY_CLICKED)/nullif(SUM(EMAIL_UNIQUELY_OPENED),0), 0) > 0.75
+        data_type: BOOLEAN
   - name: DISTRIBUTION_LIST
     description: Distribution lists (also known as distributions or DLs or lists) contain subscriptions. Users can send emails to these distribution lists and every contact on the list will receive the email.
     base_table:
@@ -1123,12 +1129,12 @@ tables:
         description: Only show distribution_list records that have not been deactivated unless explicitly asked for. Treat records where ACTIVE IS NULL as if they have been deleted.
         expr: ACTIVE = TRUE
       - name: TYPE_FILTER
-        description: Only show distribution lists that have a standard type. When users refer to lists, they want to know information about 
-          standard distributions that they send to repeatedly. 
+        description:
+          Only show distribution lists that have a standard type. When users refer to lists, they want to know information about
+          standard distributions that they send to repeatedly.
         expr: TYPE = STANDARD
   - name: FIRM_COMPANY_VIEW
-    description:
-      "A table that contains information about firms. These are the companies that contacts work for. Note that these are not the same as companies that users work for."
+    description: "A table that contains information about firms. These are the companies that contacts work for. Note that these are not the same as companies that users work for."
     base_table:
       database: HACKATHON_GLACIAL_RIDERS
       schema: PG_PUBLIC
@@ -1745,8 +1751,7 @@ tables:
           - "event invite"
           - "research"
   - name: MESSAGE_TOPIC_VIEW
-    description:
-      The MESSAGE_TOPIC_VIEW stores information about the topics and content of email, including a unique identifier message hash code and the topics discused in the email. These topics are typically broad financial concepts, companies or stock tickers. 
+    description: The MESSAGE_TOPIC_VIEW stores information about the topics and content of email, including a unique identifier message hash code and the topics discused in the email. These topics are typically broad financial concepts, companies or stock tickers.
     base_table:
       database: HACKATHON_GLACIAL_RIDERS
       schema: PG_PUBLIC
@@ -1758,9 +1763,9 @@ tables:
     # filters:
     # - name: '  ' # <FILL-OUT>
     synonyms:
-    - 'content'
-    - 'topics'
-    - 'email content'
+      - "content"
+      - "topics"
+      - "email content"
     # description: '  ' # <FILL-OUT>
     # expr: '  ' # <FILL-OUT>
     dimensions:
@@ -1776,10 +1781,10 @@ tables:
         expr: TOPIC
         data_type: TEXT
         sample_values:
-          - 'JPM'
-          - 'Daily Market Update'
-          - 'Tech' 
-          - 'US Election'
+          - "JPM"
+          - "Daily Market Update"
+          - "Tech"
+          - "US Election"
 relationships:
   - name: message_recipient_stats__contact
     left_table: MESSAGE_RECIPIENT_STATS
@@ -1841,7 +1846,7 @@ relationships:
     relationship_columns:
       - left_column: MESSAGE_HASH_CODE
         right_column: MESSAGE_HASH_CODE
-  - name: message_recipient_stats__message_topic_view
+  - name: message_recipient_stats__message_topic
     left_table: MESSAGE_RECIPIENT_STATS
     right_table: MESSAGE_TOPIC_VIEW
     join_type: left_outer
@@ -1852,7 +1857,8 @@ relationships:
 verified_queries:
   - name: I am account ID 104. Who had the most additional opens on my last email?
     question: I am account ID 104. Who had the most additional opens on my last email?
-    sql: "WITH last_email AS (\n  SELECT\n    mrs.message_hash_code\n  FROM __message_recipient_stats\
+    sql:
+      "WITH last_email AS (\n  SELECT\n    mrs.message_hash_code\n  FROM __message_recipient_stats\
       \ AS mrs\n  WHERE\n    mrs.inbound_author_id = 104\n  ORDER BY\n    mrs.message_sent_date\
       \ DESC NULLS LAST\n  LIMIT 1\n), additional_opens_stats AS (\n  SELECT\n   \
       \ mrs.contact_id,\n    mrs.additional_opens\n  FROM __message_recipient_stats\
@@ -1860,20 +1866,22 @@ verified_queries:
       \  ORDER BY\n    mrs.additional_opens DESC NULLS LAST\n  LIMIT 1\n)\nSELECT\n\
       \  c.first_name,\n  c.last_name,\n  c.email,\n  aos.additional_opens\nFROM additional_opens_stats\
       \ AS aos\nJOIN __contact AS c\n  ON aos.contact_id = c.id"
-    verified_at: '1733324401'
+    verified_at: "1733324401"
     verified_by: TAM.NGUYEN@STREETCONTXT.COM
   - name: I am account ID 104. Who forwarded my emails in the last 2 months?
     question: I am account ID 104. Who forwarded my emails in the last 2 months?
-    sql: "SELECT\n  m.subject,\n  c.first_name,\n  c.last_name,\n  c.email\nFROM __message_recipient_stats\
+    sql:
+      "SELECT\n  m.subject,\n  c.first_name,\n  c.last_name,\n  c.email\nFROM __message_recipient_stats\
       \ AS m\nLEFT JOIN __contact AS c\n  ON m.contact_id = c.id AND m.company_id\
       \ = c.company_id\nWHERE\n  m.inbound_author_id = 104\n  AND m.message_sent_date\
       \ >= DATE_TRUNC('MONTH', CURRENT_DATE) - INTERVAL '2 MONTH'\n  AND m.email_uniquely_forwarded\
       \ > 0"
-    verified_at: '1733324696'
+    verified_at: "1733324696"
     verified_by: TAM.NGUYEN@STREETCONTXT.COM
   - name: Which distribution list owned by account ID 104 generated the most clicks?
     question: Which distribution list owned by account ID 104 generated the most clicks?
-    sql: "WITH account_emails AS (\n  SELECT\n    mrs.message_hash_code,\n    mrs.email_click_count\n\
+    sql:
+      "WITH account_emails AS (\n  SELECT\n    mrs.message_hash_code,\n    mrs.email_click_count\n\
       \  FROM __message_recipient_stats AS mrs\n  WHERE\n    mrs.inbound_author_id\
       \ = 104\n), list_clicks AS (\n  SELECT\n    a.distribution_list_id,\n    SUM(ae.email_click_count)\
       \ AS total_clicks\n  FROM __article AS a\n  JOIN account_emails AS ae\n    ON\
@@ -1881,13 +1889,14 @@ verified_queries:
       \  ORDER BY\n    total_clicks DESC NULLS LAST\n  LIMIT 1\n)\nSELECT\n  dl.title,\n\
       \  lc.total_clicks\nFROM list_clicks AS lc\nJOIN __distribution_list AS dl\n\
       \  ON lc.distribution_list_id = dl.id"
-    verified_at: '1733325018'
+    verified_at: "1733325018"
     verified_by: TAM.NGUYEN@STREETCONTXT.COM
   - name: I am user ID 104. I work for company ID 10. Who do I have the most
       opens with at account JGL? (Use Cortex Search)
     question: I am user ID 104. I work for company ID 10. Who do I have the most
       opens with at account JGL?
-    sql: "WITH user_emails AS (\n  SELECT\n    message_hash_code\n  FROM __message_recipient_stats\n\
+    sql:
+      "WITH user_emails AS (\n  SELECT\n    message_hash_code\n  FROM __message_recipient_stats\n\
       \  WHERE\n    inbound_author_id = 104\n), jgl_firm AS (\n  SELECT\n    id\n\
       \  FROM __firm_company_view\n  WHERE\n    display_name = '%resolved_firm_name%' AND\
       \ viewer_company_id = 10\n  LIMIT 1\n)\nSELECT\n  c.first_name,\n  c.last_name,\n\
@@ -1898,11 +1907,12 @@ verified_queries:
       \    FROM jgl_firm AS jf\n  )\nGROUP BY\n  c.first_name,\n  c.last_name,\n \
       \ c.email\nORDER BY\n  total_opens DESC\nLIMIT 1 /* Generated by Cortex Analyst\
       \ ; */"
-    verified_at: '1733327933'
+    verified_at: "1733327933"
     verified_by: TAYLOR.TU@STREETCONTXT.COM
   - name: I am account ID 104. What content is trending across the firm?
     question: I am account ID 104. What content is trending across the firm?
-    sql: "WITH splittopics AS (\n  SELECT\n    message_hash_code,\n    topic\n  FROM\
+    sql:
+      "WITH splittopics AS (\n  SELECT\n    message_hash_code,\n    topic\n  FROM\
       \ __message_topic_view\n), companyinfo AS (\n  SELECT\n    company_id\n  FROM\
       \ __user\n  WHERE\n    id = 104\n), topicopencounts AS (\n  SELECT\n    st.topic,\n\
       \    SUM(eo.email_open_count) AS total_open_count\n  FROM splittopics AS st\n\
@@ -1910,12 +1920,14 @@ verified_queries:
       \  JOIN companyinfo AS c\n    ON c.company_id = eo.company_id\n  GROUP BY\n\
       \    st.topic\n)\nSELECT\n  topic,\n  total_open_count\nFROM topicopencounts\n\
       ORDER BY\n  total_open_count DESC"
-    verified_at: '1733331641'
+    verified_at: "1733331641"
     verified_by: TAM.NGUYEN@STREETCONTXT.COM
-  - name: I am account ID 104. Which contacts should I reach out to today? (Based on recent interactions.
+  - name:
+      I am account ID 104. Which contacts should I reach out to today? (Based on recent interactions.
       May need to adjust the date range)
     question: I am account ID 104. Which contacts should I reach out to today?
-    sql: "SELECT\n  c.first_name,\n  c.last_name,\n  c.email\nFROM __message_recipient_stats\
+    sql:
+      "SELECT\n  c.first_name,\n  c.last_name,\n  c.email\nFROM __message_recipient_stats\
       \ AS mrs\nLEFT OUTER JOIN __contact AS c\n  ON mrs.contact_id = c.id AND mrs.company_id\
       \ = c.company_id\nWHERE\n  mrs.inbound_author_id = 104\n  AND (\n    (\n   \
       \   mrs.open_rate_trend = 'RARE'\n      AND mrs.last_interaction_time >= DATE_TRUNC('WEEK',\
@@ -1923,17 +1935,25 @@ verified_queries:
       \ = 'RARE'\n      AND mrs.last_interaction_time >= DATE_TRUNC('WEEK', CURRENT_DATE)\
       \ - INTERVAL '1 WEEK'\n    )\n  )\nGROUP BY\n  c.first_name,\n  c.last_name,\n\
       \  c.email"
-    verified_at: '1733331875'
+    verified_at: "1733331875"
     verified_by: TAM.NGUYEN@STREETCONTXT.COM
-  - name: I am account ID 104. How many people regularly read my morning note?
-    question: I am account ID 104. How many people regularly read my morning note?
-    sql: "WITH last_email AS (\n  SELECT\n    mrs.message_hash_code\n  FROM __message_recipient_stats\
-      \ AS mrs\n  JOIN __article_class AS ac\n    ON mrs.message_hash_code = ac.message_hash_code\n\
-      \  WHERE\n    mrs.inbound_author_id = 104 AND ac.classification = 'recurring\
-      \ note'\n  ORDER BY\n    mrs.message_sent_date DESC NULLS LAST\n  LIMIT 1\n\
-      ), regular_readers AS (\n  SELECT\n    mrs.contact_id\n  FROM __message_recipient_stats\
-      \ AS mrs\n  JOIN last_email AS le\n    ON mrs.message_hash_code = le.message_hash_code\n\
-      \  WHERE\n    mrs.open_rate_trend = 'USUAL'\n)\nSELECT\n  COUNT(DISTINCT rr.contact_id)\
-      \ AS regular_readers_count\nFROM regular_readers AS rr"
-    verified_at: '1733335871'
-    verified_by: TAM.NGUYEN@STREETCONTXT.COM
+  - name:
+      I am account ID 104. I work at company ID 10. How many people regularly
+      read my morning note?
+    question:
+      I am account ID 104. I work at company ID 10. How many people regularly
+      read my morning note?
+    sql:
+      "WITH recurring_note_emails AS (\n  SELECT\n    mrs.message_hash_code\n \
+      \ FROM __message_recipient_stats AS mrs\n  JOIN __article_class AS ac\n    ON\
+      \ mrs.message_hash_code = ac.message_hash_code\n  WHERE\n    mrs.inbound_author_id\
+      \ = 104 AND ac.classification = 'recurring note'\n), contact_open_rates AS (\n\
+      \  SELECT\n    mrs.contact_id,\n    COALESCE(\n      SUM(1.0 * mrs.email_uniquely_opened)\
+      \ / NULLIF(NULLIF(COUNT(mrs.message_hash_code), 0), 0),\n\
+      \      0\n    ) AS open_rate\n  FROM __message_recipient_stats AS mrs\n  JOIN\
+      \ recurring_note_emails AS rne\n    ON mrs.message_hash_code = rne.message_hash_code\n\
+      \  WHERE\n    mrs.company_id = 10\n  GROUP BY\n    mrs.contact_id\n)\nSELECT\n\
+      \  COUNT(DISTINCT contact_id)\nFROM contact_open_rates AS cor\nWHERE\n  cor.open_rate\
+      \ > 0.75"
+    verified_at: "1733347835"
+    verified_by: TAYLOR.TU@STREETCONTXT.COM
