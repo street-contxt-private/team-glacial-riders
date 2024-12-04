@@ -40,6 +40,7 @@ from utils.storage.saved_answers import save_analyst_answer
 # List of available semantic model paths in the format: <DATABASE>.<SCHEMA>.<STAGE>/<FILE-NAME>
 # Each path points to a YAML file defining a semantic model
 AVAILABLE_SEMANTIC_MODELS_PATHS = [
+    "HACKATHON_GLACIAL_RIDERS.PUBLIC.GLACIAL/glacial_riders_model_gold.yaml",
     "HACKATHON_GLACIAL_RIDERS.PUBLIC.GLACIAL/glacial_riders_model.yaml",
     "HACKATHON_GLACIAL_RIDERS.PUBLIC.GLACIAL/glacial_riders_model_bronze.yaml"
 ]
