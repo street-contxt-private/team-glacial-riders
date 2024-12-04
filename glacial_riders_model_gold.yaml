@@ -1,7 +1,7 @@
 name: glacial_riders_gold
 tables:
-  - name: ACCOUNT_GR
-    description: Account information about users, including name and email details.
+  - name: USER
+    description: Information about users, including name and email details.
     base_table:
       database: HACKATHON_GLACIAL_RIDERS
       schema: PG_PUBLIC
@@ -12,14 +12,14 @@ tables:
     dimensions:
       - name: ID
         description:
-          Account ID. This is an internal ID and should never be shown to users.
+          User ID. This is an internal ID and should never be shown to users.
           When displaying query results, use the email or first name and last name instead.
         expr: ID
         unique: true
         data_type: NUMBER
       - name: COMPANY_ID
         description:
-          Identifier for the company the account is in. This is an internal ID and should never be shown to users.
+          Identifier for the company the user is in. This is an internal ID and should never be shown to users.
           When displaying query results use the company name instead.
         expr: COMPANY_ID
         data_type: NUMBER
@@ -255,11 +255,11 @@ tables:
     filters:
       - name: ACTIVE_FILTER
         # synonyms:
-        description: Only show account records that have not been deactivated.
+        description: Only show user records that have not been deactivated.
         expr: ACTIVE = TRUE
     time_dimensions:
       - name: CREATE_DATE
-        description: Date and time of account creation.__
+        description: Date and time of user creation.
         expr: CREATE_DATE
         data_type: TIMESTAMP_NTZ
         sample_values:
@@ -267,7 +267,7 @@ tables:
           - "2018-10-26 13:23:30.188000"
           - "2024-11-01 17:22:34.163562"
       - name: UPDATE_DATE
-        description: Last update date of account information.__
+        description: Last update date of user information.
         expr: UPDATE_DATE
         data_type: TIMESTAMP_NTZ
         sample_values:
@@ -275,21 +275,21 @@ tables:
           - "2023-06-20 13:41:46.242470"
           - "2024-11-01 18:11:14.315052"
       - name: END_DATE
-        description: End Date of Account__
+        description: End Date of Account
         expr: END_DATE
         data_type: TIMESTAMP_NTZ
         sample_values:
           - None
           - "2023-06-20 13:41:46.242483"
           - "2024-10-24 16:41:59.842466"
-      - name: LOCKED_UNTIL_DATE
-        description: Date and time until when an account is locked.
-        expr: LOCKED_UNTIL_DATE
-        data_type: TIMESTAMP_NTZ
-        sample_values:
-          - None
-          - "2024-02-20 17:37:30.970629"
-          - "2024-11-05 12:32:55.681946"
+      # - name: LOCKED_UNTIL_DATE
+      #   description: Date and time until when an account is locked.
+      #   expr: LOCKED_UNTIL_DATE
+      #   data_type: TIMESTAMP_NTZ
+      #   sample_values:
+      #     - None
+      #     - "2024-02-20 17:37:30.970629"
+      #     - "2024-11-05 12:32:55.681946"
       # - name: TRIAL_END_DATE
       #   synonyms:
       #     - "  "
@@ -631,13 +631,44 @@ tables:
       unique interactions with each recipient.
     base_table:
       database: HACKATHON_GLACIAL_RIDERS
-      schema: EVENT_STREAM_ACCUMULATOR
-      table: MESSAGE_RECIPIENT_STATS
+      schema: PG_PUBLIC
+      table: MESSAGE_RECIPIENT_STATS_FACT
     primary_key:
       columns:
         - CONTACT_ID
         - MESSAGE_HASH_CODE
     dimensions:
+      - name: FIRM_NAME 
+        synonyms:
+          - "firm name"
+          - "account name"
+          - "company name"
+        description: The name of the firm that the recipient of the email works for.  
+        expr: FIRM_NAME
+        data_type: TEXT
+      - name: OPEN_RATE_TREND
+        description:
+          Frequency that a contact opens emails from the corresponding sender. Usual opens mean that the contact typically opens content from this author.
+          A RARE open means that this contact does not normally open this author's emails, and is a high indication that the user should reach out to the contact.
+          Sometimes is in-between usual and rare.
+        expr: OPEN_RATE_TREND
+        data_type: TEXT
+        sample_values:
+          - USUAL
+          - SOMETIMES
+          - RARE
+          - NO_TREND_DATA
+      - name: CLICK_RATE_TREND # <FILL-OUT>
+        description:
+          "Click Rate Trend: Indicates the trend of click rates for a contact and sender pair on a email click event, categorized as USUAL, RARE, or NO TREND DATA.
+          A RARE click on an email is a very notable event, and is indicative that a sender should reach out to the contact who clicked the email. NO_TREND_DATA means that there is not enough of a email history between
+          the sender and the contact to determine a trend."
+        expr: CLICK_RATE_TREND
+        data_type: TEXT
+        sample_values:
+          - USUAL
+          - RARE
+          - NO_TREND_DATA
       - name: CONTACT_ID
         synonyms:
           - "Recipient"
@@ -662,7 +693,7 @@ tables:
         synonyms:
           - "Sender ID"
         description:
-          Identifier of the email sender or account who actually sent the email. This is an internal identifier and should never be shown to users.
+          Identifier of the email sender or user who actually sent the email. This is an internal identifier and should never be shown to users.
           When displaying query results, use the user's email or first name and last name instead.
         expr: INBOUND_AUTHOR_ID
         data_type: NUMBER
@@ -721,14 +752,14 @@ tables:
           - "2"
           - "0"
           - "9"
-      - name: EMAIL_FORWARDED_CLICK_COUNT
-        description: Total number of times an email message that was forwarded by the contact was clicked.
-        expr: EMAIL_FORWARDED_CLICK_COUNT
-        data_type: NUMBER
-        sample_values:
-          - "2"
-          - "1"
-          - "3"
+      # - name: EMAIL_FORWARDED_CLICK_COUNT
+      #   description: Total number of times an email message that was forwarded by the contact was clicked.
+      #   expr: EMAIL_FORWARDED_CLICK_COUNT
+      #   data_type: NUMBER
+      #   sample_values:
+      #     - "2"
+      #     - "1"
+      #     - "3"
       - name: EMAIL_MAX_READ_TIME
         synonyms:
           - "read time"
@@ -943,14 +974,14 @@ tables:
       #   data_type: TEXT
       #   sample_values:
       #     - None
-      - name: SECONDARY_TYPE # <FILL-OUT>
-        description: Secondary type of distribution list. VIP Contacts are a list of contacts that users pay special attention to. My contacts is a list containing all the contacts the user has.
-        expr: SECONDARY_TYPE
-        data_type: TEXT
-        sample_values:
-          - None
-          - MY_CONTACTS
-          - VIP_CONTACTS
+      # - name: SECONDARY_TYPE # <FILL-OUT>
+      #   description: Secondary type of distribution list. VIP Contacts are a list of contacts that users pay special attention to. My contacts is a list containing all the contacts the user has.
+      #   expr: SECONDARY_TYPE
+      #   data_type: TEXT
+      #   sample_values:
+      #     - None
+      #     - MY_CONTACTS
+      #     - VIP_CONTACTS
       # - name: OVERRIDE_DO_NOT_EMAIL
       #   synonyms:
       #     - "  " # <FILL-OUT>
@@ -1008,8 +1039,7 @@ tables:
         data_type: TEXT
         sample_values:
           - Tracked-email-1686556208050
-          - Tracked-email-1652742171101
-          - Tracked-email-1652749554152
+          - Equity Sales Analysis Update
       # - name: VISIBILITY
       #   synonyms:
       #     - "  " # <FILL-OUT>
@@ -1090,10 +1120,13 @@ tables:
         # synonyms:
         description: Only show distribution_list records that have not been deactivated unless explicitly asked for. Treat records where ACTIVE IS NULL as if they have been deleted.
         expr: ACTIVE = TRUE
+      - name: TYPE_FILTER
+        description: Only show distribution lists that have a standard type. When users refer to lists, they want to know information about 
+          standard distributions that they send to repeatedly. 
+        expr: TYPE = STANDARD
   - name: FIRM_COMPANY_VIEW
     description:
-      "FIRM_COMPANY_VIEW: A view that combines information from the FIRM and firm override table. This firm override table has the company specific overrides
-      for the firm names. Instead of using the same firm name for every company, this table has a row for each company if they have a different name for the firm."
+      "A table that contains information about firms. These are the companies that contacts work for. Note that these are not the same as companies that users work for."
     base_table:
       database: HACKATHON_GLACIAL_RIDERS
       schema: PG_PUBLIC
@@ -1106,6 +1139,7 @@ tables:
     synonyms:
       - "company"
       - "account"
+      - "firm"
       # <FILL-OUT>
     # description: '  ' # <FILL-OUT>
     # expr: '  ' # <FILL-OUT>
@@ -1253,10 +1287,10 @@ tables:
         # schema: PG_PUBLIC
         # database: HACKATHON_GLACIAL_RIDERS
         data_type: TEXT
-      - name: ID # <FILL-OUT>
-        description: Unique identifier for the firm company relationship. This is an internal identifier and should not be shown to the user.
-        expr: ID
-        data_type: NUMBER
+      # - name: ID # <FILL-OUT>
+      #   description: Unique identifier for the firm company relationship. This is an internal identifier and should not be shown to the user.
+      #   expr: ID
+      #   data_type: NUMBER
       # - name: INTERNAL
       #   synonyms:
       #     - "  " # <FILL-OUT>
@@ -1267,7 +1301,7 @@ tables:
       #     - None
       - name: ID # <FILL-OUT>
         description:
-          Unique identifier for the firm company relationship. This is an internal identifier and should not be shown to the user.
+          Unique identifier for the firm. This is an internal identifier and should not be shown to the user.
           For displaying query results, use the firm name instead.
         expr: ID
         data_type: NUMBER
@@ -1275,12 +1309,12 @@ tables:
           - "689678"
           - "16531"
           - "16536"
-      - name: COMPANY_ID # <FILL-OUT>
-        description:
-          Unique identifier for the company that owns the firm. This is an internal identifier and should not be shown to the user.
-          For displaying query results, use the company name instead.
-        expr: COMPANY_ID
-        data_type: NUMBER
+      # - name: COMPANY_ID # <FILL-OUT>
+      #   description:
+      #     Unique identifier for the company that owns the firm. This is an internal identifier and should not be shown to the user.
+      #     For displaying query results, use the company name instead.
+      #   expr: COMPANY_ID
+      #   data_type: NUMBER
       # - name: PARENT_FIRM_ID
       #   synonyms:
       #     - "  " # <FILL-OUT>
@@ -1311,7 +1345,7 @@ tables:
       #     - "5494"
       - name: VIEWER_COMPANY_ID # <FILL-OUT>
         description:
-          Unique identifier of the company id who has a firm override with this name. This is an internal identifier and should not be shown to the user.
+          Unique identifier of the company id who owns this firm name. This is an internal identifier and should not be shown to the user.
           For displaying query results, use the company name instead.
         expr: VIEWER_COMPANY_ID
         data_type: NUMBER
@@ -1656,20 +1690,20 @@ tables:
           - "2024-10-01 00:04:07.354637"
           - "2024-10-01 00:08:19.352118"
           - "2024-10-01 00:52:38.465889"
-      - name: PROVIDER_TIMESTAMP # <FILL-OUT>
-        description: Timestamp of the provider.__ # <AUTO-GENERATED DESCRIPTION, PLEASE MODIFY AND REMOVE THE __ AT THE END>
-        expr: PROVIDER_TIMESTAMP
-        data_type: TIMESTAMP_NTZ
-        sample_values:
-          - None
-      - name: END_DATE # <FILL-OUT>
-        description: End Date of Article. Only set if the article record was deactivated.
-        expr: END_DATE
-        data_type: TIMESTAMP_NTZ
-        sample_values:
-          - None
-          - "2024-10-03 01:07:28.738767"
-          - "2024-10-16 02:25:03.967692"
+      # - name: PROVIDER_TIMESTAMP # <FILL-OUT>
+      #   description: Timestamp of the provider.__ # <AUTO-GENERATED DESCRIPTION, PLEASE MODIFY AND REMOVE THE __ AT THE END>
+      #   expr: PROVIDER_TIMESTAMP
+      #   data_type: TIMESTAMP_NTZ
+      #   sample_values:
+      #     - None
+      # - name: END_DATE # <FILL-OUT>
+      #   description: End Date of Article. Only set if the article record was deactivated.
+      #   expr: END_DATE
+      #   data_type: TIMESTAMP_NTZ
+      #   sample_values:
+      #     - None
+      #     - "2024-10-03 01:07:28.738767"
+      #     - "2024-10-16 02:25:03.967692"
   - name: ARTICLE_CLASS
     description:
       The ARTICLE_CLASS table stores information about the classification and topics
@@ -1744,128 +1778,6 @@ tables:
           - 'Daily Market Update'
           - 'Tech' 
           - 'US Election'
-  - name: ARTICLE_EVENT_TREND
-    description:
-      This table stores trends and metrics for article events, including
-      open and click rates, timestamps, and author information. Each row represents an open or click event on an email. The trend is recorded for the first time contact clicks or opens an email.
-      The trend is calculated based on the history of unique events between the sender and the recipient, and will indicate if the recipient's behavior is expected or not. Any rare events with a recent timestamp indicate that
-      user should reach out to the contact.
-    base_table:
-      database: HACKATHON_GLACIAL_RIDERS
-      schema: EVENT_TREND_STREAMING
-      table: ARTICLE_EVENT_TREND
-    primary_key:
-      columns:
-        - MESSAGE_HASH_CODE
-        - CONTACT_ID
-    # filters:
-    # - name: '  ' # <FILL-OUT>
-    # synonyms:
-    # - '  ' # <FILL-OUT>
-    # description: '  ' # <FILL-OUT>
-    # expr: '  ' # <FILL-OUT>
-    dimensions:
-      - name: MESSAGE_HASH_CODE
-        description: Unique identifier for the email the event occurred on
-        expr: MESSAGE_HASH_CODE
-        data_type: TEXT
-        sample_values:
-          - 15IFLFidq6AsPMK4qeQxbb
-          - 1WlnBR42gmgbaHg93sCS0S
-          - 19LaBoQ8aAar6Gjf9YJEvO
-      - name: OPEN_RATE_TREND
-        description:
-          Frequency that a contact opens emails from the corresponding sender. Usual opens mean that the contact typically opens content from this author.
-          A RARE open means that this contact does not normally open this author's emails, and is a high indication that the user should reach out to the contact.
-          Sometimes is in-between usual and rare.
-        expr: OPEN_RATE_TREND
-        data_type: TEXT
-        sample_values:
-          - USUAL
-          - SOMETIMES
-          - RARE
-          - NO_TREND_DATA
-      - name: CLICK_RATE_TREND # <FILL-OUT>
-        description:
-          "Click Rate Trend: Indicates the trend of click rates for a contact and sender pair on a email click event, categorized as USUAL, RARE, or NO TREND DATA.
-          A RARE click on an email is a very notable event, and is indicative that a sender should reach out to the contact who clicked the email. NO_TREND_DATA means that there is not enough of a email history between
-          the sender and the contact to determine a trend."
-        expr: CLICK_RATE_TREND
-        data_type: TEXT
-        sample_values:
-          - USUAL
-          - RARE
-          - NO_TREND_DATA
-      # - name: INBOUND_AUTHOR_ID
-      #   synonyms:
-      #     - "  " # <FILL-OUT>
-      #   description: Unique identifier for the inbound author of an email. Inbound author is the user who actually sent the email.
-      #   expr: INBOUND_AUTHOR_ID
-      #   data_type: NUMBER
-      #   sample_values:
-      #     - "20631"
-      #     - "20925"
-      #     - "19220"
-      # - name: OUTBOUND_AUTHOR_ID
-      #   synonyms:
-      #     - "  " # <FILL-OUT>
-      #   description: Unique identifier for the outbound author of the email
-      #   expr: OUTBOUND_AUTHOR_ID
-      #   data_type: NUMBER
-      #   sample_values:
-      #     - "20062"
-      #     - "27664"
-      #     - "11345"
-      - name: CONTACT_ID # <FILL-OUT>
-        description: Unique identifier for each contact. This is a confidential internal identifier and should not be shown to the user.
-        expr: CONTACT_ID
-        data_type: NUMBER
-        sample_values:
-          - "6922317"
-          - "4392668"
-          - "9403002"
-      - name: FIRM_ID # <FILL-OUT>
-        description: Unique identifier for the firm of the contact who interacted with the email.
-        expr: FIRM_ID
-        data_type: NUMBER
-        sample_values:
-          - "6067"
-          - "13551"
-          - "1031244"
-    time_dimensions:
-      - name: OPEN_TIMESTAMP # <FILL-OUT>
-        description: Timestamp of when the email was opened.
-        expr: OPEN_TIMESTAMP
-        data_type: TIMESTAMP_NTZ
-        sample_values:
-          - "2024-10-14 01:20:53.116000"
-          - "2024-10-14 01:21:33.752000"
-          - "2024-10-14 01:25:44.381000"
-      - name: CLICK_TIMESTAMP # <FILL-OUT>
-        description: Timestamp of when the email was clicked.
-        expr: CLICK_TIMESTAMP
-        data_type: TIMESTAMP_NTZ
-        sample_values:
-          - "2024-10-01 00:52:49.665000"
-          - "2024-10-01 00:52:52.982000"
-          - "2024-10-01 00:53:48.883000"
-    measures:
-      - name: OPEN_RATE # <FILL-OUT>
-        description: Open rate of the previous 30 emails between the author and contact. Open rate is calculated based on number of unique opens over total emails sent.
-        expr: OPEN_RATE
-        data_type: NUMBER
-        sample_values:
-          - "0.9667"
-          - "1.0000"
-          - "0.5294"
-      - name: CLICK_RATE # <FILL-OUT>
-        description: Click rate of the previous 30 emails between the author and contact. Click rate is calculated based on number of unique clicks over number of unique opens.
-        expr: CLICK_RATE
-        data_type: NUMBER
-        sample_values:
-          - None
-          - "0.1538"
-          - "0.9545"
 relationships:
   - name: message_recipient_stats__contact
     left_table: MESSAGE_RECIPIENT_STATS
@@ -1879,15 +1791,15 @@ relationships:
         right_column: COMPANY_ID
   - name: message_recipient_stats__inbound_account
     left_table: MESSAGE_RECIPIENT_STATS
-    right_table: ACCOUNT_GR
+    right_table: USER
     join_type: left_outer
-    relationship_type: many_to_one
+    relationship_type: one_to_one
     relationship_columns:
       - left_column: INBOUND_AUTHOR_ID
         right_column: ID
   - name: message_recipient_stats__outbound_account
     left_table: MESSAGE_RECIPIENT_STATS
-    right_table: ACCOUNT_GR
+    right_table: USER
     join_type: left_outer
     relationship_type: one_to_one
     relationship_columns:
@@ -1935,14 +1847,6 @@ relationships:
     relationship_columns:
       - left_column: MESSAGE_HASH_CODE
         right_column: MESSAGE_HASH_CODE
-  - name: article_event_trend__contact
-    left_table: ARTICLE_EVENT_TREND
-    right_table: CONTACT
-    join_type: left_outer
-    relationship_type: many_to_one
-    relationship_columns:
-      - left_column: CONTACT_ID
-        right_column: ID
 verified_queries:
   - name: Additional opens
     question: I am account ID 123. Who had the most additional opens on my last email?
@@ -2016,45 +1920,23 @@ verified_queries:
       ORDER BY
       total_clicks DESC;
       "
-  # - name: Most opens at firm
-  #   question: I am account ID 123. Who do I have the most opens with at account/firm JPM?
-  #   use_as_onboarding_question: true
-  #   sql: "
-  #     WITH firm_lookup AS (
-  #     SELECT id AS firm_id
-  #     FROM __firm_company_view
-  #     WHERE display_name ILIKE '%ABC%'
-  #     OR name ILIKE '%ABC%'
-  #     ),
-  #     contact_opens AS (
-  #     SELECT
-  #     m.contact_id,
-  #     SUM(m.email_open_count) AS total_opens
-  #     FROM
-  #     __message_recipient_stats m
-  #     JOIN
-  #     firm_lookup fl
-  #     ON
-  #     m.firm_id = fl.firm_id
-  #     WHERE
-  #     m.inbound_author_id = 123
-  #     GROUP BY
-  #     m.contact_id
-  #     )
-  #     SELECT
-  #     c.first_name,
-  #     c.last_name,
-  #     c.email,
-  #     co.total_opens
-  #     FROM
-  #     contact_opens co
-  #     JOIN
-  #     __contact c
-  #     ON
-  #     co.contact_id = c.id
-  #     ORDER BY
-  #     co.total_opens DESC;
-  #     "
+  - name: I am user ID 104. I work for company ID 10. Who do I have the most
+      opens with at account JGL?
+    question: I am user ID 104. I work for company ID 10. Who do I have the most
+      opens with at account JGL?
+    sql: "WITH user_emails AS (\n  SELECT\n    message_hash_code\n  FROM __message_recipient_stats\n\
+      \  WHERE\n    inbound_author_id = 104\n), jgl_firm AS (\n  SELECT\n    id\n\
+      \  FROM __firm_company_view\n  WHERE\n    display_name = 'JGL Investments' AND\
+      \ viewer_company_id = 10\n  LIMIT 1\n)\nSELECT\n  c.first_name,\n  c.last_name,\n\
+      \  c.email,\n  SUM(m.email_open_count) AS total_opens\nFROM __message_recipient_stats\
+      \ AS m\nLEFT JOIN __contact AS c\n  ON m.contact_id = c.id AND m.company_id\
+      \ = c.company_id\nWHERE\n  m.message_hash_code IN (\n    SELECT\n      ue.message_hash_code\n\
+      \    FROM user_emails AS ue\n  )\n  AND m.firm_id = (\n    SELECT\n      jf.id\n\
+      \    FROM jgl_firm AS jf\n  )\nGROUP BY\n  c.first_name,\n  c.last_name,\n \
+      \ c.email\nORDER BY\n  total_opens DESC\nLIMIT 1 /* Generated by Cortex Analyst\
+      \ ; */"
+    verified_at: '1733327933'
+    verified_by: TAYLOR.TU@STREETCONTXT.COM
   - name: Trending topics or content. Popularity of content based on number of opens  
     question: I am account ID 123. What content is trending across the firm? 
     use_as_onboarding_question: true
@@ -2069,7 +1951,7 @@ verified_queries:
     CompanyInfo AS (
         SELECT 
             company_id 
-        FROM __ACCOUNT_GR
+        FROM __USER
         WHERE id = 104
     ),
     TopicOpenCounts AS (
@@ -2103,16 +1985,17 @@ verified_queries:
         c.last_name,
         c.email
       FROM 
-        __article_event_trend a
+        __message_recipient_stats mrs
       JOIN 
         __contact c
       ON 
-        a.contact_id = c.id
+        mrs.contact_id = c.id
       WHERE
-        a.inbound_author_id = 123
+        mrs.inbound_author_id = 123
         AND (
-          (a.open_rate_trend = 'RARE' AND a.open_timestamp >= DATE_TRUNC('week', CURRENT_DATE) - INTERVAL '1 week')
+          (mrs.open_rate_trend = 'RARE' AND mrs.last_interaction_time >= DATE_TRUNC('week', CURRENT_DATE) - INTERVAL '1 week')
           OR
-          (a.click_rate_trend = 'RARE' AND a.click_timestamp >= DATE_TRUNC('week', CURRENT_DATE) - INTERVAL '1 week')
-        );
+          (mrs.click_rate_trend = 'RARE' AND mrs.last_interaction_time >= DATE_TRUNC('week', CURRENT_DATE) - INTERVAL '1 week')
+        )
+      GROUP BY 1,2,3;
       "
