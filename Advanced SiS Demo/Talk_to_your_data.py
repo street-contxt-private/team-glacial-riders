@@ -48,9 +48,8 @@ AVAILABLE_SEMANTIC_MODELS_PATHS = [
 
 def reset_session_state():
     """Reset important session state elements for this page."""
-    st.session_state.account_id = None 
     st.session_state.messages = []  # List to store conversation messages
-    st.session_state.messages_with_context = []
+    st.session_state.temp_messages = []
     st.session_state.active_suggestion = None  # Currently selected suggestion
     st.session_state.suggested_charts_memory = (
         {}
@@ -74,6 +73,9 @@ def show_header_and_sidebar():
             key="selected_semantic_model_path",
             on_change=reset_session_state,
         )
+        st.sidebar.text_input("Enter an Account ID", key="current_user_account_id")
+        if st.sidebar.button("Set Account ID", type="primary", use_container_width=True):
+            reset_session_state()
         st.divider()
         if st.button("Clear Chat History", type="primary", use_container_width=True):
             reset_session_state()
@@ -100,7 +102,30 @@ def process_user_input(prompt: str):
     Args:
         prompt (str): The user's input.
     """
+
+    current_account_id = st.session_state.current_user_account_id
+    
+    prepended_text = ""
+        
+    if current_account_id:
+        prepended_text = f"I am user with ACCOUNT ID {current_account_id}. "
+
+    # prepend the additional text to the prompt before passing on for processing
+    prepended_prompt = f"{prepended_text}{prompt}"
+    
     # Create a new message, append to history and display imidiately
+    
+    st.session_state.temp_messages = st.session_state.messages + [
+                {
+                    "role": "user", 
+                    "content": [
+                        {
+                            "type": "text", 
+                            "text": prepended_prompt
+                        }
+                    ]
+                }
+        ]
     new_user_message = {
         "role": "user",
         "content": [{"type": "text", "text": prompt}],
@@ -129,12 +154,15 @@ def process_user_input(prompt: str):
     # Rerun in order to refresh the whole UI
     st.rerun()
 
-
 def get_and_display_analyst_response():
-    """Send the promot to Cortex Analyst, display response and store it in session state as a new message."""
+    """Send the prompt to Cortex Analyst, display response and store it in session state as a new message."""
     with st.spinner("Waiting for Analyst's response..."):
         time.sleep(1)  # Spinner needs extra time to render properly
-        response, error_msg = get_send_analyst_request_fnc()(st.session_state.messages)
+        
+        response, error_msg = get_send_analyst_request_fnc()(
+            st.session_state.temp_messages
+        )
+        
         if error_msg is None:
             analyst_message = {
                 "role": "analyst",
@@ -150,6 +178,7 @@ def get_and_display_analyst_response():
             }
     # Update the session state by appending a new message object
     st.session_state.messages.append(analyst_message)
+    st.session_state.temp_messages.append(analyst_message)
 
     # Display the message in UI
     display_message(analyst_message["content"], get_last_chat_message_idx())
