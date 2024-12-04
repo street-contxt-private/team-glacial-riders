@@ -682,7 +682,9 @@ tables:
           - "9213937"
           - "10385887"
       - name: MESSAGE_HASH_CODE
-        description: Identifier for each email. This is an internal identifier and should never be shown to users.
+        description:
+          Identifier for each email. This is an internal identifier and should never be shown to users.
+          When displaying query results, use the email subject instead.
         expr: MESSAGE_HASH_CODE
         data_type: TEXT
         sample_values:
@@ -1848,85 +1850,46 @@ relationships:
       - left_column: MESSAGE_HASH_CODE
         right_column: MESSAGE_HASH_CODE
 verified_queries:
-  - name: Additional opens
-    question: I am account ID 123. Who had the most additional opens on my last email?
-    use_as_onboarding_question: true
-    sql: "
-      WITH last_email AS (
-      SELECT
-      message_hash_code
-      FROM
-      __message_recipient_stats
-      WHERE
-      inbound_author_id = 123
-      ORDER BY
-      message_sent_date DESC
-      LIMIT 1
-      )
-      SELECT
-      c.first_name,
-      c.last_name,
-      c.email,
-      m.additional_opens,
-      m.subject
-      FROM
-      __message_recipient_stats m
-      LEFT JOIN
-      __contact c
-      ON
-      m.contact_id = c.id
-      WHERE m.message_hash_code = (SELECT le.message_hash_code FROM last_email le)
-      ORDER BY
-      m.additional_opens DESC
-      LIMIT 1;
-      "
-  - name: Forwarded emails
-    question: I am account ID 123. Who forwarded my emails last week?
-    use_as_onboarding_question: true
-    sql: "
-      SELECT
-      m.subject,
-      c.first_name,
-      c.last_name,
-      c.email
-      FROM
-      __message_recipient_stats m
-      LEFT JOIN
-      __contact c
-      ON
-      m.contact_id = c.id
-      WHERE
-      inbound_author_id = 123
-      AND message_sent_date >= DATE_TRUNC('week', CURRENT_DATE) - INTERVAL '1 week'
-      AND email_uniquely_forwarded > 0;
-      "
-  - name: List click performance
-    question: I am account ID 123. Which of my lists generate the most clicks?
-    use_as_onboarding_question: true
-    sql: "
-      SELECT
-      dl.title,
-      SUM(m.email_click_count) AS total_clicks
-      FROM
-      __distribution_list dl
-      JOIN
-      __message_recipient_stats m
-      ON
-      ARRAY_CONTAINS(dl.id, m.distribution_list_ids)
-      WHERE
-      dl.owner_id = 123
-      GROUP BY
-      dl.title
-      ORDER BY
-      total_clicks DESC;
-      "
+  - name: I am account ID 104. Who had the most additional opens on my last email?
+    question: I am account ID 104. Who had the most additional opens on my last email?
+    sql: "WITH last_email AS (\n  SELECT\n    mrs.message_hash_code\n  FROM __message_recipient_stats\
+      \ AS mrs\n  WHERE\n    mrs.inbound_author_id = 104\n  ORDER BY\n    mrs.message_sent_date\
+      \ DESC NULLS LAST\n  LIMIT 1\n), additional_opens_stats AS (\n  SELECT\n   \
+      \ mrs.contact_id,\n    mrs.additional_opens\n  FROM __message_recipient_stats\
+      \ AS mrs\n  JOIN last_email AS le\n    ON mrs.message_hash_code = le.message_hash_code\n\
+      \  ORDER BY\n    mrs.additional_opens DESC NULLS LAST\n  LIMIT 1\n)\nSELECT\n\
+      \  c.first_name,\n  c.last_name,\n  c.email,\n  aos.additional_opens\nFROM additional_opens_stats\
+      \ AS aos\nJOIN __contact AS c\n  ON aos.contact_id = c.id"
+    verified_at: '1733324401'
+    verified_by: TAM.NGUYEN@STREETCONTXT.COM
+  - name: I am account ID 104. Who forwarded my emails in the last 2 months?
+    question: I am account ID 104. Who forwarded my emails in the last 2 months?
+    sql: "SELECT\n  m.subject,\n  c.first_name,\n  c.last_name,\n  c.email\nFROM __message_recipient_stats\
+      \ AS m\nLEFT JOIN __contact AS c\n  ON m.contact_id = c.id AND m.company_id\
+      \ = c.company_id\nWHERE\n  m.inbound_author_id = 104\n  AND m.message_sent_date\
+      \ >= DATE_TRUNC('MONTH', CURRENT_DATE) - INTERVAL '2 MONTH'\n  AND m.email_uniquely_forwarded\
+      \ > 0"
+    verified_at: '1733324696'
+    verified_by: TAM.NGUYEN@STREETCONTXT.COM
+  - name: Which distribution list owned by account ID 104 generated the most clicks?
+    question: Which distribution list owned by account ID 104 generated the most clicks?
+    sql: "WITH account_emails AS (\n  SELECT\n    mrs.message_hash_code,\n    mrs.email_click_count\n\
+      \  FROM __message_recipient_stats AS mrs\n  WHERE\n    mrs.inbound_author_id\
+      \ = 104\n), list_clicks AS (\n  SELECT\n    a.distribution_list_id,\n    SUM(ae.email_click_count)\
+      \ AS total_clicks\n  FROM __article AS a\n  JOIN account_emails AS ae\n    ON\
+      \ a.message_hash_code = ae.message_hash_code\n  GROUP BY\n    a.distribution_list_id\n\
+      \  ORDER BY\n    total_clicks DESC NULLS LAST\n  LIMIT 1\n)\nSELECT\n  dl.title,\n\
+      \  lc.total_clicks\nFROM list_clicks AS lc\nJOIN __distribution_list AS dl\n\
+      \  ON lc.distribution_list_id = dl.id"
+    verified_at: '1733325018'
+    verified_by: TAM.NGUYEN@STREETCONTXT.COM
   - name: I am user ID 104. I work for company ID 10. Who do I have the most
-      opens with at account JGL?
+      opens with at account JGL? (Use Cortex Search)
     question: I am user ID 104. I work for company ID 10. Who do I have the most
       opens with at account JGL?
     sql: "WITH user_emails AS (\n  SELECT\n    message_hash_code\n  FROM __message_recipient_stats\n\
       \  WHERE\n    inbound_author_id = 104\n), jgl_firm AS (\n  SELECT\n    id\n\
-      \  FROM __firm_company_view\n  WHERE\n    display_name = 'JGL Investments' AND\
+      \  FROM __firm_company_view\n  WHERE\n    display_name = '%resolved_firm_name%' AND\
       \ viewer_company_id = 10\n  LIMIT 1\n)\nSELECT\n  c.first_name,\n  c.last_name,\n\
       \  c.email,\n  SUM(m.email_open_count) AS total_opens\nFROM __message_recipient_stats\
       \ AS m\nLEFT JOIN __contact AS c\n  ON m.contact_id = c.id AND m.company_id\
@@ -1937,65 +1900,40 @@ verified_queries:
       \ ; */"
     verified_at: '1733327933'
     verified_by: TAYLOR.TU@STREETCONTXT.COM
-  - name: Trending topics or content. Popularity of content based on number of opens  
-    question: I am account ID 123. What content is trending across the firm? 
-    use_as_onboarding_question: true
-    sql: "
-    WITH SplitTopics AS (
-    SELECT 
-        message_hash_code,
-        topic
-    FROM 
-        __MESSAGE_TOPIC_VIEW
-    ),
-    CompanyInfo AS (
-        SELECT 
-            company_id 
-        FROM __USER
-        WHERE id = 104
-    ),
-    TopicOpenCounts AS (
-        SELECT 
-            st.topic,
-            SUM(eo.email_open_count) AS total_open_count
-        FROM 
-            SplitTopics st
-        JOIN 
-            __MESSAGE_RECIPIENT_STATS eo
-        ON 
-            st.message_hash_code = eo.message_hash_code
-        JOIN CompanyInfo c ON c.company_id = eo.company_id
-        GROUP BY 
-            st.topic
-    )
-    SELECT 
-        topic,
-        total_open_count
-    FROM 
-        TopicOpenCounts
-    ORDER BY 
-        total_open_count DESC;
-    "
-  - name: Who to reach out to
-    question: I am account ID 123. Which contacts should I reach out to today?
-    use_as_onboarding_question: true
-    sql: "
-      SELECT
-        c.first_name,
-        c.last_name,
-        c.email
-      FROM 
-        __message_recipient_stats mrs
-      JOIN 
-        __contact c
-      ON 
-        mrs.contact_id = c.id
-      WHERE
-        mrs.inbound_author_id = 123
-        AND (
-          (mrs.open_rate_trend = 'RARE' AND mrs.last_interaction_time >= DATE_TRUNC('week', CURRENT_DATE) - INTERVAL '1 week')
-          OR
-          (mrs.click_rate_trend = 'RARE' AND mrs.last_interaction_time >= DATE_TRUNC('week', CURRENT_DATE) - INTERVAL '1 week')
-        )
-      GROUP BY 1,2,3;
-      "
+  - name: I am account ID 104. What content is trending across the firm?
+    question: I am account ID 104. What content is trending across the firm?
+    sql: "WITH splittopics AS (\n  SELECT\n    message_hash_code,\n    topic\n  FROM\
+      \ __message_topic_view\n), companyinfo AS (\n  SELECT\n    company_id\n  FROM\
+      \ __user\n  WHERE\n    id = 104\n), topicopencounts AS (\n  SELECT\n    st.topic,\n\
+      \    SUM(eo.email_open_count) AS total_open_count\n  FROM splittopics AS st\n\
+      \  JOIN __message_recipient_stats AS eo\n    ON st.message_hash_code = eo.message_hash_code\n\
+      \  JOIN companyinfo AS c\n    ON c.company_id = eo.company_id\n  GROUP BY\n\
+      \    st.topic\n)\nSELECT\n  topic,\n  total_open_count\nFROM topicopencounts\n\
+      ORDER BY\n  total_open_count DESC"
+    verified_at: '1733331641'
+    verified_by: TAM.NGUYEN@STREETCONTXT.COM
+  - name: I am account ID 104. Which contacts should I reach out to today? (Based on recent interactions.
+      May need to adjust the date range)
+    question: I am account ID 104. Which contacts should I reach out to today?
+    sql: "SELECT\n  c.first_name,\n  c.last_name,\n  c.email\nFROM __message_recipient_stats\
+      \ AS mrs\nLEFT OUTER JOIN __contact AS c\n  ON mrs.contact_id = c.id AND mrs.company_id\
+      \ = c.company_id\nWHERE\n  mrs.inbound_author_id = 104\n  AND (\n    (\n   \
+      \   mrs.open_rate_trend = 'RARE'\n      AND mrs.last_interaction_time >= DATE_TRUNC('WEEK',\
+      \ CURRENT_DATE) - INTERVAL '1 WEEK'\n    )\n    OR (\n      mrs.click_rate_trend\
+      \ = 'RARE'\n      AND mrs.last_interaction_time >= DATE_TRUNC('WEEK', CURRENT_DATE)\
+      \ - INTERVAL '1 WEEK'\n    )\n  )\nGROUP BY\n  c.first_name,\n  c.last_name,\n\
+      \  c.email"
+    verified_at: '1733331875'
+    verified_by: TAM.NGUYEN@STREETCONTXT.COM
+  - name: I am account ID 104. How many people regularly read my morning note?
+    question: I am account ID 104. How many people regularly read my morning note?
+    sql: "WITH last_email AS (\n  SELECT\n    mrs.message_hash_code\n  FROM __message_recipient_stats\
+      \ AS mrs\n  JOIN __article_class AS ac\n    ON mrs.message_hash_code = ac.message_hash_code\n\
+      \  WHERE\n    mrs.inbound_author_id = 104 AND ac.classification = 'recurring\
+      \ note'\n  ORDER BY\n    mrs.message_sent_date DESC NULLS LAST\n  LIMIT 1\n\
+      ), regular_readers AS (\n  SELECT\n    mrs.contact_id\n  FROM __message_recipient_stats\
+      \ AS mrs\n  JOIN last_email AS le\n    ON mrs.message_hash_code = le.message_hash_code\n\
+      \  WHERE\n    mrs.open_rate_trend = 'USUAL'\n)\nSELECT\n  COUNT(DISTINCT rr.contact_id)\
+      \ AS regular_readers_count\nFROM regular_readers AS rr"
+    verified_at: '1733335871'
+    verified_by: TAM.NGUYEN@STREETCONTXT.COM
