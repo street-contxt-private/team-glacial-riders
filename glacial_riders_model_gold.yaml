@@ -682,7 +682,9 @@ tables:
           - "9213937"
           - "10385887"
       - name: MESSAGE_HASH_CODE
-        description: Identifier for each email. This is an internal identifier and should never be shown to users.
+        description:
+          Identifier for each email. This is an internal identifier and should never be shown to users.
+          When displaying query results, use the email subject instead.
         expr: MESSAGE_HASH_CODE
         data_type: TEXT
         sample_values:
@@ -1922,4 +1924,16 @@ verified_queries:
       \ - INTERVAL '1 WEEK'\n    )\n  )\nGROUP BY\n  c.first_name,\n  c.last_name,\n\
       \  c.email"
     verified_at: '1733331875'
+    verified_by: TAM.NGUYEN@STREETCONTXT.COM
+  - name: I am account ID 104. How many people regularly read my morning note?
+    question: I am account ID 104. How many people regularly read my morning note?
+    sql: "WITH last_email AS (\n  SELECT\n    mrs.message_hash_code\n  FROM __message_recipient_stats\
+      \ AS mrs\n  JOIN __article_class AS ac\n    ON mrs.message_hash_code = ac.message_hash_code\n\
+      \  WHERE\n    mrs.inbound_author_id = 104 AND ac.classification = 'recurring\
+      \ note'\n  ORDER BY\n    mrs.message_sent_date DESC NULLS LAST\n  LIMIT 1\n\
+      ), regular_readers AS (\n  SELECT\n    mrs.contact_id\n  FROM __message_recipient_stats\
+      \ AS mrs\n  JOIN last_email AS le\n    ON mrs.message_hash_code = le.message_hash_code\n\
+      \  WHERE\n    mrs.open_rate_trend = 'USUAL'\n)\nSELECT\n  COUNT(DISTINCT rr.contact_id)\
+      \ AS regular_readers_count\nFROM regular_readers AS rr"
+    verified_at: '1733335871'
     verified_by: TAM.NGUYEN@STREETCONTXT.COM
