@@ -108,7 +108,7 @@ def process_user_input(prompt: str):
     prepended_text = ""
         
     if current_account_id:
-        prepended_text = f"I am user with ACCOUNT ID {current_account_id}. "
+        prepended_text = f"I am user with ACCOUNT ID {current_account_id}. If I don't mention anything about the number of results, show at most 10 records. "
 
     # prepend the additional text to the prompt before passing on for processing
     prepended_prompt = f"{prepended_text}{prompt}"
