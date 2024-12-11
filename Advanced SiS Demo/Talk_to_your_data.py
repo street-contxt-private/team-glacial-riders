@@ -74,7 +74,8 @@ def show_header_and_sidebar():
             on_change=reset_session_state,
         )
         st.sidebar.text_input("Enter an Account ID", key="current_user_account_id")
-        if st.sidebar.button("Set Account ID", type="primary", use_container_width=True):
+        st.sidebar.text_input("Enter the Company ID", key="current_user_company_id")
+        if st.sidebar.button("Set Account & Company ID", type="primary", use_container_width=True):
             reset_session_state()
         st.divider()
         if st.button("Clear Chat History", type="primary", use_container_width=True):
@@ -104,11 +105,12 @@ def process_user_input(prompt: str):
     """
 
     current_account_id = st.session_state.current_user_account_id
+    current_company_id = st.session_state.current_user_company_id
     
     prepended_text = ""
         
     if current_account_id:
-        prepended_text = f"I am user with ACCOUNT ID {current_account_id}. If I don't mention anything about the number of results, show at most 10 records. "
+        prepended_text = f"I am user with ACCOUNT ID {current_account_id} and I work at company or firm with COMPANY ID {current_company_id}. If I don't mention anything about the number of results, show at most 10 records. "
 
     # prepend the additional text to the prompt before passing on for processing
     prepended_prompt = f"{prepended_text}{prompt}"
